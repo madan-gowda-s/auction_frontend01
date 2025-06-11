@@ -1,69 +1,72 @@
-import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { RouterModule, Router } from '@angular/router';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { jwtDecode } from 'jwt-decode';
+
  
 @Component({
   selector: 'app-login',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, RouterModule],
+  imports: [CommonModule, ReactiveFormsModule, FormsModule],
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css']
 })
-export class LoginComponent implements OnInit {
-  loginForm!: FormGroup;
-  apiUrl: string = 'https://localhost:7046/api/Users/login';
+export class LoginComponent {
+  loginForm: FormGroup;
+  errorMessage: string = '';
  
-  constructor(private fb: FormBuilder, private http: HttpClient, private router: Router) {}
- 
-  ngOnInit(): void {
-    this.loginForm = this.fb.group({
-      email: ['', [Validators.required, Validators.email]],
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpClient,
+    private router: Router
+  ) {
+this.loginForm = this.fb.group({
+email: ['', [Validators.required, Validators.email]],
       password: ['', Validators.required]
     });
   }
  
   onSubmit(): void {
-    if (this.loginForm.invalid) {
-      this.loginForm.markAllAsTouched();
-      return;
-    }
+    if (this.loginForm.invalid) return;
  
-    const userData = this.loginForm.value;
+this.http.post('https://localhost:7046/api/Users/login', this.loginForm.value).subscribe({
+      next: (response: any) => {
+        alert(response.message); // Login Successful
+        localStorage.setItem('token', response.token);
  
-    this.http.post<any>(this.apiUrl, userData).subscribe({
-      next: (res) => {
-        alert(res.message);  // "Login Successful"
-        localStorage.setItem('token', res.token);
+        try {
+          const decoded: any = jwtDecode(response.token);
+const role = decoded['role'] || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+const name = decoded['name'] || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
  
-        const payload = JSON.parse(atob(res.token.split('.')[1]));
-        const role = payload.role?.toLowerCase();
-        const name = payload.name;
- 
-        // Optional: store name for displaying later
-        localStorage.setItem('name', name);
- 
-        // Redirect based on role
-        switch (role) {
-          case 'Admin':
-            this.router.navigate(['/admin/dashboard']);
-            break;
-          case 'Seller':
-            this.router.navigate(['/seller/dashboard']);
-            break;
-          case 'Buyer':
-            this.router.navigate(['/buyer/dashboard']);
-            break;
-          default:
-            alert('Role not recognized.');
-            this.router.navigate(['/login']);
+          switch (role.toLowerCase()) {
+            case 'admin':
+              this.router.navigate(['/admin/dashboard']);
+              break;
+            case 'seller':
+              this.router.navigate(['/seller/dashboard']);
+              break;
+            case 'buyer':
+              this.router.navigate(['/buyer/dashboard']);
+              break;
+            default:
+              alert('Role not recognized.');
+              this.router.navigate(['/']);
+          }
+        } catch (e) {
+          alert('Invalid token format.');
         }
       },
-      error: (err) => {
-        alert(err.error);  // "Invalid credentials."
+      error: err => {
+        if (err.status === 401) {
+          this.errorMessage = 'Invalid credentials.';
+          alert(this.errorMessage);
+        } else {
+          this.errorMessage = 'Something went wrong. Please try again.';
+        }
       }
     });
   }
 }
- 
