@@ -1,0 +1,19 @@
+<h2>Login</h2>
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+  <label>Email:</label>
+  <input type="email" formControlName="email" />
+  <div *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.invalid">
+    Email is required and must be valid.
+  </div>
+ 
+  <label>Password:</label>
+  <input type="password" formControlName="password" />
+  <div *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.invalid">
+    Password is required.
+  </div>
+ 
+  <button type="submit">Login</button>
+</form>
+ 
+<p>If you don't have access, <a routerLink="/register">Register</a></p>
+ 
