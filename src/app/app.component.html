@@ -1,25 +1,26 @@
-<!-- Navbar -->
 <nav class="navbar">
   <div class="navbar-left">
-    <h1>Bid Master</h1>
+    <a routerLink="/"><h1>Bid Master</h1></a>
   </div>
   <div class="navbar-right">
-    <a routerLink="/register"><button>Register</button></a>
-    <a routerLink="/login"><button>Login</button></a>
+    <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+      <a routerLink="/register"><button>Register</button></a>
+      <a routerLink="/login"><button>Login</button></a>
+    </ng-container>
+    <ng-template #loggedInBlock>
+      <button (click)="logout()">Logout</button>
+    </ng-template>
   </div>
 </nav>
  
-<!-- Welcome message -->
 <div class="welcome-message" *ngIf="userName">
   👋 Welcome, {{ userName }}!
 </div>
  
-<!-- Main content -->
 <div class="main-content">
   <router-outlet></router-outlet>
 </div>
  
-<!-- Footer -->
 <footer>
   <p>&copy; 2025 Bid Master. All rights reserved.</p>
 </footer>
