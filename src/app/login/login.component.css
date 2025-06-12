@@ -1,0 +1,116 @@
+/* Container for the entire login page content (the "box") */
+.login-page-container {
+    background-color: #1a202c; /* Dark gray background for the box */
+    color: #fff; /* White text */
+    padding: 2.5rem; /* Ample padding inside the box */
+    border-radius: 0.75rem; /* Rounded corners for the box */
+    text-align: center; /* Center align text content within the box */
+    max-width: 450px; /* Max width for the box */
+    width: 100%; /* Ensure it's responsive */
+    margin: 3rem auto; /* Center horizontally with margin from top/bottom */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3); /* Deeper shadow for depth */
+ 
+    /* For vertical centering within its parent if parent is a flex container */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers items horizontally */
+    justify-content: center; /* Centers items vertically (if space allows) */
+    gap: 1rem; /* Space between the h2, form, and p */
+}
+ 
+/* Style for the main heading (Login) */
+.login-page-container h2 {
+    font-size: 2.5rem; /* Large, bold heading */
+    font-weight: 700;
+    margin-bottom: 1.5rem; /* Space below heading */
+    color: #fff;
+}
+ 
+/* Style for the form elements */
+.login-page-container form {
+    display: flex;
+    flex-direction: column; /* Stack form elements vertically */
+    width: 100%; /* Make form take full width of its container */
+    gap: 1rem; /* Space between form fields and labels */
+}
+ 
+/* Style for labels */
+.login-page-container label {
+    font-size: 1.125rem; /* Slightly larger label text */
+    font-weight: 600; /* Semi-bold labels */
+    text-align: left; /* Align labels to the left */
+    margin-bottom: 0.25rem; /* Small space below label */
+}
+ 
+/* Style for input fields */
+.login-page-container input[type="email"],
+.login-page-container input[type="password"] {
+    width: 100%; /* Full width inputs */
+    padding: 0.75rem 1rem; /* Padding inside inputs */
+    border: 1px solid #cbd5e0; /* Light gray border */
+    border-radius: 0.5rem; /* Rounded input corners */
+    background-color: #fff; /* White background for inputs */
+    color: #1a202c; /* Dark text color for input */
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+ 
+.login-page-container input[type="email"]:focus,
+.login-page-container input[type="password"]:focus {
+    border-color: #00BCD4; /* Teal highlight border on focus */
+    box-shadow: 0 0 0 2px rgba(0, 188, 212, 0.5); /* Teal focus ring */
+    outline: none; /* Remove default outline */
+}
+ 
+/* Style for validation messages */
+.login-page-container div[ngIf] { /* Targeting the div with *ngIf for error messages */
+    color: #fc8181; /* Red color for error messages */
+    font-size: 0.875rem; /* Smaller font size for errors */
+    text-align: left;
+    margin-top: -0.5rem; /* Pull up closer to the input field */
+    margin-bottom: 0.5rem; /* Space below the error message */
+}
+ 
+ 
+/* Style for the submit button */
+.login-page-container button[type="submit"] {
+    background-color: #00BCD4; /* Teal background for the button */
+    color: #fff; /* White text */
+    padding: 0.75rem 2rem; /* Button padding */
+    border-radius: 0.5rem; /* Rounded corners */
+    font-weight: 700; /* Bold font */
+    font-size: 1.125rem; /* Larger font size for button */
+    transition: all 0.3s ease; /* Smooth transition for hover */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2); /* Stronger shadow */
+    cursor: pointer;
+    border: none;
+    margin-top: 0.5rem; /* Space above the button */
+}
+ 
+.login-page-container button[type="submit"]:hover {
+    background-color: #00a7b8; /* Slightly darker teal on hover */
+    transform: scale(1.02); /* Slightly enlarge on hover */
+}
+ 
+/* Style for the "If you don't have access, Register" paragraph */
+.login-page-container p {
+    margin-top: 1.5rem; /* Space above the paragraph */
+    color: #cbd5e0; /* Lighter gray text */
+    font-size: 1rem;
+}
+ 
+/* Style for the "Register" link */
+.login-page-container p a {
+    color: #00BCD4; /* Teal color for the link */
+    text-decoration: underline; /* Underline the link */
+    font-weight: 600; /* Semi-bold */
+    transition: color 0.3s ease;
+}
+ 
+.login-page-container p a:hover {
+    color: #00a7b8; /* Slightly darker teal on hover */
+}
+.login-heading-blue {
+    color: #00BCD4; /* Teal color matching the submit button */
+}
+ 

@@ -1,4 +1,4 @@
-.navbar {
+/* .navbar {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -22,7 +22,7 @@
   }
    
   .welcome-message {
-    margin-top: 80px; /* to account for fixed navbar */
+    margin-top: 80px; 
     padding: 1rem;
     font-weight: bold;
     color: #333;
@@ -40,5 +40,107 @@
     padding: 1rem;
     background-color: #f2f2f2;
     color: #666;
-  }
+  } */
    
+  /* Navbar container */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #1a1a1a;
+  padding: 1rem 2rem;
+  color: white;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.navbar-brand {
+  font-size: 1.8rem;
+  font-weight: bold;
+  color: #e5ebec !important;
+  transition: transform 0.3s ease, color 0.3s ease;
+}
+ 
+.navbar-brand:hover {
+  transform: scale(1.1);
+  color: #f09090 !important;
+}
+ 
+ 
+ 
+/* Logo styling */
+.navbar-left h1 {
+  margin: 0;
+  font-size: 1.8rem;
+  color: #00bfff;
+  transition: transform 0.3s ease;
+}
+ 
+.navbar-left h1:hover {
+  transform: scale(1.05);
+}
+ 
+/* Right side buttons */
+.navbar-right a button,
+.navbar-right button {
+  background-color: #00bfff;
+  border: none;
+  color: white;
+  padding: 0.5rem 1rem;
+  margin-left: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+ 
+.navbar-right a button:hover,
+.navbar-right button:hover {
+  background-color: #009acd;
+  transform: translateY(-2px);
+}
+ 
+/* Welcome message */
+.welcome-message {
+  text-align: center;
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  animation: fadeIn 1s ease-in-out;
+  color: #333;
+}
+ 
+/* Main content */
+.main-content {
+  padding: 2rem;
+}
+ 
+/* Footer */
+footer {
+  text-align: center;
+  padding: 1rem;
+  background-color: #1a1a1a;
+  color: white;
+  margin-top: 2rem;
+}
+ 
+/* Animation */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+ 
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+ 
+  .navbar-right {
+    margin-top: 1rem;
+  }
+}
+ 
+ 
+ 
