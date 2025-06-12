@@ -1,45 +1,47 @@
-<h2>Register</h2>
+<div class="register-container">
+  <h2>Register to BidMaster</h2>
  
-<form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+  <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
+    <label>Name:</label>
+    <input type="text" formControlName="name" />
+    <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
+      Name is required.
+    </div>
  
-  <label>Name:</label>
-  <input type="text" formControlName="name" />
-  <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
-    Name is required.
-  </div>
+    <label>Email:</label>
+    <input type="email" formControlName="email" />
+    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
+      Valid email is required.
+    </div>
  
-  <label>Email:</label>
-  <input type="email" formControlName="email" />
-  <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-    Valid email is required.
-  </div>
+    <label>Password:</label>
+    <input type="password" formControlName="password" />
+    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
+      Password is required.
+    </div>
  
-  <label>Password:</label>
-  <input type="password" formControlName="password" />
-  <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-    Password is required.
-  </div>
+    <label>Role:</label>
+    <select formControlName="role">
+      <option value="">Select Role</option>
+      <option value="Buyer">Buyer</option>
+      <option value="Seller">Seller</option>
+    </select>
+    <div *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
+      Role is required.
+    </div>
  
-  <label>Role:</label>
-  <select formControlName="role">
-    <option value="">Select Role</option>
-    <option value="Buyer">Buyer</option>
-    <option value="Seller">Seller</option>
-  </select>
-  <div *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
-    Role is required.
-  </div>
+    <label>Contact Number:</label>
+    <input type="text" formControlName="contactNumber" />
+    <div *ngIf="registerForm.get('contactNumber')?.invalid && registerForm.get('contactNumber')?.touched">
+      Contact number is required.
+    </div>
  
-  <label>Contact Number:</label>
-  <input type="text" formControlName="contactNumber" />
-  <div *ngIf="registerForm.get('contactNumber')?.invalid && registerForm.get('contactNumber')?.touched">
-    Contact number is required.
-  </div>
+    <button type="submit">Register</button>
+  </form>
  
-  <button type="submit">Register</button>
-</form>
+  <p class="login-link">
+    Already have an account? <a routerLink="/login">Login</a>
+  </p>
+</div>
  
-<p class="login-link">
-  Already have an account? <a routerLink="/login">Login</a>
-</p>
  
