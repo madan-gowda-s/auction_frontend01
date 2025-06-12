@@ -1,2 +1,100 @@
-<h2>Welcome</h2>
- 
+<!-- admin.component.html --><div class="admin-container">
+  <!-- Product List -->  <h3>Products Registered for Auction</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Description</th>
+          <th>Start Price</th>
+          <th>Category</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let product of products">
+          <td>{{ product.title }}</td>
+          <td>{{ product.description }}</td>
+          <td>{{ product.startPrice }}</td>
+          <td>{{ product.category }}</td>
+          <td>{{ product.status }}</td>
+          <td>
+            <button (click)="openAuctionForm(product)">Create Auction</button>
+            <button (click)="openProductForm(product)">Update Product</button>
+            <button (click)="deleteProduct(product.productId)">Delete Product</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>  <!-- Auction Form -->  <div *ngIf="showAuctionForm">
+      <h4>Create Auction</h4>
+      <form [formGroup]="auctionForm" (ngSubmit)="submitAuctionForm()">
+        <label>Start Date:</label>
+        <input type="datetime-local" formControlName="startDate" required /><label>End Date:</label>
+    <input type="datetime-local" formControlName="endDate" required />
+   
+    <label>Start Price:</label>
+    <input type="number" formControlName="startPrice" required />
+   
+    <button type="submit">Create</button>
+    <button type="button" (click)="cancelAuctionForm()">Cancel</button>
+  </form>
+   
+    </div>  <!-- Product Update Form -->  <div *ngIf="showProductForm">
+      <h4>Update Product</h4>
+      <form [formGroup]="productForm" (ngSubmit)="submitProductForm()">
+        <label>Title:</label>
+        <input type="text" formControlName="title" required /><label>Description:</label>
+    <input type="text" formControlName="description" required />
+   
+    <label>Start Price:</label>
+    <input type="number" formControlName="startPrice" required />
+   
+    <label>Category:</label>
+    <input type="text" formControlName="category" required />
+   
+    <button type="submit">Update</button>
+    <button type="button" (click)="cancelProductForm()">Cancel</button>
+  </form>
+   
+    </div>  <!-- Auction List -->  <h3>Upcoming Auctions</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Product ID</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Current Bid</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let auction of auctions">
+          <td>{{ auction.productId }}</td>
+          <td>{{ auction.startDate | date:'short' }}</td>
+          <td>{{ auction.endDate | date:'short' }}</td>
+          <td>{{ auction.currentBid }}</td>
+          <td>{{ auction.status }}</td>
+          <td>
+            <button (click)="openAuctionUpdateForm(auction)">Update</button>
+            <button (click)="deleteAuction(auction.auctionId)">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>  <!-- Auction Update Form -->  <div *ngIf="showAuctionUpdateForm">
+      <h4>Update Auction</h4>
+      <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
+        <label>Start Date:</label>
+        <input type="datetime-local" formControlName="startDate" required /><label>End Date:</label>
+    <input type="datetime-local" formControlName="endDate" required />
+   
+    <label>Status:</label>
+    <input type="text" formControlName="status" required />
+   
+    <button type="submit">Update</button>
+    <button type="button" (click)="cancelAuctionUpdateForm()">Cancel</button>
+  </form>
+   
+    </div>
+  </div>
+   
