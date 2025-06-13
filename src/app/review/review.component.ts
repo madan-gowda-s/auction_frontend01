@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
@@ -11,7 +11,7 @@ import { HttpClient } from '@angular/common/http';
   templateUrl: './review.component.html',
   styleUrls: ['./review.component.css']
 })
-export class ReviewComponent {
+export class ReviewComponent implements OnInit {
   auction: any;
   product: any;
   buyerId: number | null = null;
@@ -39,8 +39,28 @@ export class ReviewComponent {
     }
   }
 
+  ngOnInit() {
+    if (this.product?.productId && this.buyerId) {
+      this.fetchReview();
+    }
+  }
+
   goBack() {
     this.router.navigate(['/buyer/dashboard']);
+  }
+
+  fetchReview() {
+    this.http.get(`https://localhost:7046/api/Review/byUserAndProduct/${this.buyerId}/${this.product.productId}`)
+      .subscribe({
+        next: (res: any) => {
+          if (res) {
+            this.submittedReview = res;
+          }
+        },
+        error: (err) => {
+          console.error('Failed to fetch review:', err);
+        }
+      });
   }
 
   async submitReview() {
@@ -86,17 +106,18 @@ export class ReviewComponent {
 
   updateReview() {
     if (!this.submittedReview?.reviewId) return;
-
+  
     const payload = {
       reviewId: this.submittedReview.reviewId,
       rating: this.reviewForm.value.rating,
       comment: this.reviewForm.value.comment
     };
-
+  
     this.http.put('https://localhost:7046/api/Review/update', payload).subscribe({
       next: (res) => {
         this.submittedReview = res;
         this.isEditing = false;
+        this.reviewForm.reset(); // Clear the form
       },
       error: (err) => {
         console.error('Review update failed:', err);
@@ -104,6 +125,7 @@ export class ReviewComponent {
       }
     });
   }
+  
 
   deleteReview() {
     if (!this.submittedReview?.reviewId) return;

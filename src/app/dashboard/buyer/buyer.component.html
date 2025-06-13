@@ -117,32 +117,36 @@
     <p>No auctions available with selected filters. Try another.</p>
     <button class="btn btn-outline-secondary mt-2" (click)="resetFilter()">Back</button>
   </div>
- 
-  <div *ngIf="showProductDetails() && selectedProduct()" class="card shadow-sm p-4 mb-4">
-    <h3 class="card-title mb-3">Product Details</h3>
-    <div class="row mb-2">
-      <div class="col-sm-4"><strong>Title:</strong></div>
-      <div class="col-sm-8">{{ selectedProduct()?.title }}</div>
+  <div *ngIf="showProductDetails() && selectedProduct()" class="container my-4">
+    <h3 class="mb-3 text-primary">Product Details</h3>
+    <div class="table-responsive mb-3">
+      <table class="table table-bordered align-middle">
+        <thead class="table-dark">
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Category</th>
+            <th>Start Price</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>{{ selectedProduct()?.title }}</td>
+            <td>{{ selectedProduct()?.description }}</td>
+            <td>{{ selectedProduct()?.category }}</td>
+            <td>₹{{ selectedProduct()?.startPrice }}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="row mb-2">
-      <div class="col-sm-4"><strong>Description:</strong></div>
-      <div class="col-sm-8">{{ selectedProduct()?.description }}</div>
-    </div>
-    <div class="row mb-2">
-      <div class="col-sm-4"><strong>Category:</strong></div>
-      <div class="col-sm-8">{{ selectedProduct()?.category }}</div>
-    </div>
-    <div class="row mb-3">
-      <div class="col-sm-4"><strong>Start Price:</strong></div>
-      <div class="col-sm-8">₹{{ selectedProduct()?.startPrice }}</div>
-    </div>
-    <button class="btn btn-primary" (click)="backToList()">↩ Back</button>
+    <button class="btn btn-outline-secondary" (click)="backToList()">Back</button>
   </div>
- 
-  <div *ngIf="!showProductDetails()">
-    <h2 class="mb-3">Auctions</h2>
+  
+  
+  <div *ngIf="!showProductDetails()" class="container my-4">
+    <h2 class="mb-3 text-primary">Auctions</h2>
     <div class="table-responsive">
-      <table class="table table-bordered table-hover align-middle">
+      <table class="table table-bordered align-middle product-details-table">
         <thead class="table-dark">
           <tr>
             <th>Title</th>
@@ -193,6 +197,4 @@
       </table>
     </div>
   </div>
-</div>
- 
- 
+  
