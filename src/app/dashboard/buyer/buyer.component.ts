@@ -209,15 +209,15 @@ export class BuyerComponent {
 
   
   constructor(private Router: Router) {
-    // Retrieve navigation state
-    const nav = this.router.getCurrentNavigation();
-    const state = nav?.extras?.state;
-    console.log(state); // Use this data as needed
+  // Retrieve navigation state
+  const nav = this.router.getCurrentNavigation();
+  const state = nav?.extras?.state;
+  console.log(state); // Use this data as needed
   
-    // Initialize component data
-    this.fetchBuyerInfo();
-    this.fetchAuctions();
-    this.fetchProducts();
+  // Initialize component data
+  this.fetchBuyerInfo();
+  this.fetchAuctions();
+  this.fetchProducts();
   }
   
 
@@ -375,6 +375,7 @@ export class BuyerComponent {
       });
     }
   }
+  
   
 }
 

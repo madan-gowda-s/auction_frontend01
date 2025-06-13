@@ -129,9 +129,12 @@ export class AuctionComponent implements OnInit {
               this.auction.currentBid = highest;
               this.bidSuggestions = [highest + 5000, highest + 10000, highest + 15000];
               this.isWinner = this.auctionEnded && highest === this.amount && this.buyerId === this.bidHistory.find(b => b.amount === highest)?.buyerId;
-              if (!this.isWinner && highest > this.amount) {
-                this.bidMessage = 'You have been outbid!';
-              }
+              const highestBid = this.bidHistory.find(b => b.amount === highest);
+                if (highestBid?.buyerId !== this.buyerId) {
+                  this.bidMessage = 'You have been outbid!';
+                  } else {
+                  this.bidMessage = 'You are the highest bidder.';
+               }
             },
             error: (err) => console.error('Error fetching bid history:', err)
           });

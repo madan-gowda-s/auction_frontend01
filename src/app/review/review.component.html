@@ -18,11 +18,31 @@
       <p><strong>Final Bid:</strong> ₹{{ auction?.currentBid }}</p>
     </div>
   
-    <div class="mb-3">
-      <label for="reviewText" class="form-label">Your Review</label>
-      <textarea id="reviewText" class="form-control" rows="4"></textarea>
-    </div>
+    <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+      <div class="mb-3">
+        <label for="rating" class="form-label">Rating (1–10)</label>
+        <input type="number" id="rating" class="form-control" formControlName="rating" min="1" max="10">
+      </div>
   
-    <button class="btn btn-primary" (click)="submitReview()">Submit Review</button>
+      <div class="mb-3">
+        <label for="comment" class="form-label">Your Comment</label>
+        <textarea id="comment" class="form-control" rows="4" formControlName="comment"></textarea>
+      </div>
+  
+      <button class="btn btn-primary" type="submit" [disabled]="reviewForm.invalid">Submit Review</button>
+    </form>
+    <div *ngIf="submittedReview" class="card mt-4 p-3">
+        <h4>Review Submitted</h4>
+        <p><strong>Rating:</strong> {{ submittedReview.rating }}</p>
+        <p><strong>Comment:</strong> {{ submittedReview.comment }}</p>
+        <p><strong>Date:</strong> {{ submittedReview.date | date:'short' }}</p>
+      
+        <div class="d-flex gap-2 mt-3">
+          <button class="btn btn-outline-primary" (click)="enableEdit()" *ngIf="!isEditing">Update Review</button>
+          <button class="btn btn-outline-danger" (click)="deleteReview()">Delete Review</button>
+          <button class="btn btn-success" (click)="updateReview()" *ngIf="isEditing">Save Changes</button>
+        </div>
+      </div>
+      
   </div>
   

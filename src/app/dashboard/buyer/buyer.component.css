@@ -72,6 +72,7 @@ tr.completed {
   margin-bottom: 1rem;
 }
  
+/* Auction row status styles */
 tr.live {
   background-color: #e6ffed;
 }
@@ -85,6 +86,7 @@ tr.completed {
   color: gray;
 }
  
+/* Modal styling */
 .modal {
   position: fixed;
   top: 0;
@@ -105,5 +107,45 @@ tr.completed {
   text-align: center;
   max-width: 400px;
 }
+ 
+/* Filter table styling */
+.table.filter-table th,
+.table.filter-table td {
+  vertical-align: middle;
+  text-align: center;
+}
+ 
+.table.filter-table input,
+.table.filter-table select {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+ 
+.table.filter-table button {
+  padding: 0.5rem 1rem;
+}
+ 
+/* Product Details Styling */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+ 
+.card .row {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+ 
+.card .row .col-sm-4 {
+  font-weight: 500;
+}
+ 
+.card .btn {
+  margin-top: 1rem;
+}
+ 
+ 
  
  

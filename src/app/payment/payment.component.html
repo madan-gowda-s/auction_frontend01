@@ -1,4 +1,4 @@
-<div class="payment-container">
+<!-- <div class="payment-container">
     <h2>Confirm Payment</h2>
   
     <div class="details-row">
@@ -28,4 +28,52 @@
       <p><strong>Date:</strong> {{ transaction().paymentDate }}</p>
     </div>
   </div>
+   -->
   
+
+   <div class="container mt-4">
+    <!-- Back Button Row -->
+    <div class="row mb-3">
+     <div class="col-12">
+     <button class="btn btn-outline-secondary" (click)="goToDashboard()">
+     ← Back to Dashboard
+     </button>
+     </div>
+     </div>
+    
+    <div class="card p-4 shadow-lg" style="border-radius: 15px; border: none;">
+    <div class="d-flex justify-content-center align-items-center mb-4">
+    <i class="bi bi-check-circle-fill" style="font-size: 4rem; color: #28a745;"></i>
+    </div>
+     
+            <h2 class="text-center mb-4" style="color: #5F259F;">Payment Details</h2>
+     
+            <div class="bg-light p-3 rounded mb-3">
+    <p class="mb-1"><strong>Auction ID:</strong> {{ auctionId() }}</p>
+    <p class="mb-1"><strong>Product ID:</strong> {{ productId() }}</p>
+    <p class="mb-0"><strong>Amount to Pay:</strong> ₹{{ bidAmount() }}</p>
+    </div>
+     
+            <label for="method" class="form-label">Select Payment Method:</label>
+    <select id="method" (change)="onMethodSelect($event)" class="form-select mb-3">
+    <option value="">--Choose--</option>
+    <option value="UPI">UPI</option>
+    <option value="Credit Card">Credit Card</option>
+    <option value="Debit Card">Debit Card</option>
+    <option value="Debit Card">Net Banking</option>
+    </select>
+     
+            <button *ngIf="showPayButton()" (click)="makePayment()" class="btn btn-primary w-100" style="background-color: #5F259F; border-color: #5F259F; font-weight: bold; padding: 12px; border-radius: 8px;">Make Payment</button>
+     
+            <div *ngIf="transaction()" class="transaction-result mt-4 p-3 rounded text-center animate" style="background-color: #E8F5E9; color: #388E3C; border: 1px solid #81C784;">
+    <h3 class="mb-2" style="color: #388E3C;">Payment Successful 🎉</h3>
+    <p class="mb-1"><strong>Transaction ID:</strong> {{ transaction().transactionId }}</p>
+    <p class="mb-1"><strong>Buyer ID:</strong> {{ transaction().buyerId }}</p>
+    <p class="mb-1"><strong>Auction ID:</strong> {{ transaction().auctionId }}</p>
+    <p class="mb-1"><strong>Amount:</strong> ₹{{ transaction().amount }}</p>
+    <p class="mb-1"><strong>Status:</strong> {{ transaction().paymentStatus }}</p>
+    <p class="mb-0"><strong>Date:</strong> {{ transaction().paymentDate }}</p>
+    </div>
+    </div>
+    </div>
+     

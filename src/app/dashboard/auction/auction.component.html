@@ -112,22 +112,14 @@
     </div>
     </div>
      
-        <div class="row g-3 mb-4">
-    <div class="col-md-6">
-    <div class="card text-center bg-info text-white shadow-sm h-100 d-flex align-items-center justify-content-center p-3">
-    <div class="card-body">
-    <h5 class="card-title mb-0">Start Price</h5>
-    <p class="card-text fs-4 fw-bold">₹{{ product?.startPrice }}</p>
+        <div class="mb-4 text-center">
+    <div class="card p-3 mb-3 bg-info text-white shadow-sm d-block mx-auto" style="max-width: 250px;">
+    <h5 class="card-title mb-0 fs-6">Start Price:</h5>
+    <p class="card-text fs-5 fw-bold">₹{{ product?.startPrice }}</p>
     </div>
-    </div>
-    </div>
-    <div class="col-md-6">
-    <div class="card text-center bg-primary text-white shadow-sm h-100 d-flex align-items-center justify-content-center p-3">
-    <div class="card-body">
-    <h5 class="card-title mb-0">Current Bid</h5>
-    <p class="card-text fs-4 fw-bold">₹{{ auction?.currentBid }}</p>
-    </div>
-    </div>
+    <div class="card p-3 bg-primary text-white shadow-sm d-block mx-auto" style="max-width: 250px;">
+    <h5 class="card-title mb-0 fs-6">Current Bid:</h5>
+    <p class="card-text fs-2 fw-bold">₹{{ auction?.currentBid }}</p>
     </div>
     </div>
      
@@ -191,4 +183,5 @@
     </div>
     </div>
     </div>
+     
      

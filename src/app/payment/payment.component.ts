@@ -58,9 +58,10 @@ export class PaymentComponent {
       error: (err) => console.error('Error fetching bids:', err)
     });
   }
-  
-  
-  
+
+  goToDashboard() {
+    this.router.navigate(['/buyer/dashboard']);
+  }
 
   makePayment() {
     const payload = {

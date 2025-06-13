@@ -68,23 +68,49 @@
 <div class="container my-5 buyer-container">
   <h2 class="mb-4">Filter Auctions</h2>
  
-  <div class="row g-3 filter-section mb-4">
-    <div class="col-md-3">
-      <input type="text" class="form-control" placeholder="Category" [(ngModel)]="filterData.category" />
-    </div>
-    <div class="col-md-2">
-      <input type="number" class="form-control" placeholder="Min Bid" [(ngModel)]="filterData.minBid" />
-    </div>
-    <div class="col-md-2">
-      <input type="number" class="form-control" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" />
-    </div>
-    <div class="col-md-3">
-      <input type="number" class="form-control" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" />
-    </div>
-    <div class="col-md-2 d-flex gap-2">
-      <button class="btn btn-primary w-100" (click)="applyFilters()">Apply Filter</button>
-      <button class="btn btn-secondary w-100" (click)="resetFilter()">↩ Back</button>
-    </div>
+  <div class="table-responsive mb-4">
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Category</th>
+          <th>Min Bid</th>
+          <th>Max Bid</th>
+          <th>Time Left (hrs)</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>
+            <select class="form-select" [(ngModel)]="filterData.category">
+              <option value="">Select a category</option>
+              <option value="Electronics">Electronics</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Home & Garden">Home & Garden</option>
+              <option value="Collectibles">Collectibles</option>
+              <option value="Sports & Outdoors">Sports & Outdoors</option>
+              <option value="Books">Books</option>
+              <option value="Vehicles">Vehicles</option>
+              <option value="Art">Art</option>
+              <option value="Other">Other</option>
+            </select>
+          </td>
+          <td>
+            <input type="number" class="form-control" placeholder="Min Bid" [(ngModel)]="filterData.minBid" />
+          </td>
+          <td>
+            <input type="number" class="form-control" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" />
+          </td>
+          <td>
+            <input type="number" class="form-control" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" />
+          </td>
+          <td class="d-flex gap-2">
+            <button class="btn btn-secondary" (click)="applyFilters()">Apply Filter</button>
+            <button class="btn btn-secondary" (click)="resetFilter()">Back</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
   </div>
  
   <div *ngIf="noAuctionsFound()" class="alert alert-warning text-center">
@@ -92,13 +118,25 @@
     <button class="btn btn-outline-secondary mt-2" (click)="resetFilter()">Back</button>
   </div>
  
-  <div *ngIf="showProductDetails() && selectedProduct()" class="card p-4 mb-4">
-    <h3 class="card-title">Product Details</h3>
-    <p><strong>Title:</strong> {{ selectedProduct()?.title }}</p>
-    <p><strong>Description:</strong> {{ selectedProduct()?.description }}</p>
-    <p><strong>Category:</strong> {{ selectedProduct()?.category }}</p>
-    <p><strong>Start Price:</strong> ₹{{ selectedProduct()?.startPrice }}</p>
-    <button class="btn btn-outline-primary mt-2" (click)="backToList()">↩ Back</button>
+  <div *ngIf="showProductDetails() && selectedProduct()" class="card shadow-sm p-4 mb-4">
+    <h3 class="card-title mb-3">Product Details</h3>
+    <div class="row mb-2">
+      <div class="col-sm-4"><strong>Title:</strong></div>
+      <div class="col-sm-8">{{ selectedProduct()?.title }}</div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-sm-4"><strong>Description:</strong></div>
+      <div class="col-sm-8">{{ selectedProduct()?.description }}</div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-sm-4"><strong>Category:</strong></div>
+      <div class="col-sm-8">{{ selectedProduct()?.category }}</div>
+    </div>
+    <div class="row mb-3">
+      <div class="col-sm-4"><strong>Start Price:</strong></div>
+      <div class="col-sm-8">₹{{ selectedProduct()?.startPrice }}</div>
+    </div>
+    <button class="btn btn-primary" (click)="backToList()">↩ Back</button>
   </div>
  
   <div *ngIf="!showProductDetails()">
@@ -144,9 +182,9 @@
                 </button>
                 <button
                   *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)"
-                   class="btn btn-outline-dark btn-sm"
-                   (click)="goToReview(auction.auctionId)">
-                   Add Review
+                  class="btn btn-outline-dark btn-sm"
+                  (click)="goToReview(auction.auctionId)">
+                  Add Review
                 </button>
               </div>
             </td>

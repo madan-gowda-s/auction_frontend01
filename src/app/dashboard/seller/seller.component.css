@@ -69,182 +69,67 @@
    
     */
 
-    /* General styling for the seller container */
-.seller-container {
-  max-width: 900px;
-  margin: 40px auto;
-  padding: 30px;
-  background-color: #2c3e50; /* Dark bluish background */
-  border-radius: 10px;
-  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-  color: #ecf0f1; /* Light text color */
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+   /* seller.component.css (or your global styles.css) */
+ 
+/*
+   Important Note:
+   When overriding Bootstrap, sometimes you need to use `!important`
+   because Bootstrap's specificity can be high. Use sparingly and
+   only when necessary.
+*/
+ 
+/* --- General Page / Body Styling (Complementary to Bootstrap) --- */
+body {
+  background-color: #f5f5f5; /* Light background for the overall page */
+  color: #333; /* Default text color */
 }
  
-.seller-container h2 {
-  text-align: center;
-  color: #3498db; /* Bright blue for headings */
-  margin-bottom: 30px;
-  font-size: 2.2em;
+h2, h3, h5 {
+  color: #1a1a1a; /* Darker headings for readability */
 }
  
-/* Form Section Styling */
-.form-section {
-  background-color: #34495e; /* Slightly lighter dark background for form */
-  padding: 25px;
-  border-radius: 8px;
-  margin-bottom: 30px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+/* --- Form Card (Matching Original Theme's Dark Background) --- */
+/* Override Bootstrap's default .bg-dark if it's not your exact shade */
+.card.bg-dark {
+  background-color: #1a202c !important; /* Your specific dark background for forms */
+  color: white !important;
 }
  
-.form-section h3 {
-  text-align: center;
-  color: #3498db; /* Bright blue for sub-headings */
-  margin-bottom: 25px;
-  font-size: 1.8em;
+/* --- Submit Button (Matching Original Login/Admin Submit Button) --- */
+.btn.btn-success {
+  background-color: #00BCD4 !important; /* Your specific teal */
+  border-color: #00BCD4 !important;
+  font-weight: 700 !important; /* Bold font */
+  font-size: 1.125rem !important; /* Larger font size */
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2) !important; /* Stronger shadow */
+  transition: all 0.3s ease !important;
 }
  
-.form-section form {
-  display: grid;
-  grid-template-columns: 1fr; /* Single column layout */
-  gap: 15px; /* Space between form elements */
+.btn.btn-success:hover {
+  background-color: #00a7b8 !important; /* Slightly darker teal on hover */
+  border-color: #00a7b8 !important;
+  transform: scale(1.01); /* Slight enlarge on hover */
 }
  
-.form-section label {
-  font-weight: bold;
-  color: #ecf0f1;
-  margin-bottom: 5px;
-  display: block; /* Ensure label takes its own line */
+/* Ensure labels in dark forms are bright enough */
+.card.bg-dark .form-label {
+  color: #e5ebec !important; /* Lighter color for labels in dark forms */
 }
  
-.form-section input[type="text"],
-.form-section input[type="number"],
-.form-section textarea,
-.form-section select { /* Styles applied to select element */
-  width: 100%;
-  padding: 12px;
-  border: 1px solid #7f8c8d; /* Muted border */
-  border-radius: 5px;
-  background-color: #4a627a; /* Darker input/select background */
-  color: #ecf0f1;
-  font-size: 1em;
-  box-sizing: border-box; /* Include padding in element's total width/height */
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
- 
-  /* Custom styling for select dropdown arrow */
-  -webkit-appearance: none; /* Remove default styling for select on some browsers */
-  -moz-appearance: none;
-  appearance: none;
-  background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292%22%20height%3D%22292%22%3E%3Cpath%20fill%3D%22%23ecf0f1%22%20d%3D%22M287%2069L146%20208%205%2069z%22%2F%3E%3C%2Fsvg%3E'); /* Custom dropdown arrow */
-  background-repeat: no-repeat;
-  background-position: right 10px top 50%;
-  background-size: 12px;
-  padding-right: 30px; /* Make space for the custom arrow */
+/* --- Table Headers (Consistent Dark Theme) --- */
+.table-dark {
+  background-color: #1a202c !important; /* Deeper dark for table header */
+  color: #fff !important;
 }
  
-.form-section input[type="text"]::placeholder,
-.form-section input[type="number"]::placeholder,
-.form-section textarea::placeholder {
-  color: #bdc3c7; /* Lighter placeholder text */
+/* --- Optional: Add your fadeIn animation if you want elements to fade in --- */
+@keyframes fadeIn {
+from { opacity: 0; transform: translateY(-10px); }
+to { opacity: 1; transform: translateY(0); }
 }
  
-/* Style for the disabled "Select a category" option */
-.form-section select option[value=""][disabled] {
-  color: #bdc3c7;
-}
-/* Style for actual options in the dropdown list when it's open */
-.form-section select option {
-  background-color: #34495e; /* Background for options in dropdown */
-  color: #ecf0f1;
-}
- 
-.form-section input[type="text"]:focus,
-.form-section input[type="number"]:focus,
-.form-section textarea:focus,
-.form-section select:focus { /* Focus styles applied to select element */
-  border-color: #3498db; /* Blue border on focus */
-  box-shadow: 0 0 8px rgba(52, 152, 219, 0.5); /* Blue shadow on focus */
-  outline: none;
-}
- 
-.form-section textarea {
-  resize: vertical; /* Allow vertical resizing */
-  min-height: 80px;
-}
- 
-.form-section button[type="submit"] {
-  background-color: #3498db; /* Blue button */
-  color: white;
-  padding: 12px 25px;
-  border: none;
-  border-radius: 5px;
-  font-size: 1.1em;
-  cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
-  width: 100%; /* Make button full width */
-  margin-top: 20px;
-}
- 
-.form-section button[type="submit"]:hover {
-  background-color: #2980b9; /* Darker blue on hover */
-  transform: translateY(-2px);
-}
- 
-.error {
-  color: #e74c3c; /* Red for error messages */
-  text-align: center;
-  margin-top: 15px;
-  font-weight: bold;
-}
- 
-/* Product Listing Section Styling */
-.product-list {
-  background-color: #34495e;
-  padding: 25px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-}
- 
-.product-list h3 {
-  text-align: center;
-  color: #3498db; /* Blue for sub-headings */
-  margin-bottom: 25px;
-  font-size: 1.8em;
-}
- 
-.product-list table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 20px;
-  /* For responsiveness on smaller screens */
-  overflow-x: auto;
-  display: block; /* Important for overflow-x to work on tables */
-}
- 
-.product-list th,
-.product-list td {
-  padding: 12px 15px;
-  text-align: left;
-  border-bottom: 1px solid #4a627a; /* Subtle border for rows */
-}
- 
-.product-list thead th {
-  background-color: #2c3e50; /* Darker header background */
-  color: #ecf0f1;
-  font-weight: bold;
-  text-transform: uppercase;
-  font-size: 0.95em;
-}
- 
-.product-list tbody tr {
-  transition: background-color 0.2s ease;
-}
- 
-.product-list tbody tr:nth-child(even) {
-  background-color: #3a536b; /* Alternate row color */
-}
- 
-.product-list tbody tr:hover {
-  background-color: #4a627a; /* Highlight row on hover */
+/* Apply animation to the main container or specific sections */
+.container {
+  animation: fadeIn 1s ease-in-out;
 }
  
