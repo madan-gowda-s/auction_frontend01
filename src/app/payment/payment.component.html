@@ -1,0 +1,31 @@
+<div class="payment-container">
+    <h2>Confirm Payment</h2>
+  
+    <div class="details-row">
+      <p><strong>Auction ID:</strong> {{ auctionId() }}</p>
+      <p><strong>Product ID:</strong> {{ productId() }}</p>
+      <p><strong>Amount to Pay:</strong> ₹{{ bidAmount() }}</p>
+    </div>
+  
+    <label for="method">Select Payment Method:</label>
+    <select id="method" (change)="onMethodSelect($event)">
+        <option value="">--Choose--</option>
+        <option value="UPI">UPI</option>
+        <option value="Credit Card">Credit Card</option>
+        <option value="Debit Card">Debit Card</option>
+      </select>
+      
+  
+    <button *ngIf="showPayButton()" (click)="makePayment()">Make Payment</button>
+  
+    <div *ngIf="transaction()" class="transaction-result animate">
+      <h3>Payment Successful 🎉</h3>
+      <p><strong>Transaction ID:</strong> {{ transaction().transactionId }}</p>
+      <p><strong>Buyer ID:</strong> {{ transaction().buyerId }}</p>
+      <p><strong>Auction ID:</strong> {{ transaction().auctionId }}</p>
+      <p><strong>Amount:</strong> ₹{{ transaction().amount }}</p>
+      <p><strong>Status:</strong> {{ transaction().paymentStatus }}</p>
+      <p><strong>Date:</strong> {{ transaction().paymentDate }}</p>
+    </div>
+  </div>
+  
