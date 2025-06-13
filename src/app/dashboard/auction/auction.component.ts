@@ -159,7 +159,7 @@ export class AuctionComponent implements OnInit {
   }
 
   goToPayment() {
-    this.router.navigate(['/payment'], {
+    this.router.navigate(['/buyer/dashboard'],  {
       state: {
         auctionId: this.auction.auctionId,
         amount: this.amount,

@@ -1,0 +1,28 @@
+<div class="container my-4">
+    <button class="btn btn-outline-secondary mb-3" (click)="goBack()">← Back to Dashboard</button>
+  
+    <h2>Review Product</h2>
+  
+    <div class="card p-3 mb-4">
+      <h4>Product Details</h4>
+      <p><strong>Title:</strong> {{ product?.title }}</p>
+      <p><strong>Description:</strong> {{ product?.description }}</p>
+      <p><strong>Category:</strong> {{ product?.category }}</p>
+      <p><strong>Start Price:</strong> ₹{{ product?.startPrice }}</p>
+    </div>
+  
+    <div class="card p-3 mb-4">
+      <h4>Auction Details</h4>
+      <p><strong>Start Date:</strong> {{ auction?.startDate | date:'short' }}</p>
+      <p><strong>End Date:</strong> {{ auction?.endDate | date:'short' }}</p>
+      <p><strong>Final Bid:</strong> ₹{{ auction?.currentBid }}</p>
+    </div>
+  
+    <div class="mb-3">
+      <label for="reviewText" class="form-label">Your Review</label>
+      <textarea id="reviewText" class="form-control" rows="4"></textarea>
+    </div>
+  
+    <button class="btn btn-primary" (click)="submitReview()">Submit Review</button>
+  </div>
+  

@@ -1,4 +1,4 @@
-<div class="seller-container">
+<!-- <div class="seller-container">
     <h2>Welcome, {{ sellerName }}</h2>
    
     <div class="form-section">
@@ -24,10 +24,10 @@
       </form>
    
       <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-    </div>
+    </div> -->
    
     <!-- Product listing below the form -->
-    <div *ngIf="productResponses.length > 0" class="product-list">
+    <!-- <div *ngIf="productResponses.length > 0" class="product-list">
     <h3>My Product Listings</h3>
    
     <table>
@@ -51,4 +51,59 @@
       </tbody>
     </table>
   </div>
-   
+    -->
+
+    <div class="seller-container">
+ 
+      <div class="form-section">
+        <h3>Register Product for Auction</h3>
+     
+        <form (ngSubmit)="submitProduct()" #productForm="ngForm">
+          <label>Title:</label>
+          <input type="text" [(ngModel)]="product.title" name="title" required>
+     
+          <label>Description:</label>
+          <textarea [(ngModel)]="product.description" name="description" required></textarea>
+     
+          <label>Start Price (₹):</label>
+          <input type="number" [(ngModel)]="product.startPrice" name="startPrice" required>
+     
+          <label for="category">Category:</label> <select id="category" [(ngModel)]="product.category" name="category" required>
+            <option value="" disabled selected>Select a category</option>
+            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+          </select>
+     
+          <label for = "imageUrl">Image URL:</label>
+          <input id="imageUrl" type="text" [(ngModel)]="product.imageUrls[0]" name="imageUrl" required>
+     
+          <button type="submit">Submit</button>
+        </form>
+     
+        <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
+      </div>
+     
+      <div *ngIf="productResponses.length > 0" class="product-list">
+      <h3>My Product Listings</h3>
+     
+      <table>
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Start Price</th>
+            <th>Category</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let p of productResponses">
+            <td>{{ p.title }}</td>
+            <td>{{ p.description }}</td>
+            <td>₹{{ p.startPrice }}</td>
+            <td>{{ p.category }}</td>
+            <td>{{ p.status }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+     

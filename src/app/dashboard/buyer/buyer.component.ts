@@ -199,19 +199,27 @@ export class BuyerComponent {
   // Filter model
   filterData = {
     category: '',
-    minBid: 0,
-    maxBid: 100000,
-    timeLeftInHours: 24,
+    minBid: '',
+    maxBid: '',
+    timeLeftInHours: '',
     status: 'Available'
   };
 
   
 
-  constructor() {
-    this.fetchBuyerInfo();
-    this.fetchAuctions();
-    this.fetchProducts();
+  
+  constructor(private Router: Router) {
+    // Retrieve navigation state
+    const nav = this.router.getCurrentNavigation();
+    const state = nav?.extras?.state;
+    console.log(state); // Use this data as needed
+  
+    // Initialize component data
+    this.fetchBuyerInfo();
+    this.fetchAuctions();
+    this.fetchProducts();
   }
+  
 
   fetchBuyerInfo() {
     const token = localStorage.getItem('token');
@@ -352,6 +360,22 @@ export class BuyerComponent {
       });      
     }
   }
+
+  goToReview(auctionId: number) {
+    const auction = this.auctions().find(a => a.auctionId === auctionId);
+    const product = this.products().find(p => p.productId === auction?.productId);
+  
+    if (auction && product && this.buyerId()) {
+      this.router.navigate(['/review'], {
+        state: {
+          auction,
+          product,
+          buyerId: this.buyerId()
+        }
+      });
+    }
+  }
+  
 }
 
  

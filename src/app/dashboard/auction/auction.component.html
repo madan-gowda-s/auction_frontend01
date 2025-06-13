@@ -1,7 +1,7 @@
-<button (click)="goBack()">← Back to Auctions</button>
+<!-- <button (click)="goBack()">← Back to Auctions</button> -->
 
-<!-- Auction and Product Details Table -->
-<table class="auction-table">
+                                       <!-- Auction and Product Details Table -->
+<!-- <table class="auction-table">
   <thead>
     <tr>
       <th>Title</th>
@@ -20,16 +20,16 @@
       <td>{{ auction?.endDate | date:'short' }}</td>
     </tr>
   </tbody>
-</table>
+</table> -->
 
-<!-- Price Section -->
-<div class="price-section">
+                                             <!-- Price Section -->
+<!-- <div class="price-section">
   <div class="start-price">Start Price: ₹{{ product?.startPrice }}</div>
   <div class="current-bid">Current Bid: ₹{{ auction?.currentBid }}</div>
-</div>
+</div> -->
 
-<!-- Bid Section -->
-<div class="bid-section" *ngIf="!auctionEnded">
+                                                           <!-- Bid Section -->
+<!-- <div class="bid-section" *ngIf="!auctionEnded">
   <h3>Place Your Bid</h3>
   <div class="suggestions">
     <button *ngFor="let suggestion of bidSuggestions" (click)="amount = suggestion">₹{{ suggestion }}</button>
@@ -37,39 +37,158 @@
   <input type="number" [(ngModel)]="amount" placeholder="Enter your bid amount" />
   <button (click)="placeBid()" [disabled]="auctionEnded">Submit Bid</button>
   <div *ngIf="bidMessage" class="bid-message">{{ bidMessage }}</div>
-</div>
+</div> -->
 
-<!-- Payment Section -->
-<div class="payment-section" *ngIf="auctionEnded && isWinner">
+                                                                      <!-- Payment Section -->
+<!-- <div class="payment-section" *ngIf="auctionEnded && isWinner">
   <h3>🎉 You are the winner!</h3>
   <button (click)="goToPayment()">Click here to make payment</button>
 </div>
 
 <div *ngIf="auctionEnded && !isWinner" class="bid-message">
   Your bid is lower than the highest. Bidding is closed.
-</div>
+</div> -->
 
-<!-- Bid History Table -->
-<div class="bid-history">
+                                                     <!-- Bid History Table -->
+<!-- <div class="bid-history">
   <h3>Bid Placed Data</h3>
   <table class="bid-table">
     <thead>
       <tr>
         <th>Auction ID</th>
-        <th>Buyer ID</th>
-        <!-- <th>Buyer Name</th> -->
-        <th>Amount</th>
+        <th>Buyer ID</th> -->
+                                                <!-- <th>Buyer Name</th> -->
+        <!-- <th>Amount</th>
         <th>Bid Time</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let bid of bidHistory">
         <td>{{ bid.auctionId }}</td>
-        <td>{{ bid.buyerId }}</td>
-        <!-- <td>{{ bid.buyerName }}</td> -->
-        <td>₹{{ bid.amount }}</td>
+        <td>{{ bid.buyerId }}</td> -->
+                                               <!-- <td>{{ bid.buyerName }}</td> -->
+        <!-- <td>₹{{ bid.amount }}</td>
         <td>{{ bid.bidTime | date:'short' }}</td>
       </tr>
     </tbody>
   </table>
-</div>
+</div> -->
+
+
+<div class="container mt-4">
+    <button class="btn btn-secondary mb-4" (click)="goBack()">
+    <i class="bi bi-arrow-left"></i> &leftarrow; Back to Auctions
+    </button>
+     
+        <h2 class="text-center mb-4">Auction Details</h2>
+     
+        <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+    <h5 class="card-title mb-0">Product and Auction Information</h5>
+    </div>
+    <div class="card-body">
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped mb-0">
+    <thead class="table-light">
+    <tr>
+    <th>Title</th>
+    <th>Category</th>
+    <th>Description</th>
+    <th>Start Date</th>
+    <th>End Date</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr>
+    <td>{{ product?.title }}</td>
+    <td>{{ product?.category }}</td>
+    <td>{{ product?.description }}</td>
+    <td>{{ auction?.startDate | date:'short' }}</td>
+    <td>{{ auction?.endDate | date:'short' }}</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+     
+        <div class="row g-3 mb-4">
+    <div class="col-md-6">
+    <div class="card text-center bg-info text-white shadow-sm h-100 d-flex align-items-center justify-content-center p-3">
+    <div class="card-body">
+    <h5 class="card-title mb-0">Start Price</h5>
+    <p class="card-text fs-4 fw-bold">₹{{ product?.startPrice }}</p>
+    </div>
+    </div>
+    </div>
+    <div class="col-md-6">
+    <div class="card text-center bg-primary text-white shadow-sm h-100 d-flex align-items-center justify-content-center p-3">
+    <div class="card-body">
+    <h5 class="card-title mb-0">Current Bid</h5>
+    <p class="card-text fs-4 fw-bold">₹{{ auction?.currentBid }}</p>
+    </div>
+    </div>
+    </div>
+    </div>
+     
+        <div class="card shadow-lg mb-4" *ngIf="!auctionEnded">
+    <div class="card-header bg-dark text-white">
+    <h5 class="card-title mb-0">Place Your Bid</h5>
+    </div>
+    <div class="card-body">
+    <div class="suggestions d-flex flex-wrap gap-2 mb-3">
+    <button class="btn btn-outline-primary" *ngFor="let suggestion of bidSuggestions" (click)="amount = suggestion">₹{{ suggestion }}</button>
+    </div>
+    <div class="input-group mb-3">
+    <span class="input-group-text">₹</span>
+    <input type="number" class="form-control" [(ngModel)]="amount" placeholder="Enter your bid amount" />
+    </div>
+    <button class="btn btn-success w-100" (click)="placeBid()" [disabled]="auctionEnded">Submit Bid</button>
+    <div *ngIf="bidMessage" class="alert mt-3" [class.alert-success]="bidMessage.includes('successfully')" [class.alert-danger]="!bidMessage.includes('successfully')">
+    
+                    {{ bidMessage }}
+    </div>
+    </div>
+    </div>
+     
+        <div class="card text-center bg-success text-white shadow-lg mb-4" *ngIf="auctionEnded && isWinner">
+    <div class="card-body p-4">
+    <h3 class="card-title mb-3">🎉 You are the winner!</h3>
+    <button class="btn btn-light btn-lg" (click)="goToPayment()">Click here to make payment</button>
+    </div>
+    </div>
+     
+        <div *ngIf="auctionEnded && !isWinner" class="alert alert-warning text-center shadow-sm mb-4">
+    
+            Your bid is lower than the highest. Bidding is closed.
+    </div>
+     
+        <div class="card shadow-sm mb-4">
+    <div class="card-header bg-dark text-white">
+    <h5 class="card-title mb-0">Bid Placed Data</h5>
+    </div>
+    <div class="card-body">
+    <div class="table-responsive">
+    <table class="table table-bordered table-striped mb-0">
+    <thead class="table-light">
+    <tr>
+    <th>Auction ID</th>
+    <th>Buyer ID</th>
+    <th>Amount</th>
+    <th>Bid Time</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr *ngFor="let bid of bidHistory">
+    <td>{{ bid.auctionId }}</td>
+    <td>{{ bid.buyerId }}</td>
+    <td>₹{{ bid.amount }}</td>
+    <td>{{ bid.bidTime | date:'short' }}</td>
+    </tr>
+    </tbody>
+    </table>
+    </div>
+    </div>
+    </div>
+    </div>
+     

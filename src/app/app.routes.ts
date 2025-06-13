@@ -7,6 +7,7 @@ import { BuyerComponent } from './dashboard/buyer/buyer.component';
 import { SellerComponent } from './dashboard/seller/seller.component';
 import { AuctionComponent } from './dashboard/auction/auction.component';
 import { PaymentComponent } from './payment/payment.component';
+import { ReviewComponent } from './review/review.component';
  
 export const routes: Routes = [
   { path: '', component: HomeComponent },           // ✅ Default route shows HomeComponent
@@ -17,6 +18,7 @@ export const routes: Routes = [
   { path: 'seller/dashboard', component: SellerComponent },
   { path: 'auction/dashboard', component: AuctionComponent },
   { path: 'payment', component: PaymentComponent },
+  { path: 'review', component: ReviewComponent },
   { path: '**', redirectTo: '' }
 ];
  
