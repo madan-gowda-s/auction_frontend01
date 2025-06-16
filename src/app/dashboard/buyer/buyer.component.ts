@@ -147,12 +147,11 @@
 // }
 
 
-import { Component, effect, inject, signal } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Router, RouterLink } from '@angular/router';
+import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-// import { RouterLink } from '@angular/router';
 
 interface Auction {
   auctionId: number;
@@ -195,8 +194,11 @@ export class BuyerComponent {
   buyerId = signal<number | null>(null);
   buyerName = signal<string | null>(null);
   winnerAuctions = signal<number[]>([]);
+  userProfile = signal<any | null>(null);
+  showSuccessAlert = signal(false);
 
-  // Filter model
+  
+
   filterData = {
     category: '',
     minBid: '',
@@ -205,28 +207,22 @@ export class BuyerComponent {
     status: 'Available'
   };
 
-  
+  constructor() {
+    const nav = this.router.getCurrentNavigation();
+    const state = nav?.extras?.state;
+    console.log(state);
 
-  
-  constructor(private Router: Router) {
-  // Retrieve navigation state
-  const nav = this.router.getCurrentNavigation();
-  const state = nav?.extras?.state;
-  console.log(state); // Use this data as needed
-  
-  // Initialize component data
-  this.fetchBuyerInfo();
-  this.fetchAuctions();
-  this.fetchProducts();
+    this.fetchBuyerInfo();
+    this.fetchAuctions();
+    this.fetchProducts();
   }
-  
 
   fetchBuyerInfo() {
     const token = localStorage.getItem('token');
     if (token) {
-      const payload = JSON.parse(atob(token.split('.')[1]));
-      const email = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
-      const name = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
+      const decoded = JSON.parse(atob(token.split('.')[1]));
+      const email = decoded['email'] || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+      const name = decoded['name'] || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name'];
 
       this.http.get<any[]>('https://localhost:7046/api/Users').subscribe({
         next: (users) => {
@@ -234,10 +230,11 @@ export class BuyerComponent {
           if (user) {
             this.buyerId.set(user.userId);
             this.buyerName.set(name);
+            this.userProfile.set(user);
             this.checkWinnerStatus(user.userId);
           }
         },
-        error: (err) => console.error('Error fetching users:', err)
+        error: (err: any) => console.error('Error fetching users:', err)
       });
     }
   }
@@ -248,16 +245,13 @@ export class BuyerComponent {
         this.auctions.set(res);
         this.filteredAuctions.set(res);
         this.noAuctionsFound.set(res.length === 0);
-  
-        // ✅ Now that auctions are loaded, check winner status
         if (this.buyerId()) {
           this.checkWinnerStatus(this.buyerId()!);
         }
       },
-      error: (err) => console.error('Error fetching auctions:', err)
+      error: (err: any) => console.error('Error fetching auctions:', err)
     });
   }
-  
 
   fetchProducts() {
     const token = localStorage.getItem('token');
@@ -265,7 +259,7 @@ export class BuyerComponent {
       headers: { Authorization: `Bearer ${token}` }
     }).subscribe({
       next: (res) => this.products.set(res),
-      error: (err) => console.error('Error fetching products:', err)
+      error: (err: any) => console.error('Error fetching products:', err)
     });
   }
 
@@ -310,7 +304,7 @@ export class BuyerComponent {
         this.filteredAuctions.set(res);
         this.noAuctionsFound.set(res.length === 0);
       },
-      error: (err) => console.error('Error applying filter:', err)
+      error: (err: any) => console.error('Error applying filter:', err)
     });
   }
 
@@ -341,7 +335,7 @@ export class BuyerComponent {
             this.winnerAuctions.set([...currentWinners, auction.auctionId]);
           }
         },
-        error: (err) => console.error(`Error checking winner for auction ${auction.auctionId}`, err)
+        error: (err: any) => console.error(`Error checking winner for auction ${auction.auctionId}`, err)
       });
     });
   }
@@ -357,14 +351,14 @@ export class BuyerComponent {
           productId: product.productId,
           buyerId: this.buyerId()
         }
-      });      
+      });
     }
   }
 
   goToReview(auctionId: number) {
     const auction = this.auctions().find(a => a.auctionId === auctionId);
     const product = this.products().find(p => p.productId === auction?.productId);
-  
+
     if (auction && product && this.buyerId()) {
       this.router.navigate(['/review'], {
         state: {
@@ -375,6 +369,61 @@ export class BuyerComponent {
       });
     }
   }
+
+  showProfileModal = signal(false);
+
+profileForm = {
+  name: '',
+  contactNumber: '',
+  password: ''
+};
+
+openProfileForm() {
+  const user = this.userProfile();
+  if (user) {
+    this.profileForm.name = user.name;
+    this.profileForm.contactNumber = user.contactNumber;
+    this.profileForm.password = '';
+    this.showProfileModal.set(true);
+  }
+}
+
+closeProfileForm() {
+  this.showProfileModal.set(false);
+}
+
+  
+  
+  
+submitProfileUpdate() {
+  const token = localStorage.getItem('token');
+  if (!token) return;
+
+  const decoded = JSON.parse(atob(token.split('.')[1]));
+  const email = decoded['email'] || decoded['http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress'];
+
+  this.http.put('https://localhost:7046/api/Users/update-by-email', {
+    email,
+    name: this.profileForm.name,
+    contactNumber: this.profileForm.contactNumber,
+    password: this.profileForm.password
+  }, {
+    headers: {
+      Authorization: `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    },
+    responseType: 'text' as const  // ✅ This tells Angular to treat response as plain text
+  }).subscribe({
+    next: () => {
+      this.showSuccessAlert.set(true);
+      setTimeout(() => this.showSuccessAlert.set(false), 2000);
+      this.fetchBuyerInfo();
+      this.closeProfileForm();
+    },
+    error: (err: any) => console.error('Error updating profile:', err)
+  });
+}
+
   
   
 }

@@ -61,58 +61,59 @@
  
 /* General container background (if not handled by parent components) */
 body {
-  background-color: #f5f5f5; /* Light background for the overall page */
+  background-color: #f5f5f5;
 }
- 
-/* Customizing specific Bootstrap components if needed */
+
 .table-dark {
-  background-color: #1a202c !important; /* Deeper dark for table header, if Bootstrap's default isn't dark enough */
+  background-color: #1a202c !important;
   color: #fff !important;
 }
- 
-/* Customizing card background to match your original login box theme */
+
 .card.bg-dark {
-  background-color: #1a202c !important; /* Override Bootstrap's default .bg-dark if it's not the exact shade */
+  background-color: #1a202c !important;
   color: #fff !important;
 }
- 
-/* Customizing success and info buttons to match original theme if needed */
+
 .btn-info {
-  background-color: #00bfff !important; /* Your original blue */
+  background-color: #00bfff !important;
   border-color: #00bfff !important;
   transition: background-color 0.3s ease, transform 0.2s ease !important;
 }
- 
+
 .btn-info:hover {
-  background-color: #009acd !important; /* Darker on hover */
+  background-color: #009acd !important;
   transform: translateY(-2px) !important;
 }
- 
+
 .btn-success {
-  background-color: #00BCD4 !important; /* Your specific teal for submit */
+  background-color: #00BCD4 !important;
   border-color: #00BCD4 !important;
   box-shadow: 0 10px 15px rgba(0, 0, 0, 0.2) !important;
   transition: all 0.3s ease !important;
 }
- 
+
 .btn-success:hover {
-  background-color: #00a7b8 !important; /* Darker teal on hover */
+  background-color: #00a7b8 !important;
   transform: scale(1.02) !important;
 }
- 
-/* Ensure labels in dark forms are bright enough */
+
 .card.bg-dark .form-label {
-  color: #e5ebec !important; /* Lighter color for labels in dark forms */
+  color: #e5ebec !important;
 }
- 
-/* Add animations if desired (e.g., for elements appearing) */
+
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
- 
-/* Apply animation to specific elements, e.g., the whole container on load */
+
 .container {
   animation: fadeIn 1s ease-in-out;
 }
- 
+
+.toast-container {
+  z-index: 1055;
+}
+
+.toast {
+  animation: fadeIn 0.5s ease-in-out;
+}

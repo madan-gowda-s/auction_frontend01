@@ -54,79 +54,139 @@
     -->
 
     <div class="container mt-4">
-      <h2 class="text-center mb-4">Welcome, {{ sellerName }}</h2>
+    
+      <!-- Success Alert -->
+      <div *ngIf="showSuccessAlert" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050;">
+        Profile updated successfully!
+      </div>
+    
      
+    
+      <!-- Product Registration Form -->
       <div class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto" style="max-width: 600px;">
-          <h3 class="card-title text-center mb-4 text-white">Register Product for Auction</h3>
-     
-          <form (ngSubmit)="submitProduct()" #productForm="ngForm">
-              <div class="mb-3">
-                  <label for="productTitle" class="form-label">Title:</label>
-                  <input type="text" id="productTitle" [(ngModel)]="product.title" name="title" class="form-control" required>
-              </div>
-     
-              <div class="mb-3">
-                  <label for="productDescription" class="form-label">Description:</label>
-                  <textarea id="productDescription" [(ngModel)]="product.description" name="description" class="form-control" rows="3" required></textarea>
-              </div>
-     
-              <div class="mb-3">
-                  <label for="productStartPrice" class="form-label">Start Price (₹):</label>
-                  <input type="number" id="productStartPrice" [(ngModel)]="product.startPrice" name="startPrice" class="form-control" required>
-              </div>
-     
-              <div class="mb-3">
-                  <label for="productCategory" class="form-label">Category:</label>
-                  <select id="productCategory" [(ngModel)]="product.category" name="category" class="form-select" required>
-                      <option value="" disabled selected>Select a Category</option>
-                      <option value="Electronics">Electronics</option>
-                      <option value="Fashion">Fashion</option>
-                      <option value="Home & Garden">Home & Garden</option>
-                      <option value="Vehicles">Vehicles</option>
-                      <option value="Collectibles">Collectibles</option>
-                      <option value="Sports & Outdoors">Sports & Outdoors</option>
-                      <option value="Art">Art</option>
-                      <option value="Other">Other</option>
-                  </select>
-              </div>
-     
-              <div class="mb-4">
-                  <label for="imageUrl" class="form-label">Image URL:</label>
-                  <input id="imageUrl" type="text" [(ngModel)]="product.imageUrls[0]" name="imageUrl" class="form-control" required>
-              </div>
-     
-              <button type="submit" class="btn btn-success w-100">Submit</button>
-          </form>
-     
-          <p class="text-danger mt-3 text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
-      </div>
-     
-      <div *ngIf="productResponses.length > 0" class="product-list mt-5">
-          <h3 class="text-center mb-4">My Product Listings</h3>
-     
-          <div class="table-responsive">
-              <table class="table table-striped table-hover shadow-sm">
-                  <thead class="table-dark">
-                      <tr>
-                          <th>Title</th>
-                          <th>Description</th>
-                          <th>Start Price</th>
-                          <th>Category</th>
-                          <th>Status</th>
-                      </tr>
-                  </thead>
-                  <tbody>
-                      <tr *ngFor="let p of productResponses">
-                          <td>{{ p.title }}</td>
-                          <td>{{ p.description }}</td>
-                          <td>₹{{ p.startPrice }}</td>
-                          <td>{{ p.category }}</td>
-                          <td>{{ p.status }}</td>
-                      </tr>
-                  </tbody>
-              </table>
+        <h3 class="card-title text-center mb-4 text-white">Register Product for Auction</h3>
+        <form (ngSubmit)="submitProduct()" #productForm="ngForm">
+          <div class="mb-3">
+            <label for="productTitle" class="form-label">Title:</label>
+            <input type="text" id="productTitle" [(ngModel)]="product.title" name="title" class="form-control" required>
           </div>
+    
+          <div class="mb-3">
+            <label for="productDescription" class="form-label">Description:</label>
+            <textarea id="productDescription" [(ngModel)]="product.description" name="description" class="form-control" rows="3" required></textarea>
+          </div>
+    
+          <div class="mb-3">
+            <label for="productStartPrice" class="form-label">Start Price (₹):</label>
+            <input type="number" id="productStartPrice" [(ngModel)]="product.startPrice" name="startPrice" class="form-control" required>
+          </div>
+    
+          <div class="mb-3">
+            <label for="productCategory" class="form-label">Category:</label>
+            <select id="productCategory" [(ngModel)]="product.category" name="category" class="form-select" required>
+              <option value="" disabled selected>Select a Category</option>
+              <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
+            </select>
+          </div>
+    
+          <div class="mb-4">
+            <label for="imageUrl" class="form-label">Image URL:</label>
+            <input id="imageUrl" type="text" [(ngModel)]="product.imageUrls[0]" name="imageUrl" class="form-control" required>
+          </div>
+    
+          <button type="submit" class="btn btn-success w-100">Submit</button>
+        </form>
+    
+        <p class="text-danger mt-3 text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
       </div>
+    
+      <!-- Product Listings -->
+      <div *ngIf="productResponses.length > 0" class="product-list mt-5">
+        <h3 class="text-center mb-4">My Product Listings</h3>
+        <div class="table-responsive">
+          <table class="table table-striped table-hover shadow-sm">
+            <thead class="table-dark">
+              <tr>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Start Price</th>
+                <th>Category</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let p of productResponses">
+                <td>{{ p.title }}</td>
+                <td>{{ p.description }}</td>
+                <td>₹{{ p.startPrice }}</td>
+                <td>{{ p.category }}</td>
+                <td>{{ p.status }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+
+       <!-- Seller Profile -->
+       <div *ngIf="userProfile" class="table-responsive mb-4">
+        <h4 class="text-primary">Your Profile</h4>
+        <table class="table table-bordered">
+          <thead class="table-dark">
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Contact Number</th>
+              <th>Role</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>{{ userProfile.name }}</td>
+              <td>{{ userProfile.email }}</td>
+              <td>{{ userProfile.contactNumber }}</td>
+              <td>{{ userProfile.role }}</td>
+              <td>
+                <button class="btn btn-outline-primary btn-sm" (click)="openProfileForm()">Update Profile</button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    
+      <!-- Angular Modal -->
+      <div *ngIf="showProfileModal" class="modal-backdrop fade show" style="z-index: 1040;"></div>
+      <div *ngIf="showProfileModal" class="modal d-block" tabindex="-1" style="z-index: 1050;">
+        <div class="modal-dialog">
+          <form class="modal-content" (ngSubmit)="submitProfileUpdate()">
+            <div class="modal-header">
+              <h5 class="modal-title">Update Profile</h5>
+              <button type="button" class="btn-close" (click)="closeProfileForm()" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <div class="mb-3">
+                <label class="form-label">Name</label>
+                <input [(ngModel)]="profileForm.name" name="name" type="text" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Contact Number</label>
+                <input [(ngModel)]="profileForm.contactNumber" name="contactNumber" type="text" class="form-control" required />
+              </div>
+              <div class="mb-3">
+                <label class="form-label">Password</label>
+                <input [(ngModel)]="profileForm.password" name="password" type="password" class="form-control" required />
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button type="submit" class="btn btn-primary">Update</button>
+              <button type="button" class="btn btn-secondary" (click)="closeProfileForm()">Cancel</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+
+
     </div>
-     
-     
+    

@@ -65,9 +65,77 @@
   </div>
 </div> -->
 
+<!-- Success Alert -->
+<div *ngIf="showSuccessAlert()" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050;">
+  Profile updated successfully!
+</div>
+
+<!-- Angular Modal for Profile Update -->
+<div *ngIf="showProfileModal()" class="modal-backdrop fade show" style="z-index: 1040;"></div>
+<div *ngIf="showProfileModal()" class="modal d-block" tabindex="-1" style="z-index: 1050;">
+  <div class="modal-dialog">
+    <form class="modal-content" (ngSubmit)="submitProfileUpdate()">
+      <div class="modal-header">
+        <h5 class="modal-title">Update Profile</h5>
+        <button type="button" class="btn-close" (click)="closeProfileForm()" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="mb-3">
+          <label class="form-label">Name</label>
+          <input [(ngModel)]="profileForm.name" name="name" type="text" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Contact Number</label>
+          <input [(ngModel)]="profileForm.contactNumber" name="contactNumber" type="text" class="form-control" required />
+        </div>
+        <div class="mb-3">
+          <label class="form-label">Password</label>
+          <input [(ngModel)]="profileForm.password" name="password" type="password" class="form-control" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary">Update</button>
+        <button type="button" class="btn btn-secondary" (click)="closeProfileForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Profile Table -->
+<div *ngIf="userProfile()" class="container my-4">
+  <h3 class="text-primary">Your Profile</h3>
+  <div class="table-responsive">
+    <table class="table table-bordered align-middle">
+      <thead class="table-dark">
+        <tr>
+          <th>Name</th>
+          <th>Email</th>
+          <th>Contact Number</th>
+          <th>Role</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>{{ userProfile()?.name }}</td>
+          <td>{{ userProfile()?.email }}</td>
+          <td>{{ userProfile()?.contactNumber }}</td>
+          <td>{{ userProfile()?.role }}</td>
+          <td>
+            <button class="btn btn-outline-primary btn-sm" (click)="openProfileForm()">Update Profile</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+
+<!-- Filter Section -->
 <div class="container my-5 buyer-container">
   <h2 class="mb-4">Filter Auctions</h2>
- 
   <div class="table-responsive mb-4">
     <table class="table table-bordered align-middle">
       <thead class="table-dark">
@@ -95,15 +163,9 @@
               <option value="Other">Other</option>
             </select>
           </td>
-          <td>
-            <input type="number" class="form-control" placeholder="Min Bid" [(ngModel)]="filterData.minBid" />
-          </td>
-          <td>
-            <input type="number" class="form-control" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" />
-          </td>
-          <td>
-            <input type="number" class="form-control" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" />
-          </td>
+          <td><input type="number" class="form-control" placeholder="Min Bid" [(ngModel)]="filterData.minBid" /></td>
+          <td><input type="number" class="form-control" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" /></td>
+          <td><input type="number" class="form-control" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" /></td>
           <td class="d-flex gap-2">
             <button class="btn btn-secondary" (click)="applyFilters()">Apply Filter</button>
             <button class="btn btn-secondary" (click)="resetFilter()">Back</button>
@@ -112,11 +174,14 @@
       </tbody>
     </table>
   </div>
- 
+
+  <!-- No Auctions Found -->
   <div *ngIf="noAuctionsFound()" class="alert alert-warning text-center">
     <p>No auctions available with selected filters. Try another.</p>
     <button class="btn btn-outline-secondary mt-2" (click)="resetFilter()">Back</button>
   </div>
+
+  <!-- Product Details -->
   <div *ngIf="showProductDetails() && selectedProduct()" class="container my-4">
     <h3 class="mb-3 text-primary">Product Details</h3>
     <div class="table-responsive mb-3">
@@ -141,8 +206,8 @@
     </div>
     <button class="btn btn-outline-secondary" (click)="backToList()">Back</button>
   </div>
-  
-  
+
+  <!-- Auction List -->
   <div *ngIf="!showProductDetails()" class="container my-4">
     <h2 class="mb-3 text-primary">Auctions</h2>
     <div class="table-responsive">
@@ -197,4 +262,4 @@
       </table>
     </div>
   </div>
-  
+</div>
