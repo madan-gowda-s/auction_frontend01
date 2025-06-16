@@ -67,6 +67,8 @@
 // }
  
  
+// 
+
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -116,16 +118,21 @@ export class SellerComponent {
         const payload = JSON.parse(atob(token.split('.')[1]));
         this.sellerName = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
         this.sellerEmail = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
-        this.product.sellerId = 10;
 
         this.http.get<any[]>('https://localhost:7046/api/Users').subscribe({
           next: (users) => {
             const user = users.find(u => u.email.toLowerCase() === this.sellerEmail.toLowerCase());
             if (user) {
               this.userProfile = user;
+              this.product.sellerId = user.userId; // ✅ Dynamically assign sellerId
+            } else {
+              this.errorMessage = "Seller profile not found.";
             }
           },
-          error: (err) => console.error('Error fetching seller profile:', err)
+          error: (err) => {
+            console.error('Error fetching seller profile:', err);
+            this.errorMessage = "Failed to fetch seller profile.";
+          }
         });
       } catch (e) {
         console.error("Error decoding token:", e);
