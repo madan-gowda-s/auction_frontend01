@@ -1,0 +1,78 @@
+<div class="container my-4">
+    <button class="btn btn-outline-secondary mb-3" (click)="goBack()">← Back to Dashboard</button>
+   
+    <h2 class="text-center mb-4" style="color: #1a1a1a;">Review Product</h2>
+   
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            <h4 class="card-title mb-0">Product Details</h4>
+        </div>
+        <div class="card-body">
+            <p class="mb-2"><strong>Title:</strong> {{ product?.title }}</p>
+            <p class="mb-2"><strong>Description:</strong> {{ product?.description }}</p>
+            <p class="mb-2"><strong>Category:</strong> {{ product?.category }}</p>
+            <p class="mb-0"><strong>Start Price:</strong> ₹{{ product?.startPrice }}</p>
+        </div>
+    </div>
+   
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-dark text-white">
+            <h4 class="card-title mb-0">Auction Details</h4>
+        </div>
+        <div class="card-body">
+            <p class="mb-2"><strong>Start Date:</strong> {{ auction?.startDate | date:'short' }}</p>
+            <p class="mb-2"><strong>End Date:</strong> {{ auction?.endDate | date:'short' }}</p>
+            <p class="mb-0"><strong>Final Bid:</strong> ₹{{ auction?.currentBid }}</p>
+        </div>
+    </div>
+   
+    <div class="card shadow-lg mb-4">
+        <div class="card-header bg-dark text-white">
+            <h4 class="card-title mb-0">Submit Your Review</h4>
+        </div>
+        <div class="card-body">
+            <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+                <div class="mb-3">
+                    <label for="rating" class="form-label">Rating (1–10)</label>
+                    <input type="number" id="rating" class="form-control" formControlName="rating" min="1" max="10">
+                    <div *ngIf="reviewForm.get('rating')?.invalid && reviewForm.get('rating')?.touched" class="text-danger mt-1">
+                        Rating is required and must be between 1 and 10.
+                    </div>
+                </div>
+   
+                <div class="mb-3">
+                    <label for="comment" class="form-label">Your Comment</label>
+                    <textarea id="comment" class="form-control" rows="4" formControlName="comment"></textarea>
+                    <div *ngIf="reviewForm.get('comment')?.invalid && reviewForm.get('comment')?.touched" class="text-danger mt-1">
+                        Comment is required.
+                    </div>
+                </div>
+   
+                <button class="btn btn-primary w-100" type="submit" [disabled]="reviewForm.invalid" *ngIf="!isEditing">
+                    Submit Review
+                  </button>
+                  
+                  
+            </form>
+        </div>
+    </div>
+   
+    <div *ngIf="submittedReview" class="card shadow-lg mt-4 p-3">
+        <div class="card-header bg-primary text-white">
+            <h4 class="card-title mb-0">Review Submitted</h4>
+        </div>
+        <div class="card-body">
+            <p class="mb-2"><strong>Rating:</strong> {{ submittedReview.rating }}</p>
+            <p class="mb-2"><strong>Comment:</strong> {{ submittedReview.comment }}</p>
+            <p class="mb-0"><strong>Date:</strong> {{ submittedReview.date | date:'short' }}</p>
+   
+            <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-outline-primary" (click)="enableEdit()" *ngIf="!isEditing">Update Review</button>
+                <button class="btn btn-outline-danger" (click)="deleteReview()">Delete Review</button>
+                <button class="btn btn-success" (click)="updateReview()" *ngIf="isEditing">Save Changes</button>
+            </div>
+        </div>
+    </div>
+   
+  </div>
+   

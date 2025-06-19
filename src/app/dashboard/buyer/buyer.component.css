@@ -1,0 +1,151 @@
+/* .buyer-container {
+  padding: 1rem;
+}
+
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.filter-section {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1rem;
+}
+
+.filter-section input,
+.filter-section button {
+  padding: 0.5rem;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+th, td {
+  border: 1px solid #ccc;
+  padding: 0.75rem;
+  text-align: center;
+}
+
+tr.live {
+  background-color: #e6ffed;
+}
+
+tr.upcoming {
+  background-color: #fffbe6;
+}
+
+tr.completed {
+  background-color: #f8f8f8;
+  color: gray;
+}
+
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+} */
+
+.buyer-container {
+  padding: 1rem;
+}
+ 
+.title {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+ 
+/* Auction row status styles */
+tr.live {
+  background-color: #e6ffed;
+}
+ 
+tr.upcoming {
+  background-color: #fffbe6;
+}
+ 
+tr.completed {
+  background-color: #f8f8f8;
+  color: gray;
+}
+ 
+/* Modal styling */
+.modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.3);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1050;
+}
+ 
+.modal-content {
+  background: #fff;
+  padding: 1.5rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+}
+ 
+/* Filter table styling */
+.table.filter-table th,
+.table.filter-table td {
+  vertical-align: middle;
+  text-align: center;
+}
+ 
+.table.filter-table input,
+.table.filter-table select {
+  width: 100%;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+ 
+.table.filter-table button {
+  padding: 0.5rem 1rem;
+}
+ 
+/* Product Details Styling */
+.card-title {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 1rem;
+}
+ 
+.card .row {
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+ 
+.card .row .col-sm-4 {
+  font-weight: 500;
+}
+ 
+.card .btn {
+  margin-top: 1rem;
+}
+ 
+ 
+ 
+ 
