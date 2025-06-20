@@ -1,361 +1,191 @@
-<!-- <div class="admin-container">
-  <h3>Products Registered for Auction</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Start Price</th>
-          <th>Category</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let product of products">
-          <td>{{ product.title }}</td>
-          <td>{{ product.description }}</td>
-          <td>{{ product.startPrice }}</td>
-          <td>{{ product.category }}</td>
-          <td>{{ product.status }}</td>
-          <td>
-            <button (click)="openAuctionForm(product)">Create Auction</button>
-            <button (click)="openProductForm(product)">Update Product</button>
-            <button (click)="deleteProduct(product.productId)">Delete Product</button>
-          </td>
-        </tr>
-      </tbody> -->
-    <!-- </table> -->
-      <!-- Auction Form -->  
-    <!-- <div *ngIf="showAuctionForm"> -->
-      <!-- <h4>Create Auction</h4>
-      <form [formGroup]="auctionForm" (ngSubmit)="submitAuctionForm()">
-        <label>Start Date:</label>
-        <input type="datetime-local" formControlName="startDate" required /><label>End Date:</label>
-    <input type="datetime-local" formControlName="endDate" required />
-   
-    <label>Start Price:</label>
-    <input type="number" formControlName="startPrice" required />
-   
-    <button type="submit">Create</button>
-    <button type="button" (click)="cancelAuctionForm()">Cancel</button>
-  </form> -->
-   
-    <!-- </div>   -->
-    <!-- Product Update Form -->  
-    <!-- <div *ngIf="showProductForm"> -->
-      <!-- <h4>Update Product</h4>
-      <form [formGroup]="productForm" (ngSubmit)="submitProductForm()">
-        <label>Title:</label>
-        <input type="text" formControlName="title" required /><label>Description:</label>
-    <input type="text" formControlName="description" required />
-   
-    <label>Start Price:</label>
-    <input type="number" formControlName="startPrice" required />
-   
-    <label>Category:</label>
-    <input type="text" formControlName="category" required />
-   
-    <button type="submit">Update</button>
-    <button type="button" (click)="cancelProductForm()">Cancel</button>
-  </form>
-   
-    </div>  <h3>Upcoming Auctions</h3>
-    <table>
-      <thead>
-        <tr>
-          <th>Product ID</th>
-          <th>Start Date</th>
-          <th>End Date</th>
-          <th>Current Bid</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let auction of auctions">
-          <td>{{ auction.productId }}</td>
-          <td>{{ auction.startDate | date:'short' }}</td>
-          <td>{{ auction.endDate | date:'short' }}</td>
-          <td>{{ auction.currentBid }}</td>
-          <td>{{ auction.status }}</td>
-          <td>
-            <button (click)="openAuctionUpdateForm(auction)">Update</button>
-            <button (click)="deleteAuction(auction.auctionId)">Delete</button>
-          </td>
-        </tr>
-      </tbody> -->
-    <!-- </table>   -->
-    <!-- Auction Update Form -->  
-    <!-- <div *ngIf="showAuctionUpdateForm"> -->
-      <!-- <h4>Update Auction</h4>
-      <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
-        <label>Start Date:</label>
-        <input type="datetime-local" formControlName="startDate" required /><label>End Date:</label>
-    <input type="datetime-local" formControlName="endDate" required />
-   
-    <label>Status:</label>
-    <input type="text" formControlName="status" required />
-   
-    <button type="submit">Update</button>
-    <button type="button" (click)="cancelAuctionUpdateForm()">Cancel</button>
-  </form>
-   
-    </div>
-  </div> -->
-   
-  <div class="container mt-4">
-    <h3 class="text-center mb-4">Products Registered for Auction</h3>
-    <div class="table-responsive">
-      <table class="table table-striped table-hover shadow-sm">
-        <thead class="table-dark">
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Start Price</th>
-            <th>Category</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let product of products">
-            <td>{{ product.title }}</td>
-            <td>{{ product.description }}</td>
-            <td>{{ product.startPrice }}</td>
-            <td>{{ product.category }}</td>
-            <td>{{ product.status }}</td>
-            <td>
-              <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-info btn-sm me-2" (click)="openAuctionForm(product)">Create Auction</button>
-                <button class="btn btn-primary btn-sm me-2" (click)="openProductForm(product)">Update Product</button>
-                <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.productId)">Delete Product</button>
-              </div>
-      </table>
-    </div>
- 
-    <!-- Create Auction Form -->
-    <div *ngIf="showAuctionForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto" style="max-width: 600px;">
-      <h4 class="card-title text-center mb-4">Create Auction</h4>
-      <form [formGroup]="auctionForm" (ngSubmit)="submitAuctionForm()">
-        <div class="mb-3">
-          <label for="auctionStartDate" class="form-label">Start Date:</label>
-          <input type="datetime-local" id="auctionStartDate" formControlName="startDate" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label for="auctionEndDate" class="form-label">End Date:</label>
-          <input type="datetime-local" id="auctionEndDate" formControlName="endDate" class="form-control" required />
-        </div>
-        <div class="mb-4">
-          <label for="auctionStartPrice" class="form-label">Start Price:</label>
-          <input type="number" id="auctionStartPrice" formControlName="startPrice" class="form-control" required />
-        </div>
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-success btn-lg">Create</button>
-          <button type="button" class="btn btn-secondary btn-lg" (click)="cancelAuctionForm()">Cancel</button>
-        </div>
-      </form>
-    </div>
- 
-    <!-- Update Product Form -->
-    <div *ngIf="showProductForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto" style="max-width: 600px;">
-      <h4 class="card-title text-center mb-4">Update Product</h4>
-      <form [formGroup]="productForm" (ngSubmit)="submitProductForm()">
-        <div class="mb-3">
-          <label for="productTitle" class="form-label">Title:</label>
-          <input type="text" id="productTitle" formControlName="title" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label for="productDescription" class="form-label">Description:</label>
-          <input type="text" id="productDescription" formControlName="description" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label for="productStartPrice" class="form-label">Start Price:</label>
-          <input type="number" id="productStartPrice" formControlName="startPrice" class="form-control" required />
-        </div>
-        <div class="mb-4">
-          <label for="productCategory" class="form-label">Category:</label>
-          <input type="text" id="productCategory" formControlName="category" class="form-control" required />
-        </div>
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-success btn-lg">Update</button>
-          <button type="button" class="btn btn-secondary btn-lg" (click)="cancelProductForm()">Cancel</button>
-        </div>
-      </form>
-    </div>
- 
-    <!-- Upcoming Auctions -->
-    <h3 class="text-center mb-4 mt-5">Upcoming Auctions</h3>
-    <div class="table-responsive">
-      <table class="table table-striped table-hover shadow-sm">
-        <thead class="table-dark">
-          <tr>
-            <th>Product ID</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Current Bid</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let auction of auctions">
-            <td>{{ auction.productId }}</td>
-            <td>{{ auction.startDate | date:'short' }}</td>
-            <td>{{ auction.endDate | date:'short' }}</td>
-            <td>{{ auction.currentBid }}</td>
-            <td>{{ auction.status }}</td>
-            <td>
-              <div class="d-grid gap-2 d-md-block">
-                <button class="btn btn-primary btn-sm me-2" (click)="openAuctionUpdateForm(auction)">Update</button>
-                <button class="btn btn-danger btn-sm" (click)="deleteAuction(auction.auctionId)">Delete</button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
- 
-    <!-- Update Auction Form -->
-    <div *ngIf="showAuctionUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto" style="max-width: 600px;">
-      <h4 class="card-title text-center mb-4">Update Auction</h4>
-      <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
-        <div class="mb-3">
-          <label for="updateStartDate" class="form-label">Start Date:</label>
-          <input type="datetime-local" id="updateStartDate" formControlName="startDate" class="form-control" required />
-        </div>
-        <div class="mb-3">
-          <label for="updateEndDate" class="form-label">End Date:</label>
-          <input type="datetime-local" id="updateEndDate" formControlName="endDate" class="form-control" required />
-        </div>
-        <div class="mb-4">
-          <label for="updateStatus" class="form-label">Status:</label>
-          <input type="text" id="updateStatus" formControlName="status" class="form-control" required />
-        </div>
-        <div class="d-grid gap-2">
-          <button type="submit" class="btn btn-success btn-lg">Update</button>
-          <button type="button" class="btn btn-secondary btn-lg" (click)="cancelAuctionUpdateForm()">Cancel</button>
-        </div>
-      </form>
-    </div>
- 
-    <!-- Registered Users Section -->
-<h3 class="text-center mb-4 mt-5">Registered Users in Bid Master</h3>
-<div class="table-responsive">
-  <table class="table table-striped table-hover shadow-sm">
-    <thead class="table-dark">
-      <tr>
-        <th>User ID</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Role</th>
-        <th>Contact Number</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let user of users">
-        <td>{{ user.userId }}</td>
-        <td>{{ user.name }}</td>
-        <td>{{ user.email }}</td>
-        <td>{{ user.role }}</td>
-        <td>{{ user.contactNumber }}</td>
-        <td>
-          <div class="d-grid gap-2 d-md-block"> 
-            <button class="btn btn-primary btn-sm" (click)="openUserUpdateForm(user)">Update</button>
-            <button class="btn btn-danger btn-sm me-2" (click)="deleteUser(user.email)">Delete</button>
+<div class="container mt-4">
+  <h3 class="text-center mb-4">Products Registered for Auction</h3>
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let product of products">
+      <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
+        <img 
+          *ngIf="product.imageUrls && product.imageUrls.length > 0" 
+          [src]="product.imageUrls[0]" 
+          class="card-img-top" 
+          alt="{{ product.title }}" 
+          style="height: 200px; object-fit: cover;"
+        />
+        <div class="card-body">
+          <h5 class="card-title">{{ product.title }}</h5>
+          <p class="card-text small">{{ product.description }}</p>
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Price:</strong> ₹{{ product.startPrice }}</li>
+            <li class="list-group-item"><strong>Category:</strong> {{ product.category }}</li>
+            <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-info">{{ product.status }}</span></li>
+          </ul>
+          <div class="d-grid gap-2">
+            <button class="btn btn-info btn-sm" (click)="openAuctionForm(product)">Create Auction</button>
+            <button class="btn btn-primary btn-sm" (click)="openProductForm(product)">Update Product</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.productId)">Delete Product</button>
           </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
- 
-<!-- Update User Form -->
-<div *ngIf="showUserUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto" style="max-width: 600px;">
-  <h4 class="card-title text-center mb-4">Update User</h4>
-  
-  <form [formGroup]="userUpdateForm" (ngSubmit)="submitUserUpdateForm()">
-    
-    <!-- Email (Read-only) -->
-    <div class="mb-3">
-      <label for="userEmail" class="form-label">Email:</label>
-      <input type="email" id="userEmail" formControlName="email" class="form-control" readonly />
+        </div>
+      </div>
     </div>
-
-    <!-- Name -->
-    <div class="mb-3">
-      <label for="userName" class="form-label">Name:</label>
-      <input type="text" id="userName" formControlName="name" class="form-control" required />
-    </div>
-
-    <!-- Contact Number -->
-    <div class="mb-3">
-      <label for="userContact" class="form-label">Contact Number:</label>
-      <input type="text" id="userContact" formControlName="contactNumber" class="form-control" required />
-    </div>
-
-    <!-- Password -->
-    <div class="mb-4">
-      <label for="userPassword" class="form-label">Password:</label>
-      <input type="password" id="userPassword" formControlName="password" class="form-control" required />
-    </div>
-
-    <!-- Buttons -->
-    <div class="d-grid gap-2">
-      <button type="submit" class="btn btn-success btn-lg">Update</button>
-      <button type="button" class="btn btn-secondary btn-lg" (click)="cancelUserUpdateForm()">Cancel</button>
-    </div>
-  </form>
+  </div>
 </div>
 
  
-    <!-- Delete User Section Styled Like a Title Row -->
-<!-- <div class="table-responsive mt-5">
-  <table class="table table-striped table-hover shadow-sm">
-    <thead class="table-dark">
-      <tr>
-        <th colspan="6" class="text-center">Delete User</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr> -->
-        <!-- <td colspan="6">
-          <div class="d-flex justify-content-center align-items-center gap-3">
-            <input
-              type="email"
-              [(ngModel)]="userEmailToDelete"
-              placeholder="Enter user email"
-              class="form-control"
-              style="max-width: 300px;"
-            /> -->
-            <!-- <button
-              class="btn btn-danger"
-              [disabled]="!userEmailToDelete"
-              (click)="deleteUserByEmail()"
-            >
-              Delete User
-            </button>
-          </div>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div> -->
- 
- 
- 
- 
-<!-- Toast Notification -->
-<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" *ngIf="showToast">
-   <div class="toast align-items-center text-white {{ toastColor }} border-0 show">
-   <div class="d-flex">
-   <div class="toast-body">
-   {{ toastMessage }}
-   </div>
-   </div>
-   </div>
+  <div *ngIf="showAuctionForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
+    <h4 class="card-title text-center mb-4">Create Auction</h4>
+    <form [formGroup]="auctionForm" (ngSubmit)="submitAuctionForm()">
+      <div class="mb-3">
+        <label for="auctionStartDate" class="form-label">Start Date:</label>
+        <input type="datetime-local" id="auctionStartDate" formControlName="startDate" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="auctionEndDate" class="form-label">End Date:</label>
+        <input type="datetime-local" id="auctionEndDate" formControlName="endDate" class="form-control" required />
+      </div>
+      <div class="mb-4">
+        <label for="auctionStartPrice" class="form-label">Start Price:</label>
+        <input type="number" id="auctionStartPrice" formControlName="startPrice" class="form-control" required />
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success btn-lg">Create</button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="cancelAuctionForm()">Cancel</button>
+      </div>
+    </form>
   </div>
  
+  <div *ngIf="showProductForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
+    <h4 class="card-title text-center mb-4">Update Product</h4>
+    <form [formGroup]="productForm" (ngSubmit)="submitProductForm()">
+      <div class="mb-3">
+        <label for="productTitle" class="form-label">Title:</label>
+        <input type="text" id="productTitle" formControlName="title" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="productDescription" class="form-label">Description:</label>
+        <input type="text" id="productDescription" formControlName="description" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="productStartPrice" class="form-label">Start Price:</label>
+        <input type="number" id="productStartPrice" formControlName="startPrice" class="form-control" required />
+      </div>
+      <div class="mb-4">
+        <label for="productCategory" class="form-label">Category:</label>
+        <input type="text" id="productCategory" formControlName="category" class="form-control" required />
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success btn-lg">Update</button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="cancelProductForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
  
+  <hr class="my-5">
+ 
+  <h3 class="text-center mb-4">Upcoming Auctions</h3>
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let auction of auctions">
+      <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
+        <div class="card-body">
+          <h5 class="card-title">Auction Details</h5>
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>Product ID:</strong> {{ auction.productId }}</li>
+            <li class="list-group-item"><strong>Starts:</strong> {{ auction.startDate | date:'short' }}</li>
+            <li class="list-group-item"><strong>Ends:</strong> {{ auction.endDate | date:'short' }}</li>
+            <li class="list-group-item"><strong>Current Bid:</strong> ₹{{ auction.currentBid }}</li>
+            <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-warning">{{ auction.status }}</span></li>
+          </ul>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-sm" (click)="openAuctionUpdateForm(auction)">Update</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteAuction(auction.auctionId)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div *ngIf="showAuctionUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
+    <h4 class="card-title text-center mb-4">Update Auction</h4>
+    <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
+      <div class="mb-3">
+        <label for="updateStartDate" class="form-label">Start Date:</label>
+        <input type="datetime-local" id="updateStartDate" formControlName="startDate" class="form-control" required />
+      </div>
+      <div class="mb-3">
+        <label for="updateEndDate" class="form-label">End Date:</label>
+        <input type="datetime-local" id="updateEndDate" formControlName="endDate" class="form-control" required />
+      </div>
+      <div class="mb-4">
+        <label for="updateStatus" class="form-label">Status:</label>
+        <input type="text" id="updateStatus" formControlName="status" class="form-control" required />
+      </div>
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success btn-lg">Update</button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="cancelAuctionUpdateForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+ 
+  <hr class="my-5">
+ 
+  <h3 class="text-center mb-4">Registered Users in Bid Master</h3>
+  <div class="row">
+    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let user of users">
+      <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
+        <div class="card-body">
+          <h5 class="card-title">{{ user.name }}</h5>
+          <ul class="list-group list-group-flush mb-3">
+            <li class="list-group-item"><strong>User ID:</strong> {{ user.userId }}</li>
+            <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+            <li class="list-group-item"><strong>Role:</strong> <span class="badge bg-secondary">{{ user.role }}</span></li>
+            <li class="list-group-item"><strong>Contact:</strong> {{ user.contactNumber }}</li>
+          </ul>
+          <div class="d-grid gap-2">
+            <button class="btn btn-primary btn-sm" (click)="openUserUpdateForm(user)">Update</button>
+            <button class="btn btn-danger btn-sm" (click)="deleteUser(user.email)">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+ 
+  <div *ngIf="showUserUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
+    <h4 class="card-title text-center mb-4">Update User</h4>
+ 
+    <form [formGroup]="userUpdateForm" (ngSubmit)="submitUserUpdateForm()">
+ 
+      <div class="mb-3">
+        <label for="userEmail" class="form-label">Email:</label>
+        <input type="email" id="userEmail" formControlName="email" class="form-control" readonly />
+      </div>
+ 
+      <div class="mb-3">
+        <label for="userName" class="form-label">Name:</label>
+        <input type="text" id="userName" formControlName="name" class="form-control" required />
+      </div>
+ 
+      <div class="mb-3">
+        <label for="userContact" class="form-label">Contact Number:</label>
+        <input type="text" id="userContact" formControlName="contactNumber" class="form-control" required />
+      </div>
+ 
+      <div class="mb-4">
+        <label for="userPassword" class="form-label">Password:</label>
+        <input type="password" id="userPassword" formControlName="password" class="form-control" required />
+      </div>
+ 
+      <div class="d-grid gap-2">
+        <button type="submit" class="btn btn-success btn-lg">Update</button>
+        <button type="button" class="btn btn-secondary btn-lg" (click)="cancelUserUpdateForm()">Cancel</button>
+      </div>
+    </form>
+  </div>
+ 
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" *ngIf="showToast">
+  <div class="toast align-items-center text-white {{ toastColor }} border-0 show">
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+    </div>
+  </div>
+</div>
  

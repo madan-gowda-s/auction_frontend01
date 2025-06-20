@@ -45,60 +45,60 @@
         <p class="text-danger mt-3 text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
       </div>
     
-      <!-- Product Listings -->
-      <div *ngIf="productResponses.length > 0" class="product-list mt-5">
-        <h3 class="text-center mb-4">📋My Product Listings</h3>
-        <div class="table-responsive">
-          <table class="table table-striped table-hover shadow-sm">
-            <thead class="table-dark">
-              <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Start Price</th>
-                <th>Category</th>
-                <th>Status</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let p of productResponses">
-                <td>{{ p.title }}</td>
-                <td>{{ p.description }}</td>
-                <td>₹{{ p.startPrice }}</td>
-                <td>{{ p.category }}</td>
-                <td>{{ p.status }}</td>
-              </tr>
-            </tbody>
-          </table>
+      <!-- Product Listings as Cards -->
+<div *ngIf="productResponses.length > 0" class="product-list mt-5">
+  <h3 class="text-center mb-4">📋My Product Listings</h3>
+  <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+    <div class="col" *ngFor="let p of productResponses">
+      <div class="card h-100 shadow-sm">
+        <img [src]="p.imageUrls[0]" class="card-img-top" alt="{{ p.title }}" *ngIf="p.imageUrls && p.imageUrls.length > 0">
+        <div class="card-body">
+          <h5 class="card-title">{{ p.title }}</h5>
+          <p class="card-text">{{ p.description }}</p>
+          <p class="mb-1"><strong>Start Price:</strong> ₹{{ p.startPrice }}</p>
+          <p class="mb-1"><strong>Category:</strong> {{ p.category }}</p>
+          <p class="mb-0"><strong>Status:</strong> {{ p.status }}</p>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
 
-       <!-- Seller Profile -->
-       <div *ngIf="userProfile" class="table-responsive mb-4">
-        <h4 class="text-primary">👤Your Profile</h4>
-        <table class="table table-bordered">
-          <thead class="table-dark">
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Contact Number</th>
-              <th>Role</th>
-              <th>Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>{{ userProfile.name }}</td>
-              <td>{{ userProfile.email }}</td>
-              <td>{{ userProfile.contactNumber }}</td>
-              <td>{{ userProfile.role }}</td>
-              <td>
-                <button class="btn btn-outline-primary btn-sm" (click)="openProfileForm()">Update Profile</button>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+
+<h3 class="text-center text-black mb-4">Your Profile</h3>
+ 
+<div class="card bg-dark text-white shadow-lg mx-auto border-secondary" style="max-width: 600px;">
+  <div class="card-header bg-secondary text-white">
+    <h5 class="mb-0">
+{{ userProfile.name }}
+    </h5>
+  </div>
+  <div class="card-body">
+   
+    <p class="mb-2">
+      <i class="bi bi-envelope-fill me-2 text-warning"></i>
+      <span class="fw-semibold">Email:</span>
+{{ userProfile.email }}
+    </p>
+   
+    <p class="mb-2">
+      <i class="bi bi-telephone-fill me-2 text-success"></i>
+      <span class="fw-semibold">Contact:</span>
+      {{ userProfile.contactNumber }}
+    </p>
+   
+    <p class="mb-3">
+      <i class="bi bi-person-badge-fill me-2 text-danger"></i>
+      <span class="fw-semibold">Role:</span>
+      {{ userProfile.role }}
+    </p>
+ 
+    <div class="text-end">
+      <button class="btn btn-outline-info btn-sm" (click)="openProfileForm()">Update Profile</button>
+    </div>
+  </div>
+</div>
     
       <!-- Angular Modal -->
       <div *ngIf="showProfileModal" class="modal-backdrop fade show" style="z-index: 1040;"></div>
