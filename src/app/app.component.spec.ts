@@ -1,3 +1,5 @@
+// Sets up testing environment.
+
 import { TestBed } from '@angular/core/testing';
 import { AppComponent } from './app.component';
 
@@ -8,11 +10,15 @@ describe('AppComponent', () => {
     }).compileComponents();
   });
 
+  // Initializes component before each test.
+
   it('should create the app', () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
     expect(app).toBeTruthy();
   });
+
+  // Checks if component is created.
 
   it(`should have the 'auctionfrontend' title`, () => {
     const fixture = TestBed.createComponent(AppComponent);

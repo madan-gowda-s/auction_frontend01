@@ -1,51 +1,33 @@
-<!-- <nav style="position: fixed; top: 0; left: 0; right: 0; background-color: #333; color: white; display: flex; justify-content: space-between; padding: 1rem; z-index: 1000;">
-  <div><strong>Bid Master</strong></div>
- 
-  <div>
-    <span *ngIf="isLoggedIn" style="margin-right: 10px;">
-      Welcome, {{ userName }} ({{ userRole }})
-    </span>
- 
-    <button *ngIf="!isLoggedIn" routerLink="/register" style="margin-right: 10px;">
-      Register
-    </button>
-    <button *ngIf="!isLoggedIn" routerLink="/login" style="margin-right: 10px;">
-      Login
-    </button>
- 
-    <button *ngIf="isLoggedIn" (click)="logout()">
-      Logout
-    </button>
-  </div>
-</nav>
- 
-<div style="margin-top: 70px; padding: 1rem;">
-  <router-outlet></router-outlet>
-</div>
- 
-<footer style="text-align: center; padding: 1rem; background-color: #f2f2f2; margin-top: 2rem;">
-  © 2025 Bid Master. All rights reserved.
-</footer>
-  -->
+<!-- Wrapper for full-page layout. -->
+<div class="page-wrapper d-flex flex-column min-vh-100">
 
-  <div class="page-wrapper d-flex flex-column min-vh-100">
     <!-- Header -->
+    
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
       <div class="container-fluid">
+
         <a class="navbar-brand" routerLink="/">BidMaster</a>
+
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
           aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
+
         <div class="collapse navbar-collapse" id="navbarContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+
             <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
+
               <li class="nav-item">
                 <a class="btn btn-outline-light me-2" routerLink="/register">Register</a>
               </li>
+
               <li class="nav-item">
                 <a class="btn btn-outline-light" routerLink="/login">Login</a>
               </li>
+
+            <!-- Shows logout button only if logged in. -->
+
             </ng-container>
             <ng-template #loggedInBlock>
               <li class="nav-item">
@@ -58,22 +40,27 @@
     </nav>
    
     <!-- Welcome message -->
+
     <div class="welcome-message text-center mt-3" *ngIf="userName">
       👋 Welcome, {{ userName }}!
     </div>
    
     <!-- Main content -->
+
     <div class="main-content container flex-grow-1 mt-4">
+
       <router-outlet></router-outlet>
+      
     </div>
    
     <!-- Footer -->
+
     <footer class="bg-dark text-white text-center py-4 border-top">
       <div class="container">
         <p class="mb-1">&copy; 2025 <strong>BidMaster</strong>. All rights reserved.</p>
         <small class="text-muted">Your trusted online auction platform.</small>
       </div>
     </footer>
-  </div>
+</div>
    
    

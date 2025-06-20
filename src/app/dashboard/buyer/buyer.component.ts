@@ -1,157 +1,10 @@
-// import { Component, effect, inject, signal } from '@angular/core';
-// import { CommonModule } from '@angular/common';
-// import { HttpClient } from '@angular/common/http';
-// import { Router } from '@angular/router';
-// import { FormsModule } from '@angular/forms';
- 
-// interface Auction {
-//   auctionId: number;
-//   productId: number;
-//   title: string;
-//   startDate: string;
-//   endDate: string;
-//   currentBid: number;
-//   status: string;
-// }
- 
-// interface Product {
-//   productId: number;
-//   title: string;
-//   description: string;
-//   startPrice: number;
-//   category: string;
-//   status: string;
-//   imageUrls: string[];
-// }
- 
-// @Component({
-//   selector: 'app-buyer',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './buyer.component.html',
-//   styleUrl: './buyer.component.css',
-// })
-// export class BuyerComponent {
-//   private http = inject(HttpClient);
-//   private router = inject(Router);
- 
-//   auctions = signal<Auction[]>([]);
-//   filteredAuctions = signal<Auction[]>([]);
-//   products = signal<Product[]>([]);
-//   selectedProduct = signal<Product | null>(null);
-//   showProductDetails = signal(false);
-//   noAuctionsFound = signal(false);
-//   filterMode = signal(false);
- 
-//   // Filter model
-//   filterData = {
-//     category: '',
-//     minBid: 0,
-//     maxBid: 100000,
-//     timeLeftInHours: 24,
-//     status: 'Available'
-//   };
- 
-//   constructor() {
-//     this.fetchAuctions();
-//     this.fetchProducts();
-//   }
- 
-//   fetchAuctions() {
-//     this.http.get<Auction[]>('https://localhost:7046/api/Auction/all').subscribe({
-//       next: (res) => {
-//         this.auctions.set(res);
-//         this.filteredAuctions.set(res);
-//         this.noAuctionsFound.set(res.length === 0);
-//       },
-//       error: (err) => console.error('Error fetching auctions:', err)
-//     });
-//   }
- 
-//   fetchProducts() {
-//     const token = localStorage.getItem('token');
-//     this.http.get<Product[]>('https://localhost:7046/api/Product/all', {
-//       headers: { Authorization: `Bearer ${token}` }
-//     }).subscribe({
-//       next: (res) => this.products.set(res),
-//       error: (err) => console.error('Error fetching products:', err)
-//     });
-//   }
-
-//   getAuctionStatus(auction: Auction): 'live' | 'upcoming' | 'completed' {
-//     const now = new Date();
-//     const start = new Date(auction.startDate);
-//     const end = new Date(auction.endDate);
- 
-//     if (now >= start && now <= end) return 'live';
-//     if (now < start) return 'upcoming';
-//     return 'completed';
-//   }
- 
-//   viewProduct(productId: number) {
-//     const product = this.products().find(p => p.productId === productId);
-//     if (product) {
-//       this.selectedProduct.set(product);
-//       this.showProductDetails.set(true);
-//     }
-//   }
- 
-//   backToList() {
-//     this.showProductDetails.set(false);
-//     this.selectedProduct.set(null);
-//   }
- 
-//   applyFilters() {
-//     this.filterMode.set(true);
-//     const token = localStorage.getItem('token');
- 
-//     this.http.post<Auction[]>(
-//       'https://localhost:7046/api/Auction/filter',
-//       this.filterData,
-//       {
-//         headers: {
-//           Authorization: `Bearer ${token}`,
-//           'Content-Type': 'application/json'
-//         }
-//       }
-//     ).subscribe({
-//       next: (res) => {
-//         this.filteredAuctions.set(res);
-//         this.noAuctionsFound.set(res.length === 0);
-//       },
-//       error: (err) => console.error('Error applying filter:', err)
-//     });
-//   }
- 
-//   resetFilter() {
-//     this.filterMode.set(false);
-//     this.fetchAuctions();
-//   }
- 
-//   // bidNow(auctionId: number) {
-//   //   this.router.navigate(['/auction/dashboard'], { queryParams: { id: auctionId } });
-//   // }
-
-//   bidNow(auctionId: number) {
-//     const auction = this.auctions().find(a => a.auctionId === auctionId);
-//     const product = this.products().find(p => p.productId === auction?.productId);
-  
-//     if (auction && product) {
-//       this.router.navigate(['/auction/dashboard'], {
-//         state: { auction, product }
-//       });
-//     }
-//   }
-  
-  
-// }
-
-
 import { Component, inject, signal } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+
+//Define the structure of auction and product objects for type safety.
 
 interface Auction {
   auctionId: number;
@@ -183,6 +36,8 @@ interface Product {
 export class BuyerComponent {
   private http = inject(HttpClient);
   private router = inject(Router);
+
+  //Reactive variable	Automatically updates UI when changed
 
   auctions = signal<Auction[]>([]);
   filteredAuctions = signal<Auction[]>([]);
@@ -370,7 +225,7 @@ export class BuyerComponent {
     }
   }
 
-  showProfileModal = signal(false);
+showProfileModal = signal(false);
 
 profileForm = {
   name: '',
@@ -392,9 +247,6 @@ closeProfileForm() {
   this.showProfileModal.set(false);
 }
 
-  
-  
-  
 submitProfileUpdate() {
   const token = localStorage.getItem('token');
   if (!token) return;
@@ -412,7 +264,7 @@ submitProfileUpdate() {
       Authorization: `Bearer ${token}`,
       'Content-Type': 'application/json'
     },
-    responseType: 'text' as const  // ✅ This tells Angular to treat response as plain text
+    responseType: 'text' as const  
   }).subscribe({
     next: () => {
       this.showSuccessAlert.set(true);
@@ -422,10 +274,7 @@ submitProfileUpdate() {
     },
     error: (err: any) => console.error('Error updating profile:', err)
   });
-}
-
-  
-  
+}  
 }
 
  

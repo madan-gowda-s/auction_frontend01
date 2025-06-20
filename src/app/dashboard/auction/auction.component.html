@@ -111,6 +111,18 @@
     </div>
     </div>
     </div>
+
+    <div *ngIf="showReminder" class="text-warning mt-2 blink">
+      {{ auctionReminderMessage }}
+    </div>
+    
+    
+
+    <div class="text-center mb-4">
+      <h5 class="text-muted">⏳ Time Remaining:</h5>
+      <h3 class="text-danger">{{ timeRemaining }}</h3>
+    </div>
+    
      
         <div class="mb-4 text-center">
     <div class="card p-3 mb-3 bg-info text-white shadow-sm d-block mx-auto" style="max-width: 250px;">
@@ -150,10 +162,10 @@
     </div>
     </div>
      
-        <div *ngIf="auctionEnded && !isWinner" class="alert alert-warning text-center shadow-sm mb-4">
-    
-            Your bid is lower than the highest. Bidding is closed.
+    <div *ngIf="auctionEnded && bidMessage === 'Your bid is lower than the highest. Bidding is closed.'" class="alert alert-warning text-center shadow-sm mb-4">
+      {{ bidMessage }}
     </div>
+    
      
         <div class="card shadow-sm mb-4">
     <div class="card-header bg-dark text-white">

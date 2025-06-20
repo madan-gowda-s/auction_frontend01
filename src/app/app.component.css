@@ -1,49 +1,7 @@
-/* .navbar {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #222;
-    color: white;
-    padding: 1rem;
-    position: fixed;
-    top: 0;
-    width: 100%;
-    z-index: 1000;
-  }
-   
-  .navbar h1 {
-    margin: 0;
-  }
-   
-  .navbar-right button {
-    margin-left: 1rem;
-    padding: 0.5rem 1rem;
-    cursor: pointer;
-  }
-   
-  .welcome-message {
-    margin-top: 80px; 
-    padding: 1rem;
-    font-weight: bold;
-    color: #333;
-    text-align: center;
-  }
-   
-  .main-content {
-    margin-top: 20px;
-    padding: 1rem;
-    min-height: 70vh;
-  }
-   
-  footer {
-    text-align: center;
-    padding: 1rem;
-    background-color: #f2f2f2;
-    color: #666;
-  } */
-   
+  
   /* Navbar container */
-.navbar {
+  .navbar 
+{
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -55,14 +13,16 @@
   top: 0;
   z-index: 1000;
 }
-.navbar-brand {
+.navbar-brand 
+{
   font-size: 1.8rem;
   font-weight: bold;
   color: #e5ebec !important;
   transition: transform 0.3s ease, color 0.3s ease;
 }
  
-.navbar-brand:hover {
+.navbar-brand:hover 
+{
   transform: scale(1.1);
   color: #f09090 !important;
 }
@@ -70,7 +30,8 @@
  
  
 /* Logo styling */
-.navbar-left h1 {
+.navbar-left h1 
+{
   margin: 0;
   font-size: 1.8rem;
   color: #00bfff;
@@ -83,7 +44,8 @@
  
 /* Right side buttons */
 .navbar-right a button,
-.navbar-right button {
+.navbar-right button 
+{
   background-color: #00bfff;
   border: none;
   color: white;
@@ -96,13 +58,15 @@
 }
  
 .navbar-right a button:hover,
-.navbar-right button:hover {
+.navbar-right button:hover 
+{
   background-color: #009acd;
   transform: translateY(-2px);
 }
  
 /* Welcome message */
-.welcome-message {
+.welcome-message 
+{
   text-align: center;
   margin: 1rem 0;
   font-size: 1.2rem;
@@ -111,12 +75,14 @@
 }
  
 /* Main content */
-.main-content {
+.main-content 
+{
   padding: 2rem;
 }
  
 /* Footer */
-footer {
+footer 
+{
   text-align: center;
   padding: 1rem;
   background-color: #1a1a1a;
@@ -125,19 +91,23 @@ footer {
 }
  
 /* Animation */
-@keyframes fadeIn {
+@keyframes fadeIn 
+{
   from { opacity: 0; transform: translateY(-10px); }
   to { opacity: 1; transform: translateY(0); }
 }
  
 /* Responsive design */
-@media (max-width: 768px) {
-  .navbar {
+@media (max-width: 768px) 
+{
+  .navbar 
+  {
     flex-direction: column;
     align-items: flex-start;
   }
  
-  .navbar-right {
+  .navbar-right 
+  {
     margin-top: 1rem;
   }
 }

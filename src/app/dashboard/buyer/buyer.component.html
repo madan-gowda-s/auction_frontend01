@@ -1,70 +1,3 @@
-<!-- 
-<div class="buyer-container">
-  <h2 class="title">Filter Auctions</h2>
-
-  <div class="filter-section">
-    <input type="text" placeholder="Category" [(ngModel)]="filterData.category" />
-    <input type="number" placeholder="Min Bid" [(ngModel)]="filterData.minBid" />
-    <input type="number" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" />
-    <input type="number" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" />
-    <button (click)="applyFilters()">Apply Filter</button>
-    <button (click)="resetFilter()">↩ Back</button>
-  </div>
-
-  <div *ngIf="noAuctionsFound()" class="modal">
-    <div class="modal-content">
-      <p>No auctions available with selected filters. Try another.</p>
-      <button (click)="resetFilter()">Back</button>
-    </div>
-  </div>
-
-  <div *ngIf="showProductDetails() && selectedProduct()">
-    <h3>Product Details</h3>
-    <p><strong>Title:</strong> {{ selectedProduct()?.title }}</p>
-    <p><strong>Description:</strong> {{ selectedProduct()?.description }}</p>
-    <p><strong>Category:</strong> {{ selectedProduct()?.category }}</p>
-    <p><strong>Start Price:</strong> ₹{{ selectedProduct()?.startPrice }}</p>
-    <button (click)="backToList()">↩ Back</button>
-  </div>
-
-  <div *ngIf="!showProductDetails()">
-    <h2>Auctions</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Bid</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let auction of filteredAuctions()" [ngClass]="getAuctionStatus(auction)">
-          <td>{{ auction.title }}</td>
-          <td>{{ auction.startDate | date:'short' }}</td>
-          <td>{{ auction.endDate | date:'short' }}</td>
-          <td>₹{{ auction.currentBid }}</td>
-          <td>{{ getAuctionStatus(auction) }}</td>
-          <td>
-            <button 
-              *ngIf="getAuctionStatus(auction) !== 'completed' || winnerAuctions().includes(auction.auctionId)" 
-              (click)="viewProduct(auction.productId)">
-              View Product
-            </button>
-            <button *ngIf="getAuctionStatus(auction) === 'live'" (click)="bidNow(auction.auctionId)">Bid Now</button>
-            <button *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)" 
-                    (click)="goToPayment(auction.auctionId)">Make Payment
-            </button>
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-
 <!-- Success Alert -->
 <div *ngIf="showSuccessAlert()" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050;">
   Profile updated successfully!
@@ -117,7 +50,7 @@
       </thead>
       <tbody>
         <tr>
-          <td>{{ userProfile()?.name }}</td>
+          <td>{{ userProfile()?.name }}</td>  
           <td>{{ userProfile()?.email }}</td>
           <td>{{ userProfile()?.contactNumber }}</td>
           <td>{{ userProfile()?.role }}</td>
@@ -131,9 +64,8 @@
 </div>
 
 
-
-
 <!-- Filter Section -->
+
 <div class="container my-5 buyer-container">
   <h2 class="mb-4">Filter Auctions</h2>
   <div class="table-responsive mb-4">
@@ -176,12 +108,14 @@
   </div>
 
   <!-- No Auctions Found -->
+
   <div *ngIf="noAuctionsFound()" class="alert alert-warning text-center">
     <p>No auctions available with selected filters. Try another.</p>
     <button class="btn btn-outline-secondary mt-2" (click)="resetFilter()">Back</button>
   </div>
 
   <!-- Product Details -->
+
   <div *ngIf="showProductDetails() && selectedProduct()" class="container my-4">
     <h3 class="mb-3 text-primary">Product Details</h3>
     <div class="table-responsive mb-3">
@@ -208,6 +142,7 @@
   </div>
 
   <!-- Auction List -->
+
   <div *ngIf="!showProductDetails()" class="container my-4">
     <h2 class="mb-3 text-primary">Auctions</h2>
     <div class="table-responsive">

@@ -1,74 +1,3 @@
-// import { Component } from '@angular/core';
-// import { HttpClient, HttpHeaders } from '@angular/common/http';
-// import { CommonModule } from '@angular/common';
-// import { FormsModule } from '@angular/forms';
- 
-// @Component({
-//   selector: 'app-seller',
-//   standalone: true,
-//   imports: [CommonModule, FormsModule],
-//   templateUrl: './seller.component.html',
-//   styleUrls: ['./seller.component.css']
-// })
-// export class SellerComponent {
-//   sellerName = '';
-//   sellerEmail = '';
-//   productResponses: any[] = []; 
-//   errorMessage: string = '';
-//   product = {
-//     title: '',
-//     description: '',
-//     startPrice: null,
-//     category: '',
-//     sellerId: 0,
-//     imageUrls: ['']
-//   };
- 
-//   constructor(private http: HttpClient) {
-//     const token = localStorage.getItem('token');
-//     if (token) {
-//       const payload = JSON.parse(atob(token.split('.')[1]));
-//       this.sellerName = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name"];
-//       this.sellerEmail = payload["http://schemas.xmlsoap.org/ws/2005/05/identity/claims/emailaddress"];
-//       this.product.sellerId = 10; 
-//     }
-//   }
- 
-//   submitProduct() {
-//     this.errorMessage = '';
-//     const token = localStorage.getItem('token') || '';
-//     const headers = new HttpHeaders({
-//       'Content-Type': 'application/json',
-//       'Authorization': `Bearer ${token}`
-//     });
- 
-//     this.http.post('https://localhost:7046/api/Product', this.product, { headers }).subscribe({
-//       next: (res) => {
-//         this.productResponses.push(res); 
-//         this.product = {
-//           title: '',
-//           description: '',
-//           startPrice: null,
-//           category: '',
-//           sellerId: this.product.sellerId,
-//           imageUrls: ['']
-//         };
-//       },
-//       error: (err) => {
-//         if (err.status === 400 && err.error?.errors) {
-//           const errors = Object.values(err.error.errors).flat();
-//           this.errorMessage = errors.join(', ');
-//         } else {
-//           this.errorMessage = 'Product registration failed.';
-//         }
-//       }
-//     });
-//   }
-// }
- 
- 
-// 
-
 import { Component } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
@@ -82,20 +11,29 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./seller.component.css']
 })
 export class SellerComponent {
+
+  // User & Product State
+
   sellerName = '';
   sellerEmail = '';
   productResponses: any[] = [];
   errorMessage: string = '';
 
+  // Profile & Modal State
+
   userProfile: any = null;
   showProfileModal = false;
   showSuccessAlert = false;
+
+  // Profile Form Model
 
   profileForm = {
     name: '',
     contactNumber: '',
     password: ''
   };
+
+  // Product Form Model
 
   product = {
     title: '',
@@ -106,13 +44,17 @@ export class SellerComponent {
     imageUrls: ['']
   };
 
+  // Categories List
+
   categories: string[] = [
     'Electronics', 'Fashion', 'Home & Garden', 'Collectibles',
     'Sports & Outdoors', 'Books', 'Vehicles', 'Art', 'Other'
   ];
 
   constructor(private http: HttpClient) {
-    const token = localStorage.getItem('token');
+  const token = localStorage.getItem('token');
+
+
     if (token) {
       try {
         const payload = JSON.parse(atob(token.split('.')[1]));
@@ -124,7 +66,7 @@ export class SellerComponent {
             const user = users.find(u => u.email.toLowerCase() === this.sellerEmail.toLowerCase());
             if (user) {
               this.userProfile = user;
-              this.product.sellerId = user.userId; // ✅ Dynamically assign sellerId
+              this.product.sellerId = user.userId; 
             } else {
               this.errorMessage = "Seller profile not found.";
             }
@@ -146,8 +88,8 @@ export class SellerComponent {
 
   openProfileForm() {
     if (this.userProfile) {
-      this.profileForm.name = this.userProfile.name;
-      this.profileForm.contactNumber = this.userProfile.contactNumber;
+      this.profileForm.name = this.userProfile.name;   // Pre-fills the modal form with current profile data.
+      this.profileForm.contactNumber = this.userProfile.contactNumber;  //Pre-fills the modal form with current profile data.
       this.profileForm.password = '';
       this.showProfileModal = true;
     }

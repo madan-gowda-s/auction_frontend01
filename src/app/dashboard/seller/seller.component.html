@@ -1,71 +1,16 @@
-<!-- <div class="seller-container">
-    <h2>Welcome, {{ sellerName }}</h2>
-   
-    <div class="form-section">
-      <h3>Register Product for Auction</h3>
-   
-      <form (ngSubmit)="submitProduct()" #productForm="ngForm">
-        <label>Title:</label>
-        <input type="text" [(ngModel)]="product.title" name="title" required>
-   
-        <label>Description:</label>
-        <textarea [(ngModel)]="product.description" name="description" required></textarea>
-   
-        <label>Start Price (₹):</label>
-        <input type="number" [(ngModel)]="product.startPrice" name="startPrice" required>
-   
-        <label>Category:</label>
-        <input type="text" [(ngModel)]="product.category" name="category" required>
-
-        <label for = "imageUrl">Image URL:</label>
-        <input id="imageUrl" type="text" [(ngModel)]="product.imageUrls[0]" name="imageUrl" required>
-   
-        <button type="submit">Submit</button>
-      </form>
-   
-      <p class="error" *ngIf="errorMessage">{{ errorMessage }}</p>
-    </div> -->
-   
-    <!-- Product listing below the form -->
-    <!-- <div *ngIf="productResponses.length > 0" class="product-list">
-    <h3>My Product Listings</h3>
-   
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Description</th>
-          <th>Start Price</th>
-          <th>Category</th>
-          <th>Status</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let p of productResponses">
-          <td>{{ p.title }}</td>
-          <td>{{ p.description }}</td>
-          <td>₹{{ p.startPrice }}</td>
-          <td>{{ p.category }}</td>
-          <td>{{ p.status }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-    -->
-
-    <div class="container mt-4">
+<div class="container mt-4">
     
       <!-- Success Alert -->
+
       <div *ngIf="showSuccessAlert" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050;">
         Profile updated successfully!
       </div>
-    
-     
     
       <!-- Product Registration Form -->
       <div class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto" style="max-width: 600px;">
         <h3 class="card-title text-center mb-4 text-white">Register Product for Auction</h3>
         <form (ngSubmit)="submitProduct()" #productForm="ngForm">
+
           <div class="mb-3">
             <label for="productTitle" class="form-label">Title:</label>
             <input type="text" id="productTitle" [(ngModel)]="product.title" name="title" class="form-control" required>
@@ -102,7 +47,7 @@
     
       <!-- Product Listings -->
       <div *ngIf="productResponses.length > 0" class="product-list mt-5">
-        <h3 class="text-center mb-4">My Product Listings</h3>
+        <h3 class="text-center mb-4">📋My Product Listings</h3>
         <div class="table-responsive">
           <table class="table table-striped table-hover shadow-sm">
             <thead class="table-dark">
@@ -130,7 +75,7 @@
 
        <!-- Seller Profile -->
        <div *ngIf="userProfile" class="table-responsive mb-4">
-        <h4 class="text-primary">Your Profile</h4>
+        <h4 class="text-primary">👤Your Profile</h4>
         <table class="table table-bordered">
           <thead class="table-dark">
             <tr>
@@ -183,10 +128,7 @@
               <button type="button" class="btn btn-secondary" (click)="closeProfileForm()">Cancel</button>
             </div>
           </form>
-        </div>
       </div>
-
-
-
-    </div>
+  </div>
+</div>
     
