@@ -261,9 +261,9 @@
         <td>{{ user.role }}</td>
         <td>{{ user.contactNumber }}</td>
         <td>
-          <div class="d-grid gap-2 d-md-block">
-            <button class="btn btn-danger btn-sm me-2" (click)="deleteUser(user.email)">Delete</button>
+          <div class="d-grid gap-2 d-md-block"> 
             <button class="btn btn-primary btn-sm" (click)="openUserUpdateForm(user)">Update</button>
+            <button class="btn btn-danger btn-sm me-2" (click)="deleteUser(user.email)">Delete</button>
           </div>
         </td>
       </tr>
