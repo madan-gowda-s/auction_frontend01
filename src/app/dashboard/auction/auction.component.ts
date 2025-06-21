@@ -27,6 +27,8 @@ export class AuctionComponent implements OnInit {
   timeRemaining: string = '';
   auctionReminderMessage: string = '';
   showReminder: boolean = false;
+  bidStatusMessage: string = '';
+
 
   constructor(
     private router: Router,
@@ -111,28 +113,35 @@ export class AuctionComponent implements OnInit {
       this.bidMessage = 'Buyer ID not loaded. Please wait or login again.';
       return;
     }
-
+  
     const payload = {
       auctionId: this.auction.auctionId,
       buyerId: this.buyerId,
       amount: this.amount
     };
-
+  
     this.http.post('https://localhost:7046/api/Bid', payload, {
       headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
       responseType: 'text'
     }).subscribe({
       next: (res) => {
         this.bidMessage = res;
-        this.auction.currentBid = this.amount;
-        this.bidSuggestions = [this.amount + 5000, this.amount + 10000, this.amount + 15000];
-        this.fetchBidHistory();
+  
+        // Show bid placed message for 3 seconds
+        setTimeout(() => {
+          this.bidMessage = '';
+        }, 3000);
+  
+        this.fetchBidHistory(); // this will update currentBid and bidStatusMessage
       },
       error: (err) => {
         this.bidMessage = err.error || 'Bid must be higher than the current bid.';
+        this.bidStatusMessage = 'You are outbidded.';
       }
     });
   }
+  
+  
 
   fetchBidHistory() {
     const token = localStorage.getItem('token');
@@ -159,6 +168,7 @@ export class AuctionComponent implements OnInit {
               this.bidMessage = 'No bids yet. Be the first to place your bid!';
               this.auction.currentBid = this.product.startPrice;
               this.bidSuggestions = [this.product.startPrice + 5000, this.product.startPrice + 10000, this.product.startPrice + 15000];
+              this.bidStatusMessage = '';
               return;
             }
   
@@ -167,24 +177,31 @@ export class AuctionComponent implements OnInit {
             this.bidSuggestions = [highest + 5000, highest + 10000, highest + 15000];
   
             const highestBid = this.bidHistory.find(b => b.amount === highest);
-            const isCurrentUserHighestBidder = highestBid?.buyerId === this.buyerId;
-  
-            if (this.auctionEnded) {
-              const auctionEndTime = new Date(this.auction.endDate).getTime();
-            
-              const validBids = this.bidHistory.filter(b => new Date(b.bidTime).getTime() <= auctionEndTime);
-              const highestBeforeEnd = Math.max(...validBids.map(b => b.amount));
-              const winningBid = validBids.find(b => b.amount === highestBeforeEnd);
-              const isCurrentUserWinner = winningBid?.buyerId === this.buyerId;
-            
-              if (isCurrentUserWinner) {
-                this.isWinner = true;
-                this.bidMessage = 'You are the winner!';
-              } else {
-                this.isWinner = false;
-                this.bidMessage = 'Your bid is lower than the highest. Bidding is closed.';
-              }
-            }     
+const isCurrentUserHighestBidder = highestBid?.buyerId === this.buyerId;
+
+// Only show bid status if auction is still active
+if (!this.auctionEnded) {
+  this.bidStatusMessage = isCurrentUserHighestBidder
+    ? 'You are the highest bidder at present.'
+    : 'You are outbidded.';
+} else {
+  this.bidStatusMessage = ''; // Clear status message after auction ends
+}
+
+// Check winner only if auction has ended
+if (this.auctionEnded) {
+  const auctionEndTime = new Date(this.auction.endDate).getTime();
+  const validBids = this.bidHistory.filter(b => new Date(b.bidTime).getTime() <= auctionEndTime);
+  const highestBeforeEnd = Math.max(...validBids.map(b => b.amount));
+  const winningBid = validBids.find(b => b.amount === highestBeforeEnd);
+  const isCurrentUserWinner = winningBid?.buyerId === this.buyerId;
+
+  this.isWinner = isCurrentUserWinner;
+  this.bidMessage = isCurrentUserWinner
+    ? 'You are the winner!'
+    : 'Your bid is lower than the highest. Bidding is closed.';
+}
+
           },
           error: (err: any) => console.error('Error fetching bid history:', err)
         });
@@ -192,6 +209,7 @@ export class AuctionComponent implements OnInit {
       error: (err: any) => console.error('Error fetching users:', err)
     });
   }
+  
   
   sendAuctionReminders() {
     const now = new Date();

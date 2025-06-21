@@ -1,33 +1,49 @@
 <div class="container mt-4">
-  <h3 class="text-center mb-4">Products Registered for Auction</h3>
+  <h3 class="text-center mb-4 text-primary">Products Registered for Auction</h3>
   <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let product of products">
-      <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
-        <img 
-          *ngIf="product.imageUrls && product.imageUrls.length > 0" 
-          [src]="product.imageUrls[0]" 
-          class="card-img-top" 
-          alt="{{ product.title }}" 
-          style="height: 200px; object-fit: cover;"
-        />
-        <div class="card-body">
-          <h5 class="card-title">{{ product.title }}</h5>
-          <p class="card-text small">{{ product.description }}</p>
+      <div class="card h-100 shadow-lg border-0 animate__animated animate__fadeInUp">
+  
+        <!-- Image or Yellow Fallback -->
+        <ng-container *ngIf="product.imageUrls && product.imageUrls.length > 0; else noImage">
+          <img 
+            [src]="product.imageUrls[0]" 
+            class="card-img-top rounded-top" 
+            alt="{{ product.title }}" 
+            style="height: 200px; object-fit: cover;"
+          />
+        </ng-container>
+        <ng-template #noImage>
+          <div class="d-flex align-items-center justify-content-center bg-warning text-dark" style="height: 200px;">
+            <h5 class="text-center m-0 fw-bold">{{ product.title }}</h5>
+          </div>
+        </ng-template>
+  
+        <!-- Card Body -->
+        <div class="card-body bg-light">
+          <h5 class="card-title fw-bold">{{ product.title }}</h5>
+          <p class="card-text small text-muted">{{ product.description }}</p>
           <ul class="list-group list-group-flush mb-3">
             <li class="list-group-item"><strong>Price:</strong> ₹{{ product.startPrice }}</li>
             <li class="list-group-item"><strong>Category:</strong> {{ product.category }}</li>
-            <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-info">{{ product.status }}</span></li>
+            <li class="list-group-item">
+              <strong>Status:</strong>
+              <span class="fw-bold" [ngStyle]="{ 'color': product.status === 'Available' ? '#007bff' : '#6c757d' }">
+                {{ product.status }}
+              </span>
+            </li>
           </ul>
-          <div class="d-grid gap-2">
-            <button class="btn btn-info btn-sm" (click)="openAuctionForm(product)">Create Auction</button>
-            <button class="btn btn-primary btn-sm" (click)="openProductForm(product)">Update Product</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteProduct(product.productId)">Delete Product</button>
+          <div class="d-flex flex-wrap gap-2">
+            <button class="btn btn-outline-info btn-sm" (click)="openAuctionForm(product)">Create Auction</button>
+            <button class="btn btn-outline-primary btn-sm" (click)="openProductForm(product)">Update Product</button>
+            <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.productId)">Delete Product</button>
           </div>
         </div>
       </div>
     </div>
   </div>
-</div>
+  
+
 
  
   <div *ngIf="showAuctionForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
@@ -71,113 +87,132 @@
         <label for="productCategory" class="form-label">Category:</label>
         <input type="text" id="productCategory" formControlName="category" class="form-control" required />
       </div>
-      <div class="d-grid gap-2">
+      <div class="d-flex flex-wrap gap-2">
         <button type="submit" class="btn btn-success btn-lg">Update</button>
         <button type="button" class="btn btn-secondary btn-lg" (click)="cancelProductForm()">Cancel</button>
       </div>
     </form>
   </div>
  
-  <hr class="my-5">
- 
-  <h3 class="text-center mb-4">Upcoming Auctions</h3>
-  <div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let auction of auctions">
-      <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
-        <div class="card-body">
-          <h5 class="card-title">Auction Details</h5>
-          <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><strong>Product ID:</strong> {{ auction.productId }}</li>
-            <li class="list-group-item"><strong>Starts:</strong> {{ auction.startDate | date:'short' }}</li>
-            <li class="list-group-item"><strong>Ends:</strong> {{ auction.endDate | date:'short' }}</li>
-            <li class="list-group-item"><strong>Current Bid:</strong> ₹{{ auction.currentBid }}</li>
-            <li class="list-group-item"><strong>Status:</strong> <span class="badge bg-warning">{{ auction.status }}</span></li>
-          </ul>
-          <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-sm" (click)="openAuctionUpdateForm(auction)">Update</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteAuction(auction.auctionId)">Delete</button>
-          </div>
+  <hr class="my-5" />
+
+<h3 class="text-center mb-4">Upcoming Auctions</h3>
+<div class="row">
+  <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let auction of auctions">
+    <div class="card h-100 shadow-lg border-0 animate__animated animate__fadeInUp" style="background: linear-gradient(to bottom right, #ffffff, #f0f8ff);">
+      <div class="card-body">
+        <h5 class="card-title fw-bold text-primary">Auction Details</h5>
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item"><strong>Product ID:</strong> {{ auction.productId }}</li>
+          <li class="list-group-item"><strong>Starts:</strong> {{ auction.startDate | date:'short' }}</li>
+          <li class="list-group-item"><strong>Ends:</strong> {{ auction.endDate | date:'short' }}</li>
+          <li class="list-group-item"><strong>Current Bid:</strong> ₹{{ auction.currentBid }}</li>
+          <li class="list-group-item">
+            <strong>Status:</strong>
+            <span [ngClass]="{
+              'text-success': auction.status === 'completed',
+              'text-warning': auction.status === 'live',
+              'text-secondary': auction.status === 'upcoming'
+            }">
+              {{ auction.status }}
+            </span>
+          </li>
+        </ul>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-primary btn-sm" (click)="openAuctionUpdateForm(auction)">Update</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteAuction(auction.auctionId)">Delete</button>
         </div>
       </div>
     </div>
   </div>
+</div>
+
+<!-- Auction Update Form -->
+<div *ngIf="showAuctionUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
+  <h4 class="card-title text-center mb-4">Update Auction</h4>
+  <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
+    <div class="mb-3">
+      <label for="updateStartDate" class="form-label">Start Date:</label>
+      <input type="datetime-local" id="updateStartDate" formControlName="startDate" class="form-control" required />
+    </div>
+    <div class="mb-3">
+      <label for="updateEndDate" class="form-label">End Date:</label>
+      <input type="datetime-local" id="updateEndDate" formControlName="endDate" class="form-control" required />
+    </div>
+    <div class="mb-4">
+      <label for="updateStatus" class="form-label">Status:</label>
+      <input type="text" id="updateStatus" formControlName="status" class="form-control" required />
+    </div>
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-success btn-lg">Update</button>
+      <button type="button" class="btn btn-secondary btn-lg" (click)="cancelAuctionUpdateForm()">Cancel</button>
+    </div>
+  </form>
+</div>
+
+<hr class="my-5" />
+
  
-  <div *ngIf="showAuctionUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
-    <h4 class="card-title text-center mb-4">Update Auction</h4>
-    <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
-      <div class="mb-3">
-        <label for="updateStartDate" class="form-label">Start Date:</label>
-        <input type="datetime-local" id="updateStartDate" formControlName="startDate" class="form-control" required />
-      </div>
-      <div class="mb-3">
-        <label for="updateEndDate" class="form-label">End Date:</label>
-        <input type="datetime-local" id="updateEndDate" formControlName="endDate" class="form-control" required />
-      </div>
-      <div class="mb-4">
-        <label for="updateStatus" class="form-label">Status:</label>
-        <input type="text" id="updateStatus" formControlName="status" class="form-control" required />
-      </div>
-      <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-success btn-lg">Update</button>
-        <button type="button" class="btn btn-secondary btn-lg" (click)="cancelAuctionUpdateForm()">Cancel</button>
-      </div>
-    </form>
-  </div>
- 
-  <hr class="my-5">
- 
-  <h3 class="text-center mb-4">Registered Users in Bid Master</h3>
-  <div class="row">
-    <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let user of users">
-      <div class="card h-100 shadow-sm animate__animated animate__fadeInUp">
-        <div class="card-body">
-          <h5 class="card-title">{{ user.name }}</h5>
-          <ul class="list-group list-group-flush mb-3">
-            <li class="list-group-item"><strong>User ID:</strong> {{ user.userId }}</li>
-            <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
-            <li class="list-group-item"><strong>Role:</strong> <span class="badge bg-secondary">{{ user.role }}</span></li>
-            <li class="list-group-item"><strong>Contact:</strong> {{ user.contactNumber }}</li>
-          </ul>
-          <div class="d-grid gap-2">
-            <button class="btn btn-primary btn-sm" (click)="openUserUpdateForm(user)">Update</button>
-            <button class="btn btn-danger btn-sm" (click)="deleteUser(user.email)">Delete</button>
-          </div>
+<h3 class="text-center mb-4 text-primary">Registered Users in Bid Master</h3>
+<div class="row">
+  <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let user of users">
+    <div class="card h-100 shadow-lg border-0 bg-gradient bg-light animate__animated animate__fadeInUp">
+      <div class="card-body">
+        <h5 class="card-title fw-bold">{{ user.name }}</h5>
+        <ul class="list-group list-group-flush mb-3">
+          <li class="list-group-item"><strong>User ID:</strong> {{ user.userId }}</li>
+          <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+          <li class="list-group-item">
+            <strong>Role:</strong>
+            <span [ngStyle]="{
+              'color': user.role === 'Admin' ? '#b30000' : 
+                       user.role === 'Seller' ? '#006400' : 
+                       user.role === 'Buyer' ? '#003366' : '',
+              'font-weight': 'bold'
+            }">{{ user.role }}</span>
+          </li>          
+          <li class="list-group-item"><strong>Contact:</strong> {{ user.contactNumber }}</li>
+        </ul>
+        <div class="d-flex flex-wrap gap-2">
+          <button class="btn btn-outline-primary btn-sm" (click)="openUserUpdateForm(user)">Update</button>
+          <button class="btn btn-outline-danger btn-sm" (click)="deleteUser(user.email)">Delete</button>
         </div>
       </div>
     </div>
   </div>
- 
-  <div *ngIf="showUserUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
-    <h4 class="card-title text-center mb-4">Update User</h4>
- 
-    <form [formGroup]="userUpdateForm" (ngSubmit)="submitUserUpdateForm()">
- 
-      <div class="mb-3">
-        <label for="userEmail" class="form-label">Email:</label>
-        <input type="email" id="userEmail" formControlName="email" class="form-control" readonly />
-      </div>
- 
-      <div class="mb-3">
-        <label for="userName" class="form-label">Name:</label>
-        <input type="text" id="userName" formControlName="name" class="form-control" required />
-      </div>
- 
-      <div class="mb-3">
-        <label for="userContact" class="form-label">Contact Number:</label>
-        <input type="text" id="userContact" formControlName="contactNumber" class="form-control" required />
-      </div>
- 
-      <div class="mb-4">
-        <label for="userPassword" class="form-label">Password:</label>
-        <input type="password" id="userPassword" formControlName="password" class="form-control" required />
-      </div>
- 
-      <div class="d-grid gap-2">
-        <button type="submit" class="btn btn-success btn-lg">Update</button>
-        <button type="button" class="btn btn-secondary btn-lg" (click)="cancelUserUpdateForm()">Cancel</button>
-      </div>
-    </form>
-  </div>
+</div>
+
+<div *ngIf="showUserUpdateForm" class="card p-4 my-4 bg-secondary text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
+  <h4 class="card-title text-center mb-4">Update User</h4>
+
+  <form [formGroup]="userUpdateForm" (ngSubmit)="submitUserUpdateForm()">
+    <div class="mb-3">
+      <label for="userEmail" class="form-label">Email:</label>
+      <input type="email" id="userEmail" formControlName="email" class="form-control" readonly />
+    </div>
+
+    <div class="mb-3">
+      <label for="userName" class="form-label">Name:</label>
+      <input type="text" id="userName" formControlName="name" class="form-control" required />
+    </div>
+
+    <div class="mb-3">
+      <label for="userContact" class="form-label">Contact Number:</label>
+      <input type="text" id="userContact" formControlName="contactNumber" class="form-control" required />
+    </div>
+
+    <div class="mb-4">
+      <label for="userPassword" class="form-label">Password:</label>
+      <input type="password" id="userPassword" formControlName="password" class="form-control" required />
+    </div>
+
+    <div class="d-grid gap-2">
+      <button type="submit" class="btn btn-light btn-lg text-dark">Update</button>
+      <button type="button" class="btn btn-outline-light btn-lg" (click)="cancelUserUpdateForm()">Cancel</button>
+    </div>
+  </form>
+</div>
+
  
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" *ngIf="showToast">
   <div class="toast align-items-center text-white {{ toastColor }} border-0 show">

@@ -65,15 +65,36 @@
      
             <button *ngIf="showPayButton()" (click)="makePayment()" class="btn btn-primary w-100" style="background-color: #5F259F; border-color: #5F259F; font-weight: bold; padding: 12px; border-radius: 8px;">Make Payment</button>
      
-            <div *ngIf="transaction()" class="transaction-result mt-4 p-3 rounded text-center animate" style="background-color: #E8F5E9; color: #388E3C; border: 1px solid #81C784;">
-    <h3 class="mb-2" style="color: #388E3C;">Payment Successful 🎉</h3>
-    <p class="mb-1"><strong>Transaction ID:</strong> {{ transaction().transactionId }}</p>
-    <p class="mb-1"><strong>Buyer ID:</strong> {{ transaction().buyerId }}</p>
-    <p class="mb-1"><strong>Auction ID:</strong> {{ transaction().auctionId }}</p>
-    <p class="mb-1"><strong>Amount:</strong> ₹{{ transaction().amount }}</p>
-    <p class="mb-1"><strong>Status:</strong> {{ transaction().paymentStatus }}</p>
-    <p class="mb-0"><strong>Date:</strong> {{ transaction().paymentDate }}</p>
+            <div *ngIf="transaction()" class="text-center p-4 rounded shadow-lg animate__animated animate__fadeInUp"
+     style="max-width: 500px; margin: auto; background-color: #f3f4f6;">
+
+  <!-- Animated Green Tick -->
+  <div class="mb-3">
+    <div class="success-animation">
+      <svg class="checkmark" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 52 52">
+        <circle class="checkmark-circle" cx="26" cy="26" r="25" fill="none"/>
+        <path class="checkmark-check" fill="none" d="M14 27l7 7 16-16"/>
+      </svg>
     </div>
+  </div>
+
+  <!-- Payment Info -->
+  <h3 class="text-success fw-bold mb-2">Payment Successful</h3>
+  <h4 class="fw-bold mb-3">₹{{ transaction().amount }}</h4>
+
+  <div class="text-start mx-auto" style="max-width: 400px;">
+    <p><strong>Transaction ID:</strong> {{ transaction().transactionId }}</p>
+    <p><strong>Buyer ID:</strong> {{ transaction().buyerId }}</p>
+    <p><strong>Auction ID:</strong> {{ transaction().auctionId }}</p>
+    <p><strong>Status:</strong> {{ transaction().paymentStatus }}</p>
+    <p><strong>Date:</strong> {{ transaction().paymentDate | date:'medium' }}</p>
+  </div>
+
+  <button class="btn btn-outline-secondary" (click)="goToDashboard()">
+    Done
+    </button>
+</div>
+
     </div>
     </div>
      

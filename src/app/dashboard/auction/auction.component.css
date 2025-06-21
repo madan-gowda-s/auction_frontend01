@@ -82,6 +82,20 @@
   @keyframes blinker {
     50% { opacity: 0; }
   }
+
+  .glow-text {
+    animation: glow 1.5s infinite alternate;
+  }
+  
+  @keyframes glow {
+    from {
+      text-shadow: 0 0 5px #28a745;
+    }
+    to {
+      text-shadow: 0 0 20px #28a745;
+    }
+  }
+  
   
 
   

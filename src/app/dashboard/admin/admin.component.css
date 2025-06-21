@@ -170,10 +170,11 @@ font-size: 1.5rem;
 }
  
 .card:hover {
-  transform: translateY(-7px); /* Lift more on hover */
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.2); /* Stronger shadow on hover */
+  transform: scale(1.03);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
 }
- 
  
 /* --- Button Enhancements --- */
 /* Apply general button styles that enhance Bootstrap's defaults */
@@ -292,4 +293,7 @@ font-size: 1.5rem;
 .toast {
   animation: fadeIn 0.5s ease-in-out;
 }
+
+
+
  
