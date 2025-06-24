@@ -26,6 +26,8 @@
         </div>
       </div>
     </div>
+
+    <!-- Review Card -->
   
     <div class="card shadow-lg border-0 mb-4 rounded-4">
         <div class="card-header bg-gradient bg-primary text-white rounded-top-4">
@@ -35,6 +37,7 @@
         </div>
         <div class="card-body bg-white rounded-bottom-4">
           <form [formGroup]="reviewForm" (ngSubmit)="submitReview()">
+
             <!-- Rating Section -->
             <div class="mb-4">
               <label for="rating" class="form-label fw-semibold">
@@ -71,8 +74,8 @@
       </div>
 
 
-      <!-- Submitted Review Display -->
-<div *ngIf="submittedReview" class="card shadow-lg mt-4 rounded-4">
+    <!-- Submitted Review Display -->
+    <div *ngIf="submittedReview" class="card shadow-lg mt-4 rounded-4">
     <div class="card-header bg-success text-white rounded-top-4 d-flex justify-content-between align-items-center">
       <h5 class="mb-0"><i class="bi bi-check-circle me-2"></i>Review Submitted</h5>
       <div>
@@ -116,7 +119,7 @@
     </div>
   </div>
 
-
+  <!-- Review Deleted Toast Messahe -->
   <div class="position-fixed top-0 end-0 p-3" style="z-index: 1055;" *ngIf="showDeleteMessage">
     <div class="toast align-items-center text-white bg-danger border-0 show" role="alert">
       <div class="d-flex">

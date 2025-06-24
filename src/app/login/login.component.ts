@@ -5,6 +5,8 @@ import { Router, RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { jwtDecode } from 'jwt-decode';
 
+//Declaring bootstrap as global variable
+
 declare var bootstrap: any;
 
 @Component({
@@ -60,6 +62,8 @@ export class LoginComponent {
           try {
             const decoded: any = jwtDecode(response.token);
             const role = decoded['role'] || decoded['http://schemas.microsoft.com/ws/2008/06/identity/claims/role'];
+
+            //Role based routing/redirection
 
             switch (role.toLowerCase()) {
               case 'admin':

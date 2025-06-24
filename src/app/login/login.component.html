@@ -1,7 +1,10 @@
 <div class="login-page-container">
   <h3 class="login-heading-blue">Login</h3>
 
+  <!-- Angular's Reactive form -->
+
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    
     <!-- Email -->
     <label>Email:</label>
     <input type="email" formControlName="email" class="form-control" />

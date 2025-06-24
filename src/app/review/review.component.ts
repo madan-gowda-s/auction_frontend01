@@ -51,6 +51,8 @@ export class ReviewComponent implements OnInit {
     this.router.navigate(['/buyer/dashboard']);
   }
 
+  // API call to get review submitted by user
+
   fetchReview() {
     this.http.get(`https://localhost:7046/api/Review/byUserAndProduct/${this.buyerId}/${this.product.productId}`)
       .subscribe({
@@ -90,6 +92,7 @@ export class ReviewComponent implements OnInit {
         comment: this.reviewForm.value.comment
       };
 
+      // API call to store user review
       this.http.post('https://localhost:7046/api/Review/create', payload).subscribe({
         next: (res) => {
           this.submittedReview = res;
@@ -105,6 +108,8 @@ export class ReviewComponent implements OnInit {
       alert('Error fetching product details.');
     }
   }
+
+  // API call to update user review
 
   updateReview() {
     if (!this.submittedReview?.reviewId) return;
@@ -127,6 +132,8 @@ export class ReviewComponent implements OnInit {
       }
     });
   }
+
+// API call to delete user Review
   
 deleteReview() {
   if (!this.submittedReview?.reviewId) return;

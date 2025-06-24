@@ -16,6 +16,8 @@
         <div class="collapse navbar-collapse" id="navbarContent">
           <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
 
+            <!-- Condition for Register, Login, Logout buttons -->
+
             <ng-container *ngIf="!isLoggedIn; else loggedInBlock">
 
               <li class="nav-item">
@@ -30,9 +32,11 @@
 
             </ng-container>
             <ng-template #loggedInBlock>
+
               <li class="nav-item">
                 <button class="btn btn-outline-danger" (click)="logout()">Logout</button>
               </li>
+              
             </ng-template>
           </ul>
         </div>

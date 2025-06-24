@@ -13,6 +13,7 @@
   top: 0;
   z-index: 1000;
 }
+
 .navbar-brand 
 {
   font-size: 1.8rem;
@@ -26,8 +27,6 @@
   transform: scale(1.1);
   color: #f09090 !important;
 }
- 
- 
  
 /* Logo styling */
 .navbar-left h1 

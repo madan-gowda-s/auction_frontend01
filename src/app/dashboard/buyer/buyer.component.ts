@@ -53,7 +53,6 @@ export class BuyerComponent {
   showSuccessAlert = signal(false);
 
   
-
   filterData = {
     category: '',
     minBid: '',
@@ -71,6 +70,8 @@ export class BuyerComponent {
     this.fetchAuctions();
     this.fetchProducts();
   }
+
+  // Method to get Buyer Information
 
   fetchBuyerInfo() {
     const token = localStorage.getItem('token');
@@ -94,6 +95,8 @@ export class BuyerComponent {
     }
   }
 
+   // Method to get auction detailes
+
   fetchAuctions() {
     this.http.get<Auction[]>('https://localhost:7046/api/Auction/all').subscribe({
       next: (res) => {
@@ -108,6 +111,8 @@ export class BuyerComponent {
     });
   }
 
+  // Method to get product detailes
+
   fetchProducts() {
     const token = localStorage.getItem('token');
     this.http.get<Product[]>('https://localhost:7046/api/Product/all', {
@@ -118,6 +123,8 @@ export class BuyerComponent {
     });
   }
 
+  //Method to display auction status
+
   getAuctionStatus(auction: Auction): 'live' | 'upcoming' | 'completed' {
     const now = new Date();
     const start = new Date(auction.startDate);
@@ -127,6 +134,8 @@ export class BuyerComponent {
     if (now < start) return 'upcoming';
     return 'completed';
   }
+
+  // Method to view Product detailes
 
   viewProduct(productId: number) {
     const product = this.products().find(p => p.productId === productId);
@@ -141,13 +150,13 @@ export class BuyerComponent {
     this.selectedProduct.set(null);
   }
 
+  // Method to apply filters
+
   applyFilters() {
     this.filterMode.set(true);
     const token = localStorage.getItem('token');
 
-    this.http.post<Auction[]>(
-      'https://localhost:7046/api/Auction/filter',
-      this.filterData,
+    this.http.post<Auction[]>('https://localhost:7046/api/Auction/filter',this.filterData,
       {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -168,6 +177,8 @@ export class BuyerComponent {
     this.fetchAuctions();
   }
 
+  // On clicking Bid Now we pass Auction/Product detailes to Auction Dashboard as state
+
   bidNow(auctionId: number) {
     const auction = this.auctions().find(a => a.auctionId === auctionId);
     const product = this.products().find(p => p.productId === auction?.productId);
@@ -178,6 +189,8 @@ export class BuyerComponent {
       });
     }
   }
+
+  // Method to check winner to display Make Payment, Add Review only for Winners
 
   checkWinnerStatus(buyerId: number) {
     this.filteredAuctions().forEach(auction => {
@@ -246,6 +259,8 @@ openProfileForm() {
 closeProfileForm() {
   this.showProfileModal.set(false);
 }
+
+// Method to update profile detailes
 
 submitProfileUpdate() {
   const token = localStorage.getItem('token');

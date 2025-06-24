@@ -133,7 +133,7 @@
   </div>
   
 
-  <!-- Auction List -->
+  <!-- Auction cards List -->
 
   <div *ngIf="!showProductDetails()" class="container my-4">
     <h2 class="mb-3 text-primary">Auctions</h2>
@@ -158,6 +158,9 @@
                 {{ getAuctionStatus(auction) }}
               </span>              
             </p>
+
+            <!-- Logic to display View Product, Bid Now, Make Payment, Add Review -->
+
             <div class="d-flex flex-wrap gap-2">
               <button
                 *ngIf="getAuctionStatus(auction) !== 'completed' || winnerAuctions().includes(auction.auctionId)"

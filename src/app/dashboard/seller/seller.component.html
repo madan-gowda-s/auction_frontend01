@@ -44,26 +44,62 @@
     
         <p class="text-danger mt-3 text-center" *ngIf="errorMessage">{{ errorMessage }}</p>
       </div>
+      
     
       <!-- Product Listings as Cards -->
-<div *ngIf="productResponses.length > 0" class="product-list mt-5">
-  <h3 class="text-center mb-4">📋My Product Listings</h3>
+<div *ngIf="productResponses.length > 0" class="mt-5">
+  <h3 class="text-center mb-4">📋 My Product Listings</h3>
   <div class="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
     <div class="col" *ngFor="let p of productResponses">
       <div class="card h-100 shadow-sm">
-        <img [src]="p.imageUrls[0]" class="card-img-top" alt="{{ p.title }}" *ngIf="p.imageUrls && p.imageUrls.length > 0">
+        <img [src]="p.imageUrls[0]" class="card-img-top" alt="{{ p.title }}"
+        *ngIf="p.imageUrls && p.imageUrls.length > 0"
+        style="height: 200px; object-fit: cover;">   
         <div class="card-body">
           <h5 class="card-title">{{ p.title }}</h5>
           <p class="card-text">{{ p.description }}</p>
-          <p class="mb-1"><strong>Start Price:</strong> ₹{{ p.startPrice }}</p>
-          <p class="mb-1"><strong>Category:</strong> {{ p.category }}</p>
-          <p class="mb-0"><strong>Status:</strong> {{ p.status }}</p>
+          <p><strong>Start Price:</strong> ₹{{ p.startPrice }}</p>
+          <p><strong>Category:</strong> {{ p.category }}</p>
+          <p><strong>Status:</strong> {{ p.status }}</p>
         </div>
       </div>
     </div>
   </div>
 </div>
 
+
+<!-- Enhanced Reviews Section -->
+<div *ngIf="showReviewsSection" class="mt-5">
+  <h4 class="text-center mb-4">
+    <i class="bi bi-chat-left-text-fill text-primary me-2"></i> Reviews Given for You
+  </h4>
+  <div class="row row-cols-1 row-cols-md-2 g-4">
+    <div class="col" *ngFor="let review of reviews">
+      <div class="card border-0 shadow-sm rounded-4">
+        <div class="card-body">
+          <div class="d-flex justify-content-between align-items-center mb-2">
+            <h5 class="card-title mb-0 text-success">
+              <i class="bi bi-star-fill text-warning me-1"></i> {{ review.rating }}/10
+            </h5>
+            <small class="text-muted">
+              <i class="bi bi-calendar-event me-1"></i> {{ review.date | date: 'medium' }}
+            </small>
+          </div>
+          <p class="card-text fst-italic text-dark">
+            <i class="bi bi-quote text-secondary me-1"></i>{{ review.comment }}
+          </p>
+          <div class="text-end">
+            <span class="badge bg-info text-dark">
+              <i class="bi bi-person-circle me-1"></i> {{ review.reviewerName }} reviewed you
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<br>
 
 
 <h3 class="text-center text-black mb-4">Your Profile</h3>
@@ -131,4 +167,11 @@
       </div>
   </div>
 </div>
+
+
+<!-- Product Submit Success Alert -->
+<div *ngIf="showProductSuccess" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050;">
+Products listed successfully!
+</div>
+
     

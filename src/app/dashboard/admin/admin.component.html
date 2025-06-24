@@ -1,4 +1,5 @@
 <div class="container mt-4">
+
   <h3 class="text-center mb-4 text-primary">Products Registered for Auction</h3>
   <div class="row">
     <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let product of products">
@@ -33,7 +34,7 @@
               </span>
             </li>
           </ul>
-          <div class="d-flex flex-wrap gap-2">
+          <div class="d-grid gap-2">
             <button class="btn btn-outline-info btn-sm" (click)="openAuctionForm(product)">Create Auction</button>
             <button class="btn btn-outline-primary btn-sm" (click)="openProductForm(product)">Update Product</button>
             <button class="btn btn-outline-danger btn-sm" (click)="deleteProduct(product.productId)">Delete Product</button>
@@ -42,10 +43,9 @@
       </div>
     </div>
   </div>
-  
 
+  <!-- Create Auction Form -->
 
- 
   <div *ngIf="showAuctionForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
     <h4 class="card-title text-center mb-4">Create Auction</h4>
     <form [formGroup]="auctionForm" (ngSubmit)="submitAuctionForm()">
@@ -67,6 +67,8 @@
       </div>
     </form>
   </div>
+
+  <!-- Update Product Form -->
  
   <div *ngIf="showProductForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
     <h4 class="card-title text-center mb-4">Update Product</h4>
@@ -93,8 +95,9 @@
       </div>
     </form>
   </div>
- 
   <hr class="my-5" />
+
+<!-- Upcomming Auctions List   -->
 
 <h3 class="text-center mb-4">Upcoming Auctions</h3>
 <div class="row">
@@ -104,6 +107,7 @@
         <h5 class="card-title fw-bold text-primary">Auction Details</h5>
         <ul class="list-group list-group-flush mb-3">
           <li class="list-group-item"><strong>Product ID:</strong> {{ auction.productId }}</li>
+          <!-- Pipes are used here -->
           <li class="list-group-item"><strong>Starts:</strong> {{ auction.startDate | date:'short' }}</li>
           <li class="list-group-item"><strong>Ends:</strong> {{ auction.endDate | date:'short' }}</li>
           <li class="list-group-item"><strong>Current Bid:</strong> ₹{{ auction.currentBid }}</li>
@@ -120,7 +124,7 @@
         </ul>
         <div class="d-flex flex-wrap gap-2">
           <button class="btn btn-primary btn-sm" (click)="openAuctionUpdateForm(auction)">Update</button>
-          <button class="btn btn-danger btn-sm" (click)="deleteAuction(auction.auctionId)">Delete</button>
+          <button class="btn btn-danger btn-sm" (click)="deleteAuction(auction)">Delete</button>
         </div>
       </div>
     </div>
@@ -128,6 +132,7 @@
 </div>
 
 <!-- Auction Update Form -->
+
 <div *ngIf="showAuctionUpdateForm" class="card p-4 my-4 bg-dark text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
   <h4 class="card-title text-center mb-4">Update Auction</h4>
   <form [formGroup]="auctionUpdateForm" (ngSubmit)="submitAuctionUpdateForm()">
@@ -149,9 +154,9 @@
     </div>
   </form>
 </div>
-
 <hr class="my-5" />
 
+<!-- Displays Users Registered -->
  
 <h3 class="text-center mb-4 text-primary">Registered Users in Bid Master</h3>
 <div class="row">
@@ -181,6 +186,8 @@
     </div>
   </div>
 </div>
+
+<!-- User Update Form -->
 
 <div *ngIf="showUserUpdateForm" class="card p-4 my-4 bg-secondary text-white shadow-lg mx-auto animate__animated animate__fadeIn" style="max-width: 600px;">
   <h4 class="card-title text-center mb-4">Update User</h4>
@@ -213,6 +220,7 @@
   </form>
 </div>
 
+<!-- Toast Notifications -->
  
 <div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055;" *ngIf="showToast">
   <div class="toast align-items-center text-white {{ toastColor }} border-0 show">

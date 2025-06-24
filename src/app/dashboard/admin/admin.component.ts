@@ -10,6 +10,7 @@ import { FormsModule } from '@angular/forms';
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule, RouterModule],
   templateUrl: './admin.component.html',
+  styleUrls: ['./admin.component.css'],
 })
 export class AdminComponent {
   private fb = inject(FormBuilder);
@@ -25,6 +26,8 @@ export class AdminComponent {
  
   selectedProductId!: number;
   selectedAuctionId!: number;
+
+  // Setting condition for Forms
  
   showAuctionForm = false;
   showProductForm = false;
@@ -61,12 +64,14 @@ export class AdminComponent {
     
   }
  
+  // Method to load all the product details
   loadProducts() {
     this.http.get('https://localhost:7046/api/Product/all', { headers: this.headers }).subscribe(data => {
       this.products = data as any[];
     });
   }
- 
+
+  // Method to get all auction's created
   loadAuctions() {
     this.http.get('https://localhost:7046/api/Auction/all', { headers: this.headers }).subscribe(data => {
       const now = new Date();
@@ -87,7 +92,7 @@ export class AdminComponent {
     });
   }
  
- 
+ // Method to load all users on portal
  
   loadUsers() {
    this.http.get('https://localhost:7046/api/Users', { headers: this.headers }).subscribe(data => {
@@ -95,7 +100,7 @@ export class AdminComponent {
    });
   }
  
- 
+  // Form to create auctions
   openAuctionForm(product: any) {
     this.selectedProductId = product.productId;
     this.auctionForm = this.fb.group({
@@ -114,9 +119,19 @@ export class AdminComponent {
   }
  
   submitAuctionForm(): void {
-    if (this.auctionForm.invalid) return;
+    if (this.auctionForm.invalid) {
+      if (this.auctionForm.errors?.['dateRangeInvalid'] || this.auctionForm.hasError('dateRangeInvalid')) {
+        this.toastMessage = 'End date must be later than start date.';
+        this.toastColor = 'bg-danger';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+          this.toastMessage = '';
+        }, 2000);
+      }
+      return;
+    }
   
-    // Check if an auction already exists for the selected product
     const existingAuction = this.auctions.find(a => a.productId === this.selectedProductId && a.status !== 'Completed');
   
     if (existingAuction) {
@@ -141,7 +156,9 @@ export class AdminComponent {
     });
   }
   
- 
+  
+  
+  // Form to update product details
   openProductForm(product: any) {
     this.selectedProductId = product.productId;
     this.productForm = this.fb.group({
@@ -157,6 +174,7 @@ export class AdminComponent {
     this.showProductForm = false;
   }
  
+  // Method to update product details
   submitProductForm() {
     if (this.productForm.invalid) return;
  
@@ -165,7 +183,8 @@ export class AdminComponent {
       this.loadProducts();
     });
   }
- 
+
+  // Method to delete a product
   deleteProduct(productId: number): void {
     const url = `https://localhost:7046/api/Product/${productId}`;
   
@@ -201,8 +220,7 @@ export class AdminComponent {
     });
   }
   
- 
- 
+  // Checks auction range
   dateRangeValidator(group: FormGroup) {
     const start = new Date(group.get('startDate')?.value);
     const end = new Date(group.get('endDate')?.value);
@@ -224,6 +242,7 @@ export class AdminComponent {
     this.showAuctionUpdateForm = false;
   }
  
+  // Method to update auction details
   submitAuctionUpdateForm() {
     if (this.auctionUpdateForm.invalid) return;
  
@@ -234,23 +253,23 @@ export class AdminComponent {
       this.loadAuctions();
     });
   }
- 
+
   deleteAuction(auction: any) {
     const now = new Date();
     const startDate = new Date(auction.startDate);
     const endDate = new Date(auction.endDate);
- 
+  
     let status = '';
     if (now >= startDate && now <= endDate) {
-      status = 'Live';
+      status = 'live';
     } else if (now > endDate) {
-      status = 'Completed';
+      status = 'completed';
     } else if (now < startDate) {
-      status = 'Scheduled';
+      status = 'scheduled';
     }
- 
-    if (status !== 'Scheduled') {
-      this.toastMessage = `You can't delete a ${status.toLowerCase()} auction.`;
+  
+    if (status === 'live') {
+      this.toastMessage = `You can't delete a live auction.`;
       this.toastColor = 'bg-warning';
       this.showToast = true;
       setTimeout(() => {
@@ -259,7 +278,24 @@ export class AdminComponent {
       }, 2000);
       return;
     }
- 
+  
+    if (status === 'completed') {
+      const diffInMs = now.getTime() - endDate.getTime();
+      const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
+  
+      if (diffInDays < 3) {
+        this.toastMessage = `You can delete a completed auction only after 3 days.`;
+        this.toastColor = 'bg-warning';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+          this.toastMessage = '';
+        }, 2000);
+        return;
+      }
+    }
+  
+    // Allow deletion if scheduled or completed after 3 days
     this.http.delete(`https://localhost:7046/api/Auction/delete/${auction.auctionId}`, { headers: this.headers }).subscribe(() => {
       this.toastMessage = 'Auction deleted successfully.';
       this.toastColor = 'bg-success';
@@ -269,9 +305,26 @@ export class AdminComponent {
         this.showToast = false;
         this.toastMessage = '';
       }, 1800);
+
+      if (!auction.auctionId) {
+        console.error('Auction ID is missing:', auction);
+        this.toastMessage = 'Auction ID is missing.';
+        this.toastColor = 'bg-danger';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+          this.toastMessage = '';
+        }, 2000);
+        return;
+      }
+      
     });
   }
- 
+  
+  
+  
+  
+  // Delete user by admin
   deleteUser(email: string): void {
     const encodedEmail = encodeURIComponent(email);
     const url = `https://localhost:7046/api/Users/by-email/${encodedEmail}`;
@@ -294,7 +347,7 @@ export class AdminComponent {
         const isTransactionConflict = errorText.includes('REFERENCE constraint') || errorText.includes('FK_Transactions_Users_BuyerId');
   
         this.toastMessage = isTransactionConflict
-          ? 'Cannot delete user: As they are linked to existing transactions.'
+          ? 'Can not delete user as he already participated in a auction and made payment.'
           : 'Failed to delete user.';
   
         this.toastColor = 'bg-danger';
@@ -325,7 +378,7 @@ cancelUserUpdateForm(): void {
   this.userUpdateForm.reset();
 }
 
- 
+// Updating user based on email id 
 submitUserUpdateForm(): void {
   console.log('submitUserUpdateForm called');
 
@@ -372,7 +425,5 @@ submitUserUpdateForm(): void {
     }
   });
 }
-
-
 }
  

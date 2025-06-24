@@ -1,6 +1,8 @@
 import { Component, DoCheck } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
+
+// Decorator that marks a class as an Angular component and provides configuration metadata
  
 @Component({
   selector: 'app-root',

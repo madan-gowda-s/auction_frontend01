@@ -25,6 +25,8 @@ export class RegisterComponent implements OnInit {
     private router: Router
   ) {}
 
+  //Register form validations
+
   ngOnInit(): void {
     this.registerForm = this.fb.group({
       name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(50), Validators.pattern('^[a-zA-Z ]*$')]],    
@@ -38,6 +40,8 @@ export class RegisterComponent implements OnInit {
       this.passwordStrength = this.getPasswordStrength(value);
     });
   }
+
+  // Logic of Password Strength
 
   getPasswordStrength(password: string): string {
     if (!password) {

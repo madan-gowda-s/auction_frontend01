@@ -28,6 +28,8 @@ export class AuctionComponent implements OnInit {
   auctionReminderMessage: string = '';
   showReminder: boolean = false;
   bidStatusMessage: string = '';
+  private reminderShownTimes: Set<number> = new Set();
+
 
 
   constructor(
@@ -73,7 +75,7 @@ export class AuctionComponent implements OnInit {
       this.updateTimeRemaining();
     });
 
-    interval(10000).subscribe(() => {
+    interval(6000).subscribe(() => {
       this.fetchBidHistory();
       this.checkAuctionStatus();
       this.sendAuctionReminders();
@@ -177,31 +179,30 @@ export class AuctionComponent implements OnInit {
             this.bidSuggestions = [highest + 5000, highest + 10000, highest + 15000];
   
             const highestBid = this.bidHistory.find(b => b.amount === highest);
-const isCurrentUserHighestBidder = highestBid?.buyerId === this.buyerId;
+            const isCurrentUserHighestBidder = highestBid?.buyerId === this.buyerId;
 
-// Only show bid status if auction is still active
-if (!this.auctionEnded) {
-  this.bidStatusMessage = isCurrentUserHighestBidder
-    ? 'You are the highest bidder at present.'
-    : 'You are outbidded.';
-} else {
-  this.bidStatusMessage = ''; // Clear status message after auction ends
-}
+            // Only show bid status if auction is still active
+            if (!this.auctionEnded) {
+              this.bidStatusMessage = isCurrentUserHighestBidder
+              ? 'You are the highest bidder at present.'
+              : 'You are outbidded.';
+            } else {
+              this.bidStatusMessage = ''; // Clear status message after auction ends
+            }
 
-// Check winner only if auction has ended
-if (this.auctionEnded) {
-  const auctionEndTime = new Date(this.auction.endDate).getTime();
-  const validBids = this.bidHistory.filter(b => new Date(b.bidTime).getTime() <= auctionEndTime);
-  const highestBeforeEnd = Math.max(...validBids.map(b => b.amount));
-  const winningBid = validBids.find(b => b.amount === highestBeforeEnd);
-  const isCurrentUserWinner = winningBid?.buyerId === this.buyerId;
+            // Check winner only if auction has ended
+            if (this.auctionEnded) {
+            const auctionEndTime = new Date(this.auction.endDate).getTime();
+            const validBids = this.bidHistory.filter(b => new Date(b.bidTime).getTime() <= auctionEndTime);
+            const highestBeforeEnd = Math.max(...validBids.map(b => b.amount));
+            const winningBid = validBids.find(b => b.amount === highestBeforeEnd);
+            const isCurrentUserWinner = winningBid?.buyerId === this.buyerId;
 
-  this.isWinner = isCurrentUserWinner;
-  this.bidMessage = isCurrentUserWinner
-    ? 'You are the winner!'
-    : 'Your bid is lower than the highest. Bidding is closed.';
-}
-
+            this.isWinner = isCurrentUserWinner;
+            this.bidMessage = isCurrentUserWinner
+            ? 'You are the winner!'
+            : 'Your bid is lower than the highest. Bidding is closed.';
+            }
           },
           error: (err: any) => console.error('Error fetching bid history:', err)
         });
@@ -209,23 +210,41 @@ if (this.auctionEnded) {
       error: (err: any) => console.error('Error fetching users:', err)
     });
   }
-  
+
+  // Sends time remaining message 
   
   sendAuctionReminders() {
     const now = new Date();
     const end = new Date(this.auction.endDate);
-    const diff = Math.floor((end.getTime() - now.getTime()) / 60000);
-
-    if ([30, 5, 2].includes(diff)) {
-      this.auctionReminderMessage = `${diff} minute${diff > 1 ? 's' : ''} remaining before auction ends.`;
+    const diffMs = end.getTime() - now.getTime();
+    const diffMinutes = Math.floor(diffMs / 60000);
+    const diffSeconds = Math.floor(diffMs / 1000);
+  
+    const reminderMinutes = [15, 10, 5, 3, 1];
+    const reminderSeconds = [30];
+  
+    let message = '';
+  
+    if (reminderMinutes.includes(diffMinutes) && !this.reminderShownTimes.has(diffMinutes)) {
+      message = `${diffMinutes} minute${diffMinutes > 1 ? 's' : ''} remaining before auction ends.`;
+      this.reminderShownTimes.add(diffMinutes);
+    } else if (reminderSeconds.includes(diffSeconds) && !this.reminderShownTimes.has(diffSeconds)) {
+      message = `Only 30 seconds remaining before auction ends!`;
+      this.reminderShownTimes.add(diffSeconds);
+    }
+  
+    if (message) {
+      this.auctionReminderMessage = message;
       this.showReminder = true;
-
+  
       setTimeout(() => {
         this.showReminder = false;
         this.auctionReminderMessage = '';
-      }, 5000);
+      }, 15000); // Show for 15 seconds
     }
   }
+  
+  
 
   goToPayment() {
     this.router.navigate(['/buyer/dashboard'], {

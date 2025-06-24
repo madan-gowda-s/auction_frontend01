@@ -1,37 +1,5 @@
-<!-- <div class="payment-container">
-    <h2>Confirm Payment</h2>
-  
-    <div class="details-row">
-      <p><strong>Auction ID:</strong> {{ auctionId() }}</p>
-      <p><strong>Product ID:</strong> {{ productId() }}</p>
-      <p><strong>Amount to Pay:</strong> ₹{{ bidAmount() }}</p>
-    </div>
-  
-    <label for="method">Select Payment Method:</label>
-    <select id="method" (change)="onMethodSelect($event)">
-        <option value="">--Choose--</option>
-        <option value="UPI">UPI</option>
-        <option value="Credit Card">Credit Card</option>
-        <option value="Debit Card">Debit Card</option>
-      </select>
-      
-  
-    <button *ngIf="showPayButton()" (click)="makePayment()">Make Payment</button>
-  
-    <div *ngIf="transaction()" class="transaction-result animate">
-      <h3>Payment Successful 🎉</h3>
-      <p><strong>Transaction ID:</strong> {{ transaction().transactionId }}</p>
-      <p><strong>Buyer ID:</strong> {{ transaction().buyerId }}</p>
-      <p><strong>Auction ID:</strong> {{ transaction().auctionId }}</p>
-      <p><strong>Amount:</strong> ₹{{ transaction().amount }}</p>
-      <p><strong>Status:</strong> {{ transaction().paymentStatus }}</p>
-      <p><strong>Date:</strong> {{ transaction().paymentDate }}</p>
-    </div>
-  </div>
-   -->
-  
+<div class="container mt-4">
 
-   <div class="container mt-4">
     <!-- Back Button Row -->
     <div class="row mb-3">
      <div class="col-12">
@@ -46,15 +14,15 @@
     <i class="bi bi-check-circle-fill" style="font-size: 4rem; color: #28a745;"></i>
     </div>
      
-            <h2 class="text-center mb-4" style="color: #5F259F;">Payment Details</h2>
+    <h2 class="text-center mb-4" style="color: #5F259F;">Payment Details</h2>
      
-            <div class="bg-light p-3 rounded mb-3">
+    <div class="bg-light p-3 rounded mb-3">
     <p class="mb-1"><strong>Auction ID:</strong> {{ auctionId() }}</p>
     <p class="mb-1"><strong>Product ID:</strong> {{ productId() }}</p>
     <p class="mb-0"><strong>Amount to Pay:</strong> ₹{{ bidAmount() }}</p>
     </div>
      
-            <label for="method" class="form-label">Select Payment Method:</label>
+    <label for="method" class="form-label">Select Payment Method:</label>
     <select id="method" (change)="onMethodSelect($event)" class="form-select mb-3">
     <option value="">--Choose--</option>
     <option value="UPI">UPI</option>
@@ -63,9 +31,9 @@
     <option value="Debit Card">Net Banking</option>
     </select>
      
-            <button *ngIf="showPayButton()" (click)="makePayment()" class="btn btn-primary w-100" style="background-color: #5F259F; border-color: #5F259F; font-weight: bold; padding: 12px; border-radius: 8px;">Make Payment</button>
+    <button *ngIf="showPayButton()" (click)="makePayment()" class="btn btn-primary w-100" style="background-color: #5F259F; border-color: #5F259F; font-weight: bold; padding: 12px; border-radius: 8px;">Make Payment</button>
      
-            <div *ngIf="transaction()" class="text-center p-4 rounded shadow-lg animate__animated animate__fadeInUp"
+    <div *ngIf="transaction()" class="text-center p-4 rounded shadow-lg animate__animated animate__fadeInUp"
      style="max-width: 500px; margin: auto; background-color: #f3f4f6;">
 
   <!-- Animated Green Tick -->
@@ -94,7 +62,6 @@
     Done
     </button>
 </div>
-
-    </div>
-    </div>
+</div>
+</div>
      
