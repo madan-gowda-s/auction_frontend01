@@ -153,10 +153,17 @@ export class AdminComponent {
     this.http.post('https://localhost:7046/api/Auction/create', payload, { headers: this.headers }).subscribe(() => {
       this.showAuctionForm = false;
       this.loadAuctions();
+
+      this.toastMessage = 'Auction created successfully!';
+      this.toastColor = 'bg-success';
+      this.showToast = true;
+      setTimeout(() => {
+        this.showToast = false;
+        this.toastMessage = '';
+      }, 2000);
     });
   }
-  
-  
+   
   
   // Form to update product details
   openProductForm(product: any) {
@@ -244,15 +251,48 @@ export class AdminComponent {
  
   // Method to update auction details
   submitAuctionUpdateForm() {
-    if (this.auctionUpdateForm.invalid) return;
- 
+    if (this.auctionUpdateForm.invalid) {
+      if (this.auctionUpdateForm.errors?.['dateRangeInvalid'] || this.auctionUpdateForm.hasError('dateRangeInvalid')) {
+        this.toastMessage = 'End date must be later than start date.';
+        this.toastColor = 'bg-danger';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+          this.toastMessage = '';
+        }, 2000);
+      }
+      return;
+    }
+  
     this.http.put(`https://localhost:7046/api/Auction/update/${this.selectedAuctionId}`, this.auctionUpdateForm.value, {
       headers: this.headers,
-    }).subscribe(() => {
-      this.showAuctionUpdateForm = false;
-      this.loadAuctions();
+    }).subscribe({
+      next: () => {
+        this.showAuctionUpdateForm = false;
+        this.loadAuctions();
+  
+        this.toastMessage = 'Auction details updated successfully!';
+        this.toastColor = 'bg-success';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+          this.toastMessage = '';
+        }, 2000);
+      },
+      error: () => {
+    
+        this.toastMessage = 'Update failed. Please check again or retry later.';
+        this.toastColor = 'bg-danger';
+        this.showToast = true;
+        setTimeout(() => {
+          this.showToast = false;
+          this.toastMessage = '';
+        }, 2000);
+      }
     });
   }
+  
+  
 
   deleteAuction(auction: any) {
     const now = new Date();

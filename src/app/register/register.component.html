@@ -10,7 +10,7 @@
       <label class="form-label">Name</label>
       <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" formControlName="name" />
       <div class="invalid-feedback">
-        Name is required and must be between 3 and 50 characters, containing only letters and spaces.
+        Name is required and must be between 3 and 20 characters, containing only letters and spaces.
       </div>
     </div>
 
@@ -28,7 +28,7 @@
       <label class="form-label">Password</label>
       <input type="password" class="form-control" [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" formControlName="password" />
       <div class="invalid-feedback">
-        Password is required and must be between 6 and 100 characters.
+        Password is required and must be between 6 to 15 characters.
       </div>
       <div *ngIf="passwordStrength" class="form-text" [ngClass]="{
         'text-danger': passwordStrength === 'Weak',
