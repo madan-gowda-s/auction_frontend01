@@ -18,6 +18,8 @@ export class ReviewComponent implements OnInit {
   reviewForm: FormGroup;
   submittedReview: any = null;
   isEditing = false;
+  showDeleteMessage: boolean = false;
+
 
   constructor(
     private router: Router,
@@ -48,6 +50,8 @@ export class ReviewComponent implements OnInit {
   goBack() {
     this.router.navigate(['/buyer/dashboard']);
   }
+
+  // API call to get review submitted by user
 
   fetchReview() {
     this.http.get(`https://localhost:7046/api/Review/byUserAndProduct/${this.buyerId}/${this.product.productId}`)
@@ -88,6 +92,7 @@ export class ReviewComponent implements OnInit {
         comment: this.reviewForm.value.comment
       };
 
+      // API call to store user review
       this.http.post('https://localhost:7046/api/Review/create', payload).subscribe({
         next: (res) => {
           this.submittedReview = res;
@@ -103,6 +108,8 @@ export class ReviewComponent implements OnInit {
       alert('Error fetching product details.');
     }
   }
+
+  // API call to update user review
 
   updateReview() {
     if (!this.submittedReview?.reviewId) return;
@@ -125,23 +132,30 @@ export class ReviewComponent implements OnInit {
       }
     });
   }
+
+// API call to delete user Review
   
+deleteReview() {
+  if (!this.submittedReview?.reviewId) return;
 
-  deleteReview() {
-    if (!this.submittedReview?.reviewId) return;
+  this.http.delete(`https://localhost:7046/api/Review/delete/${this.submittedReview.reviewId}`).subscribe({
+    next: () => {
+      this.submittedReview = null;
+      this.reviewForm.reset();
 
-    this.http.delete(`https://localhost:7046/api/Review/delete/${this.submittedReview.reviewId}`).subscribe({
-      next: () => {
-        alert('Review deleted successfully.');
-        this.submittedReview = null;
-        this.reviewForm.reset();
-      },
-      error: (err) => {
-        console.error('Review deletion failed:', err);
-        alert('Failed to delete review.');
-      }
-    });
-  }
+      // Show toast message
+      this.showDeleteMessage = true;
+      setTimeout(() => {
+        this.showDeleteMessage = false;
+      }, 1800);
+    },
+    error: (err) => {
+      console.error('Review deletion failed:', err);
+      alert('Failed to delete review.');
+    }
+  });
+}
+
 
   enableEdit() {
     this.isEditing = true;
@@ -149,5 +163,7 @@ export class ReviewComponent implements OnInit {
       rating: this.submittedReview.rating,
       comment: this.submittedReview.comment
     });
-  }
+  }  
 }
+
+

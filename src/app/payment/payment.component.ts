@@ -63,6 +63,8 @@ export class PaymentComponent {
     this.router.navigate(['/buyer/dashboard']);
   }
 
+  // API call to store transaction details
+  
   makePayment() {
     const payload = {
       buyerId: this.buyerId(),

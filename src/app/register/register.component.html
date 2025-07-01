@@ -1,47 +1,91 @@
 <div class="register-container">
   <h2>Register to BidMaster</h2>
- 
+
+  <!-- Angular's Reactive forms -->
+
   <form [formGroup]="registerForm" (ngSubmit)="register()" novalidate>
-    <label>Name:</label>
-    <input type="text" formControlName="name" />
-    <div *ngIf="registerForm.get('name')?.invalid && registerForm.get('name')?.touched">
-      Name is required.
+
+    <!-- Name -->
+    <div class="mb-3">
+      <label class="form-label">Name</label>
+      <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('name')?.invalid && registerForm.get('name')?.touched}" formControlName="name" />
+      <div class="invalid-feedback">
+        Name is required and must be between 3 and 20 characters, containing only letters and spaces.
+      </div>
     </div>
- 
-    <label>Email:</label>
-    <input type="email" formControlName="email" />
-    <div *ngIf="registerForm.get('email')?.invalid && registerForm.get('email')?.touched">
-      Valid email is required.
+
+    <!-- Email -->
+    <div class="mb-3">
+      <label class="form-label">Email</label>
+      <input type="email" class="form-control" [ngClass]="{'is-invalid': registerForm.get('email')?.invalid && registerForm.get('email')?.touched}" formControlName="email" />
+      <div class="invalid-feedback">
+        Please enter a valid email address.
+      </div>
     </div>
- 
-    <label>Password:</label>
-    <input type="password" formControlName="password" />
-    <div *ngIf="registerForm.get('password')?.invalid && registerForm.get('password')?.touched">
-      Password is required.
+
+    <!-- Password -->
+    <div class="mb-3">
+      <label class="form-label">Password</label>
+      <input type="password" class="form-control" [ngClass]="{'is-invalid': registerForm.get('password')?.invalid && registerForm.get('password')?.touched}" formControlName="password" />
+      <div class="invalid-feedback">
+        Password is required and must be between 6 to 15 characters.
+      </div>
+      <div *ngIf="passwordStrength" class="form-text" [ngClass]="{
+        'text-danger': passwordStrength === 'Weak',
+        'text-warning': passwordStrength === 'Medium',
+        'text-success': passwordStrength === 'Strong'
+      }">
+        Password strength: {{ passwordStrength }}
+      </div>
     </div>
- 
-    <label>Role:</label>
-    <select formControlName="role">
-      <option value="">Select Role</option>
-      <option value="Buyer">Buyer</option>
-      <option value="Seller">Seller</option>
-    </select>
-    <div *ngIf="registerForm.get('role')?.invalid && registerForm.get('role')?.touched">
-      Role is required.
+
+    <!-- Role -->
+    <div class="mb-3">
+      <label class="form-label">Role</label>
+      <select class="form-select" [ngClass]="{'is-invalid': registerForm.get('role')?.invalid && registerForm.get('role')?.touched}" formControlName="role">
+        <option value="">Select Role</option>
+        <option value="Buyer">Buyer</option>
+        <option value="Seller">Seller</option>
+      </select>
+      <div class="invalid-feedback">
+        Role is required.
+      </div>
     </div>
- 
-    <label>Contact Number:</label>
-    <input type="text" formControlName="contactNumber" />
-    <div *ngIf="registerForm.get('contactNumber')?.invalid && registerForm.get('contactNumber')?.touched">
-      Contact number is required.
+
+    <!-- Contact Number -->
+    <div class="mb-3">
+      <label class="form-label">Contact Number</label>
+      <input type="text" class="form-control" [ngClass]="{'is-invalid': registerForm.get('contactNumber')?.invalid && registerForm.get('contactNumber')?.touched}" formControlName="contactNumber" />
+      <div class="invalid-feedback">
+        Contact number must be exactly 10 digits.
+      </div>
     </div>
- 
-    <button type="submit">Register</button>
+
+    <!-- Submit Button -->
+    <button type="submit" class="btn btn-primary" [disabled]="isSubmitting">
+      <span *ngIf="isSubmitting" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+      Register
+    </button>
   </form>
- 
+
   <p class="login-link">
     Already have an account? <a routerLink="/login">Login</a>
   </p>
 </div>
- 
- 
+
+<!-- Toast Notification -->
+<div class="toast-container position-fixed top-0 end-0 p-3" style="z-index: 1055">
+  <div id="registerToast" class="toast align-items-center text-white bg-success border-0" role="alert" aria-live="assertive" aria-atomic="true" >
+    <div class="d-flex">
+      <div class="toast-body">
+        {{ toastMessage }}
+      </div>
+      <button
+        type="button"
+        class="btn-close btn-close-white me-2 m-auto"
+        data-bs-dismiss="toast"
+        aria-label="Close"
+      ></button>
+    </div>
+  </div>
+</div>

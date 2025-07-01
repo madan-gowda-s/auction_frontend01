@@ -1,70 +1,3 @@
-<!-- 
-<div class="buyer-container">
-  <h2 class="title">Filter Auctions</h2>
-
-  <div class="filter-section">
-    <input type="text" placeholder="Category" [(ngModel)]="filterData.category" />
-    <input type="number" placeholder="Min Bid" [(ngModel)]="filterData.minBid" />
-    <input type="number" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" />
-    <input type="number" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" />
-    <button (click)="applyFilters()">Apply Filter</button>
-    <button (click)="resetFilter()">↩ Back</button>
-  </div>
-
-  <div *ngIf="noAuctionsFound()" class="modal">
-    <div class="modal-content">
-      <p>No auctions available with selected filters. Try another.</p>
-      <button (click)="resetFilter()">Back</button>
-    </div>
-  </div>
-
-  <div *ngIf="showProductDetails() && selectedProduct()">
-    <h3>Product Details</h3>
-    <p><strong>Title:</strong> {{ selectedProduct()?.title }}</p>
-    <p><strong>Description:</strong> {{ selectedProduct()?.description }}</p>
-    <p><strong>Category:</strong> {{ selectedProduct()?.category }}</p>
-    <p><strong>Start Price:</strong> ₹{{ selectedProduct()?.startPrice }}</p>
-    <button (click)="backToList()">↩ Back</button>
-  </div>
-
-  <div *ngIf="!showProductDetails()">
-    <h2>Auctions</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Start</th>
-          <th>End</th>
-          <th>Bid</th>
-          <th>Status</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let auction of filteredAuctions()" [ngClass]="getAuctionStatus(auction)">
-          <td>{{ auction.title }}</td>
-          <td>{{ auction.startDate | date:'short' }}</td>
-          <td>{{ auction.endDate | date:'short' }}</td>
-          <td>₹{{ auction.currentBid }}</td>
-          <td>{{ getAuctionStatus(auction) }}</td>
-          <td>
-            <button 
-              *ngIf="getAuctionStatus(auction) !== 'completed' || winnerAuctions().includes(auction.auctionId)" 
-              (click)="viewProduct(auction.productId)">
-              View Product
-            </button>
-            <button *ngIf="getAuctionStatus(auction) === 'live'" (click)="bidNow(auction.auctionId)">Bid Now</button>
-            <button *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)" 
-                    (click)="goToPayment(auction.auctionId)">Make Payment
-            </button>
-
-          </td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div> -->
-
 <!-- Success Alert -->
 <div *ngIf="showSuccessAlert()" class="alert alert-success position-fixed top-0 end-0 m-3" role="alert" style="z-index: 1050;">
   Profile updated successfully!
@@ -103,163 +36,159 @@
 
 <!-- Profile Table -->
 <div *ngIf="userProfile()" class="container my-4">
-  <h3 class="text-primary">Your Profile</h3>
-  <div class="table-responsive">
-    <table class="table table-bordered align-middle">
-      <thead class="table-dark">
-        <tr>
-          <th>Name</th>
-          <th>Email</th>
-          <th>Contact Number</th>
-          <th>Role</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>{{ userProfile()?.name }}</td>
-          <td>{{ userProfile()?.email }}</td>
-          <td>{{ userProfile()?.contactNumber }}</td>
-          <td>{{ userProfile()?.role }}</td>
-          <td>
-            <button class="btn btn-outline-primary btn-sm" (click)="openProfileForm()">Update Profile</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <h3 class="text-primary mb-4">Your Profile</h3>
+  <div class="card shadow-lg border-0" style="background: linear-gradient(to bottom right, #ffffff, #f0f8ff);">
+    <div class="card-body">
+      <div class="row g-3 align-items-center">
+        <div class="col-md-6">
+          <h5 class="card-title fw-bold mb-2">{{ userProfile()?.name }}</h5>
+          <p class="mb-1"><i class="bi bi-envelope-fill me-2"></i>{{ userProfile()?.email }}</p>
+          <p class="mb-1"><i class="bi bi-telephone-fill me-2"></i>{{ userProfile()?.contactNumber }}</p>
+          <p class="mb-1"><i class="bi bi-person-badge-fill me-2"></i>{{ userProfile()?.role }}</p>
+        </div>
+        <div class="col-md-6 text-md-end">
+          <button class="btn btn-outline-primary btn-sm" (click)="openProfileForm()">
+            <i class="bi bi-pencil-square me-1"></i> Update Profile
+          </button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-
 
 
 
 <!-- Filter Section -->
 <div class="container my-5 buyer-container">
-  <h2 class="mb-4">Filter Auctions</h2>
-  <div class="table-responsive mb-4">
-    <table class="table table-bordered align-middle">
-      <thead class="table-dark">
-        <tr>
-          <th>Category</th>
-          <th>Min Bid</th>
-          <th>Max Bid</th>
-          <th>Time Left (hrs)</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>
-            <select class="form-select" [(ngModel)]="filterData.category">
-              <option value="">Select a category</option>
-              <option value="Electronics">Electronics</option>
-              <option value="Fashion">Fashion</option>
-              <option value="Home & Garden">Home & Garden</option>
-              <option value="Collectibles">Collectibles</option>
-              <option value="Sports & Outdoors">Sports & Outdoors</option>
-              <option value="Books">Books</option>
-              <option value="Vehicles">Vehicles</option>
-              <option value="Art">Art</option>
-              <option value="Other">Other</option>
-            </select>
-          </td>
-          <td><input type="number" class="form-control" placeholder="Min Bid" [(ngModel)]="filterData.minBid" /></td>
-          <td><input type="number" class="form-control" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" /></td>
-          <td><input type="number" class="form-control" placeholder="Time Left (hrs)" [(ngModel)]="filterData.timeLeftInHours" /></td>
-          <td class="d-flex gap-2">
-            <button class="btn btn-secondary" (click)="applyFilters()">Apply Filter</button>
-            <button class="btn btn-secondary" (click)="resetFilter()">Back</button>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="text-primary mb-0">Filter Auctions</h2>
+    <button class="btn btn-outline-primary" type="button" data-bs-toggle="collapse" data-bs-target="#filterPanel" aria-expanded="false" aria-controls="filterPanel">
+      <i class="bi bi-funnel-fill"></i> Filter
+    </button>
+  </div>
+
+  <!-- Collapsible Filter Panel -->
+  <div class="collapse" id="filterPanel">
+    <div class="card card-body shadow-sm border-0" style="background: linear-gradient(to bottom right, #ffffff, #f0f8ff);">
+      <div class="row g-3">
+        <div class="col-md-3">
+          <label class="form-label">Category</label>
+          <select class="form-select" [(ngModel)]="filterData.category">
+            <option value="">Select a category</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Fashion">Fashion</option>
+            <option value="Home & Garden">Home & Garden</option>
+            <option value="Collectibles">Collectibles</option>
+            <option value="Sports & Outdoors">Sports & Outdoors</option>
+            <option value="Books">Books</option>
+            <option value="Vehicles">Vehicles</option>
+            <option value="Art">Art</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Min Bid</label>
+          <input type="number" class="form-control" placeholder="Min Bid" [(ngModel)]="filterData.minBid" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Max Bid</label>
+          <input type="number" class="form-control" placeholder="Max Bid" [(ngModel)]="filterData.maxBid" />
+        </div>
+        <div class="col-md-3">
+          <label class="form-label">Time Left (hrs)</label>
+          <input type="number" class="form-control" placeholder="Time Left" [(ngModel)]="filterData.timeLeftInHours" />
+        </div>
+      </div>
+      <div class="d-flex justify-content-end gap-2 mt-4">
+        <button class="btn btn-secondary" (click)="applyFilters()">Apply Filter</button>
+        <button class="btn btn-outline-secondary" (click)="resetFilter()">Back</button>
+      </div>
+    </div>
   </div>
 
   <!-- No Auctions Found -->
-  <div *ngIf="noAuctionsFound()" class="alert alert-warning text-center">
+  <div *ngIf="noAuctionsFound()" class="alert alert-warning text-center mt-4">
     <p>No auctions available with selected filters. Try another.</p>
     <button class="btn btn-outline-secondary mt-2" (click)="resetFilter()">Back</button>
   </div>
+</div>
+
+
 
   <!-- Product Details -->
-  <div *ngIf="showProductDetails() && selectedProduct()" class="container my-4">
-    <h3 class="mb-3 text-primary">Product Details</h3>
-    <div class="table-responsive mb-3">
-      <table class="table table-bordered align-middle">
-        <thead class="table-dark">
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Category</th>
-            <th>Start Price</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>{{ selectedProduct()?.title }}</td>
-            <td>{{ selectedProduct()?.description }}</td>
-            <td>{{ selectedProduct()?.category }}</td>
-            <td>₹{{ selectedProduct()?.startPrice }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    <button class="btn btn-outline-secondary" (click)="backToList()">Back</button>
-  </div>
 
-  <!-- Auction List -->
+  <div *ngIf="showProductDetails() && selectedProduct()" class="container my-4">
+    <h3 class="mb-4 text-primary">Product Details</h3>
+    <div class="card shadow-lg border-0" style="background: linear-gradient(to bottom right, #ffffff, #f0f8ff);">
+      <div class="card-body">
+        <h5 class="card-title text-dark fw-bold">{{ selectedProduct()?.title }}</h5>
+        <p class="card-text text-muted">
+          <strong>Description:</strong> {{ selectedProduct()?.description }}<br>
+          <strong>Category:</strong> {{ selectedProduct()?.category }}<br>
+          <strong>Start Price:</strong> ₹{{ selectedProduct()?.startPrice }}
+        </p>
+        <button class="btn btn-outline-secondary mt-3" (click)="backToList()">Back</button>
+      </div>
+    </div>
+  </div>
+  
+
+  <!-- Auction cards List -->
+
   <div *ngIf="!showProductDetails()" class="container my-4">
     <h2 class="mb-3 text-primary">Auctions</h2>
-    <div class="table-responsive">
-      <table class="table table-bordered align-middle product-details-table">
-        <thead class="table-dark">
-          <tr>
-            <th>Title</th>
-            <th>Start</th>
-            <th>End</th>
-            <th>Bid</th>
-            <th>Status</th>
-            <th>Actions</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let auction of filteredAuctions()" [ngClass]="getAuctionStatus(auction)">
-            <td>{{ auction.title }}</td>
-            <td>{{ auction.startDate | date:'short' }}</td>
-            <td>{{ auction.endDate | date:'short' }}</td>
-            <td>₹{{ auction.currentBid }}</td>
-            <td>{{ getAuctionStatus(auction) }}</td>
-            <td>
-              <div class="d-flex flex-wrap gap-2">
-                <button
-                  *ngIf="getAuctionStatus(auction) !== 'completed' || winnerAuctions().includes(auction.auctionId)"
-                  class="btn btn-info btn-sm"
-                  (click)="viewProduct(auction.productId)">
-                  View Product
-                </button>
-                <button
-                  *ngIf="getAuctionStatus(auction) === 'live'"
-                  class="btn btn-success btn-sm"
-                  (click)="bidNow(auction.auctionId)">
-                  Bid Now
-                </button>
-                <button
-                  *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)"
-                  class="btn btn-warning btn-sm"
-                  (click)="goToPayment(auction.auctionId)">
-                  Make Payment
-                </button>
-                <button
-                  *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)"
-                  class="btn btn-outline-dark btn-sm"
-                  (click)="goToReview(auction.auctionId)">
-                  Add Review
-                </button>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
+    <div class="row">
+      <div class="col-lg-4 col-md-6 col-sm-12 mb-4" *ngFor="let auction of filteredAuctions()">
+        <div 
+          class="card h-100 shadow-lg border-0 animate__animated animate__fadeInUp auction-card" 
+          [ngClass]="getAuctionStatus(auction)"
+          style="background: linear-gradient(to bottom right, #ffffff, #f0f8ff); transition: transform 0.3s ease;">
+          <div class="card-body">
+            <h5 class="card-title text-dark fw-bold">{{ auction.title }}</h5>
+            <p class="card-text text-muted">
+              <strong>Start:</strong> {{ auction.startDate | date:'short' }}<br>
+              <strong>End:</strong> {{ auction.endDate | date:'short' }}<br>
+              <strong>Current Bid:</strong> ₹{{ auction.currentBid }} <br>
+              <strong>Status:</strong> 
+              <span [ngClass]="{
+                'text-success': getAuctionStatus(auction) === 'completed',
+                'text-warning': getAuctionStatus(auction) === 'live',
+                'text-secondary': getAuctionStatus(auction) === 'upcoming'
+              }">
+                {{ getAuctionStatus(auction) }}
+              </span>              
+            </p>
+
+            <!-- Logic to display View Product, Bid Now, Make Payment, Add Review -->
+
+            <div class="d-flex flex-wrap gap-2">
+              <button
+                *ngIf="getAuctionStatus(auction) !== 'completed' || winnerAuctions().includes(auction.auctionId)"
+                class="btn btn-info btn-sm"
+                (click)="viewProduct(auction.productId)">
+                View Product
+              </button>
+              <button
+                *ngIf="getAuctionStatus(auction) === 'live'"
+                class="btn btn-success btn-sm"
+                (click)="bidNow(auction.auctionId)">
+                Bid Now
+              </button>
+              <button
+                *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)"
+                class="btn btn-warning btn-sm"
+                (click)="goToPayment(auction.auctionId)">
+                Make Payment
+              </button>
+              <button
+                *ngIf="getAuctionStatus(auction) === 'completed' && winnerAuctions().includes(auction.auctionId)"
+                class="btn btn-outline-dark btn-sm"
+                (click)="goToReview(auction.auctionId)">
+                Add Review
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-</div>
